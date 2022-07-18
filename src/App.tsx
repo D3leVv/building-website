@@ -5,6 +5,7 @@ import Home from "./pages/Home";
 import About from "./pages/About";
 import Buildings from "./pages/Buildings";
 import News from "./pages/News";
+import Register from "./pages/Register";
 
 function App() {
     return (
@@ -14,6 +15,7 @@ function App() {
                 <Route path="about" element={<About />} />
                 <Route path="news" element={<News />} />
                 <Route path="buildings" element={<Buildings />} />
+                <Route path="register" element={<Register />} />
             </Route>
         </Routes>
     );
