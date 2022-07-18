@@ -33,7 +33,7 @@ const menuOpenAnimation = {
         height: 0,
     },
     visible: {
-        height: 215,
+        height: "auto",
 
         transition: {
             ease: "linear",
@@ -63,6 +63,29 @@ const childVariants = {
     },
 };
 
+const links = [
+    {
+        name: "Home",
+        href: "/",
+    },
+    {
+        name: "About",
+        href: "/about",
+    },
+    {
+        name: "News",
+        href: "/news",
+    },
+    {
+        name: "Create News",
+        href: "/news/create",
+    },
+    {
+        name: "Buildings",
+        href: "/buildings",
+    },
+];
+
 function Navbar({
     handleDarktheme,
 }: {
@@ -81,57 +104,21 @@ function Navbar({
     return (
         <nav>
             <ul className="hidden w-full h-16 text-center border-b border-gray-300 md:flex md:justify-around md:items-center">
-                <li className="w-full h-full">
-                    <NavLink
-                        className={({ isActive }) =>
-                            isActive
-                                ? "flex flex-col items-center justify-center w-full h-full text-center border-b border-yellow-300"
-                                : "flex flex-col items-center justify-center w-full h-full text-center border-b border-transparent"
-                        }
-                        to="/"
-                    >
-                        Home
-                    </NavLink>
-                </li>
-                <li className="w-full h-full">
-                    <NavLink
-                        className={({ isActive }) =>
-                            isActive
-                                ? "flex flex-col items-center justify-center w-full h-full text-center border-b border-yellow-300"
-                                : "flex flex-col items-center justify-center w-full h-full text-center border-b border-transparent"
-                        }
-                        to="about"
-                    >
-                        About
-                    </NavLink>
-                </li>
-                <li className="w-full h-full">
-                    <NavLink
-                        className={({ isActive }) =>
-                            isActive
-                                ? "flex flex-col items-center justify-center w-full h-full text-center border-b border-yellow-300"
-                                : "flex flex-col items-center justify-center w-full h-full text-center border-b border-transparent"
-                        }
-                        to="news"
-                    >
-                        News
-                    </NavLink>
-                </li>
-                <li className="w-full h-full">
-                    <NavLink
-                        className={({ isActive }) =>
-                            isActive
-                                ? "flex flex-col items-center justify-center w-full h-full text-center border-b border-yellow-300"
-                                : "flex flex-col items-center justify-center w-full h-full text-center border-b border-transparent"
-                        }
-                        to="buildings"
-                    >
-                        Buildings
-                    </NavLink>
-                </li>
-                {/* <li className='w-full h-full'>
-                    <NavLink to='' ></NavLink>
-                </li> */}
+                {links.map((link, i) => (
+                    <li key={i} className="w-full h-full">
+                        <NavLink
+                            className={({ isActive }) =>
+                                isActive
+                                    ? "flex flex-col items-center justify-center w-full h-full text-center border-b border-yellow-300"
+                                    : "flex flex-col items-center justify-center w-full h-full text-center border-b border-transparent"
+                            }
+                            to={link.href}
+                        >
+                            {link.name}
+                        </NavLink>
+                    </li>
+                ))}
+
                 <li className="w-full h-full">
                     <button
                         className="flex flex-col items-center justify-center w-full h-full text-center border-b border-transparent"
@@ -198,7 +185,7 @@ const MobileNav = ({ user, logout }: { user: any; logout: any }) => {
             {({ open }) => {
                 return (
                     <>
-                        <div className="flex justify-end w-full mr-10 gap-x-6">
+                        <div className="flex justify-end w-full mt-2 mr-10 gap-x-6">
                             <Menu.Button
                                 as={motion.button}
                                 whileTap="whileTap"
@@ -229,72 +216,27 @@ const MobileNav = ({ user, logout }: { user: any; logout: any }) => {
                                     animate="visible"
                                     exit="hidden"
                                     variants={menuOpenAnimation}
-                                    className="absolute z-10 w-full bg-white border-black dark:bg-black top-6 focus:outline-none"
+                                    className="absolute z-10 w-full bg-white border-black dark:bg-black top-16 focus:outline-none"
                                 >
-                                    <motion.div variants={childVariants}>
-                                        <Menu.Item>
-                                            {({ active }) => (
-                                                <Link
-                                                    to="/"
-                                                    className={`${
-                                                        active
-                                                            ? "text-black"
-                                                            : ""
-                                                    }   border-black  flex items-center justify-center px-3 py-2 text-gray hover:text-black w-full`}
-                                                >
-                                                    Home
-                                                </Link>
-                                            )}
-                                        </Menu.Item>
-                                    </motion.div>
-                                    <motion.div variants={childVariants}>
-                                        <Menu.Item>
-                                            {({ active }) => (
-                                                <Link
-                                                    to="/about"
-                                                    className={`${
-                                                        active
-                                                            ? "text-black"
-                                                            : ""
-                                                    }   border-black  flex items-center justify-center px-3 py-2 text-gray hover:text-black w-full`}
-                                                >
-                                                    About
-                                                </Link>
-                                            )}
-                                        </Menu.Item>
-                                    </motion.div>
-                                    <motion.div variants={childVariants}>
-                                        <Menu.Item>
-                                            {({ active }) => (
-                                                <Link
-                                                    to="/news"
-                                                    className={`${
-                                                        active
-                                                            ? "text-black"
-                                                            : ""
-                                                    }   border-black  flex items-center justify-center px-3 py-2 text-gray hover:text-black w-full`}
-                                                >
-                                                    News
-                                                </Link>
-                                            )}
-                                        </Menu.Item>
-                                    </motion.div>
-                                    <motion.div variants={childVariants}>
-                                        <Menu.Item>
-                                            {({ active }) => (
-                                                <Link
-                                                    to="/buildings"
-                                                    className={`${
-                                                        active
-                                                            ? "text-black"
-                                                            : ""
-                                                    }   border-black  flex items-center justify-center px-3 py-2 text-gray hover:text-black w-full`}
-                                                >
-                                                    Buildings
-                                                </Link>
-                                            )}
-                                        </Menu.Item>
-                                    </motion.div>
+                                    {links.map((link, i) => (
+                                        <motion.div variants={childVariants}>
+                                            <Menu.Item>
+                                                {({ active }) => (
+                                                    <Link
+                                                        to={link.href}
+                                                        className={`${
+                                                            active
+                                                                ? "text-black"
+                                                                : ""
+                                                        }   border-black  flex items-center justify-center px-3 py-2 text-gray hover:text-black w-full`}
+                                                    >
+                                                        {link.name}
+                                                    </Link>
+                                                )}
+                                            </Menu.Item>
+                                        </motion.div>
+                                    ))}
+
                                     {!user ? (
                                         <>
                                             <motion.div

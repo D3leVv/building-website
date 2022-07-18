@@ -1,11 +1,13 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { Outlet } from "react-router-dom";
+import { UserContext } from "../components/context/UserContext/UserProvider";
 import Navbar from "../components/Navbar/Navbar";
 
 function Layout() {
     const [dark, setDark] = useState<string | null>(
         localStorage.getItem("theme")
     );
+    const { user } = useContext<any>(UserContext);
     //handles darktheme
     const handleDarktheme = (theme: "light" | "dark") => {
         localStorage.setItem("theme", theme);
@@ -34,7 +36,6 @@ function Layout() {
         };
     }, [dark]);
 
-    
     return (
         <div className="w-screen h-screen dark:bg-black dark:text-white">
             <Navbar handleDarktheme={handleDarktheme} />
