@@ -1,8 +1,12 @@
-import React from "react";
+import { useState, useContext } from "react";
 import { LockClosedIcon } from "@heroicons/react/solid";
 import { useForm } from "react-hook-form";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import {
+    createUserWithEmailAndPassword,
+    onAuthStateChanged,
+} from "firebase/auth";
 import { auth } from "../../firebase/firebase-config";
+import { UserContext } from "../../components/context/UserContext/UserProvider";
 
 type Register = {
     email: string;
@@ -16,6 +20,11 @@ function Register() {
         handleSubmit,
         formState: { errors },
     } = useForm<Register>();
+    const { user, setUser } = useContext<any>(UserContext);
+
+    onAuthStateChanged(auth, (currUser) => {
+        setUser(currUser);
+    });
 
     const onSubmit = async (data: Register) => {
         try {
@@ -25,7 +34,7 @@ function Register() {
                 data.email,
                 data.password.toString()
             );
-            console.log(user);
+            setUser(user);
         } catch (e: any) {
             console.log(e.message);
         }
