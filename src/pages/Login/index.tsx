@@ -1,9 +1,6 @@
 import { LockClosedIcon } from "@heroicons/react/solid";
 import { useForm } from "react-hook-form";
-import {
-    createUserWithEmailAndPassword,
-    onAuthStateChanged,
-} from "firebase/auth";
+import { onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../firebase/firebase-config";
 import { useContext } from "react";
 import { UserContext } from "../../components/context/UserContext/UserProvider";
@@ -29,7 +26,7 @@ function Register() {
 
     const onSubmit = async (data: Register) => {
         try {
-            const user = await createUserWithEmailAndPassword(
+            const user = await signInWithEmailAndPassword(
                 auth,
                 data.email,
                 data.password.toString()
@@ -49,8 +46,8 @@ function Register() {
                         src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
                         alt="Workflow"
                     /> */}
-                    <h2 className="mt-6 text-3xl font-extrabold text-center text-gray-900">
-                        Register your account
+                    <h2 className="mt-6 text-3xl font-extrabold text-center text-gray-900 dark:text-white">
+                        Login to your account
                     </h2>
                 </div>
                 <form
@@ -70,7 +67,7 @@ function Register() {
                                 type="email"
                                 autoComplete="email"
                                 required
-                                className="relative block w-full px-3 py-2 text-gray-900 placeholder-gray-500 border border-gray-300 rounded-none appearance-none rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                                className="relative block w-full px-3 py-2 text-gray-900 placeholder-gray-500 border border-gray-300 rounded-none appearance-none dark:bg-black dark:text-white rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                                 placeholder="Email address"
                             />
                         </div>
@@ -85,7 +82,7 @@ function Register() {
                                 type="password"
                                 autoComplete="current-password"
                                 required
-                                className="relative block w-full px-3 py-2 text-gray-900 placeholder-gray-500 border border-gray-300 rounded-none appearance-none rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                                className="relative block w-full px-3 py-2 text-gray-900 placeholder-gray-500 border border-gray-300 rounded-none appearance-none dark:bg-black dark:text-white rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                                 placeholder="Password"
                             />
                         </div>
@@ -98,7 +95,7 @@ function Register() {
                         >
                             <span className="absolute inset-y-0 left-0 flex items-center pl-3">
                                 <LockClosedIcon
-                                    className="w-5 h-5 text-indigo-500 group-hover:text-indigo-400"
+                                    className="w-5 h-5 text-indigo-500 group-hover:text-indigo-400 dark:text-indigo-300 dark:group-hover:text-idnigo-200"
                                     aria-hidden="true"
                                 />
                             </span>
