@@ -102,8 +102,8 @@ function Navbar({
     };
     // console.log(user);
     return (
-        <nav>
-            <ul className="hidden w-full h-16 text-center border-b border-gray-300 md:flex md:justify-around md:items-center">
+        <nav className="w-full border-b border-gray-300">
+            <ul className="container hidden w-full h-16 mx-auto text-center md:flex md:justify-around md:items-center">
                 {links.map((link, i) => (
                     <li key={i} className="w-full h-full">
                         <NavLink
@@ -180,12 +180,12 @@ const MobileNav = ({ user, logout }: { user: any; logout: any }) => {
     return (
         <Menu
             as="div"
-            className={`flex dark:bg-black bg-white flex-col w-full items-center h-16 z-5000 md:hidden`}
+            className={`flex dark:bg-black bg-white flex-col container mx-auto w-full items-center h-16 z-5000 md:hidden`}
         >
             {({ open }) => {
                 return (
                     <>
-                        <div className="flex justify-end w-full mt-2 mr-10 gap-x-6">
+                        <div className="flex justify-end w-full mt-4 mr-10 gap-x-6">
                             <Menu.Button
                                 as={motion.button}
                                 whileTap="whileTap"
