@@ -6,6 +6,7 @@ import About from "./pages/About";
 import Buildings from "./pages/Buildings";
 import News from "./pages/News";
 import Register from "./pages/Register";
+import Login from "./pages/Login";
 
 function App() {
     return (
@@ -16,6 +17,7 @@ function App() {
                 <Route path="news" element={<News />} />
                 <Route path="buildings" element={<Buildings />} />
                 <Route path="register" element={<Register />} />
+                <Route path="login" element={<Login />} />
             </Route>
         </Routes>
     );
