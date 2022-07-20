@@ -1,6 +1,6 @@
 import { Suspense, lazy, useContext } from "react";
 import Layout from "./layout/Layout";
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Buildings from "./pages/Buildings";
@@ -13,6 +13,9 @@ import ProtectedRoutes from "./layout/ProtectedRoutes";
 
 function App() {
     const { user } = useContext<any>(UserContext);
+    const location: any = useLocation();
+    const from =
+        location.state?.from?.pathname + location.state?.from?.search || "/";
 
     return (
         <Routes>
@@ -23,11 +26,11 @@ function App() {
                 <Route path="buildings" element={<Buildings />} />
                 <Route
                     path="register"
-                    element={user ? <Navigate to="/" /> : <Register />}
+                    element={user ? <Navigate to={from} /> : <Register />}
                 />
                 <Route
                     path="login"
-                    element={user ? <Navigate to="/" /> : <Login />}
+                    element={user ? <Navigate to={from} /> : <Login />}
                 />
                 <Route element={<ProtectedRoutes user={user} />}>
                     <Route path="/news/create" element={<CreateNews />} />

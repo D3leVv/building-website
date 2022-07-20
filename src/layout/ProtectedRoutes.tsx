@@ -7,7 +7,7 @@ function ProtectedRoutes({ user }: { user: any }) {
     return user ? (
         <Outlet />
     ) : (
-        <Navigate to="/login" state={{ from: location }} replace />
+        <Navigate to="/login" state={{ from: location }} />
     );
 }
 
