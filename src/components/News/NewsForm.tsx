@@ -48,13 +48,19 @@ function NewsForm({ data }: { data: Data }) {
             className="container flex flex-col items-center w-full h-full gap-6 p-6 mx-auto"
             onSubmit={handleSubmit(onSubmit)}
         >
-            <input
-                className="w-full rounded"
-                type="text"
-                {...register("title")}
-            />
-            <p className="w-full text-red-600">{errors.title?.message}</p>
-
+            <label className="w-full">
+                <p className="w-full text-red-600 mb-1.5">
+                    {errors.title?.message}
+                </p>
+                <input
+                    className={`w-full rounded-xl dark:bg-black dark:text-white focus:ring-gray-500 s focus:border-gray-500 ${
+                        errors.title &&
+                        "border-red-600 focus:border-red-600 focus:ring-red-600"
+                    }`}
+                    type="text"
+                    {...register("title")}
+                />
+            </label>
             <label
                 // ref={labelRef}
                 className="w-full rounded-md border-[3px] relative border-borderColor border-dashed hover:border-gray"
@@ -65,9 +71,9 @@ function NewsForm({ data }: { data: Data }) {
                     onChange={handleImage}
                     accept="image/x-png,image/gif,image/jpeg,image/jpg"
                     // hidden
-                    className="w-full h-[200px] cursor-pointer opacity-0"
+                    className="w-full h-[200px] cursor-pointer opacity-0 dark:bg-black dark:text-white "
                 />
-                <p className="text-opacity-60 -z-10 cursor-pointer absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] font-bold text-center text-gray ">
+                <p className="z-10 dark:text-white cursor-pointer absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] font-bold text-center  text-3xl ">
                     Upload image
                 </p>
             </label>
