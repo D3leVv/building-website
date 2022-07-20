@@ -49,17 +49,19 @@ function NewsForm({ data }: { data: Data }) {
             onSubmit={handleSubmit(onSubmit)}
         >
             <label className="w-full">
-                <p className="w-full text-red-600 mb-1.5">
-                    {errors.title?.message}
-                </p>
+                <p className="w-full  mb-1.5">News Title</p>
+
                 <input
-                    className={`w-full rounded-xl dark:bg-black dark:text-white focus:ring-gray-500 s focus:border-gray-500 ${
+                    className={`w-full rounded-xl dark:bg-black dark:text-white focus:ring-yellow-200 s focus:border-yellow-200 ${
                         errors.title &&
                         "border-red-600 focus:border-red-600 focus:ring-red-600"
                     }`}
                     type="text"
                     {...register("title")}
                 />
+                <p className="w-full text-red-600 mt-1.5">
+                    {errors.title?.message}
+                </p>
             </label>
             <label
                 // ref={labelRef}
@@ -78,7 +80,12 @@ function NewsForm({ data }: { data: Data }) {
                 </p>
             </label>
             {imageView && <img src={imageView} width={400} />}
-            <button type="submit">submit</button>
+            <button
+                className="p-3 border border-gray-500 rounded-xl dark:hover:bg-gray-800 hover:bg-gray-200"
+                type="submit"
+            >
+                submit
+            </button>
         </form>
     );
 }
