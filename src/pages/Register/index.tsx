@@ -7,7 +7,7 @@ import {
 } from "firebase/auth";
 import { auth } from "../../firebase/firebase-config";
 import { UserContext } from "../../components/context/UserContext/UserProvider";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 type Register = {
     email: string;
@@ -113,32 +113,6 @@ function Register() {
                         </div>
                     </div>
 
-                    {/* <div className="flex items-center justify-between">
-                        <div className="flex items-center">
-                            <input
-                                id="remember-me"
-                                name="remember-me"
-                                type="checkbox"
-                                className="w-4 h-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
-                            />
-                            <label
-                                htmlFor="remember-me"
-                                className="block ml-2 text-sm text-gray-900"
-                            >
-                                Remember me
-                            </label>
-                        </div>
-
-                        <div className="text-sm">
-                            <a
-                                href="#"
-                                className="font-medium text-indigo-600 hover:text-indigo-500"
-                            >
-                                Forgot your password?
-                            </a>
-                        </div>
-                    </div> */}
-
                     <div>
                         <button
                             type="submit"
@@ -153,6 +127,12 @@ function Register() {
                             Sign in
                         </button>
                     </div>
+                    <Link
+                        className="underline hover:text-gray-600 dark:text-white decoration-blue-400"
+                        to="/login"
+                    >
+                        Have account? Click here to login!
+                    </Link>
                 </form>
             </div>
         </div>

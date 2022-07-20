@@ -4,7 +4,7 @@ import { onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../firebase/firebase-config";
 import { useContext } from "react";
 import { UserContext } from "../../components/context/UserContext/UserProvider";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 type Login = {
     email: string;
@@ -109,6 +109,12 @@ function Login() {
                             Sign in
                         </button>
                     </div>
+                    <Link
+                        className="underline hover:text-gray-600 dark:text-white decoration-blue-400"
+                        to="/register"
+                    >
+                        Don't have account? Click here to register!
+                    </Link>
                 </form>
             </div>
         </div>
