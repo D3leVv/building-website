@@ -147,7 +147,7 @@ function Navbar({
                     {({ open }) => {
                         return (
                             <>
-                                <Menu.Button className="outline-none">
+                                <Menu.Button className="p-2 border border-gray-400 outline-none hover:bg-gray-200 dark:hover:bg-gray-800 rounded-xl">
                                     Settings
                                 </Menu.Button>
                                 <AnimatePresence exitBeforeEnter>
@@ -160,7 +160,7 @@ function Navbar({
                                             initial="hidden"
                                             exit="hidden"
                                             key="settings"
-                                            className="absolute z-20 flex flex-col items-center justify-center bg-white border border-gray-400 rounded outline-none dark:bg-black dark:text-white flex-cols top-14"
+                                            className="absolute z-20 flex flex-col items-center justify-center bg-white border border-gray-400 outline-none rounded-xl dark:bg-black dark:text-white flex-cols top-14"
                                         >
                                             <Menu.Item>
                                                 {({ active }) => (
@@ -258,12 +258,24 @@ function Navbar({
                     }}
                 </Menu>
             </ul>
-            <MobileNav user={user} logout={logout} />
+            <MobileNav
+                user={user}
+                logout={logout}
+                handleDarktheme={handleDarktheme}
+            />
         </nav>
     );
 }
 
-const MobileNav = ({ user, logout }: { user: any; logout: any }) => {
+const MobileNav = ({
+    user,
+    logout,
+    handleDarktheme,
+}: {
+    user: any;
+    logout: any;
+    handleDarktheme: (theme: "light" | "dark") => void;
+}) => {
     return (
         <Menu
             as="div"
@@ -303,74 +315,101 @@ const MobileNav = ({ user, logout }: { user: any; logout: any }) => {
                                     animate="visible"
                                     exit="hidden"
                                     variants={menuOpenAnimation}
-                                    className="absolute z-10 w-full bg-white border-black dark:bg-black top-16 focus:outline-none"
+                                    className="absolute z-10 flex flex-col items-center justify-center w-full text-center bg-white border-black dark:border-white dark:bg-black top-16 focus:outline-none"
                                 >
                                     {links.map((link, i) => (
-                                        <motion.div variants={childVariants}>
-                                            <Menu.Item>
-                                                {({ active }) => (
-                                                    <Link
-                                                        to={link.href}
-                                                        className={`${
-                                                            active
-                                                                ? "text-black"
-                                                                : ""
-                                                        }   border-black  flex items-center justify-center px-3 py-2 text-gray hover:text-black w-full`}
-                                                    >
+                                        <Menu.Item>
+                                            {({ active }) => (
+                                                <motion.div
+                                                    variants={settingsChildrens}
+                                                    key="child112"
+                                                    className={`w-full h-full p-3 hover:bg-gray-400 ${
+                                                        active && "bg-gray-400"
+                                                    }`}
+                                                >
+                                                    <Link to={link.href}>
                                                         {link.name}
                                                     </Link>
-                                                )}
-                                            </Menu.Item>
-                                        </motion.div>
+                                                </motion.div>
+                                            )}
+                                        </Menu.Item>
                                     ))}
+                                    <Menu.Item>
+                                        {({ active }) => (
+                                            <motion.button
+                                                variants={settingsChildrens}
+                                                key="child10"
+                                                className={`w-full h-full p-3 hover:bg-gray-400 ${
+                                                    active && "bg-gray-400"
+                                                }`}
+                                                onClick={() =>
+                                                    localStorage.getItem(
+                                                        "theme"
+                                                    ) === "light"
+                                                        ? handleDarktheme(
+                                                              "dark"
+                                                          )
+                                                        : handleDarktheme(
+                                                              "light"
+                                                          )
+                                                }
+                                            >
+                                                dark/light
+                                            </motion.button>
+                                        )}
+                                    </Menu.Item>
 
                                     {!user ? (
                                         <>
-                                            <motion.div
-                                                variants={childVariants}
-                                            >
-                                                <Menu.Item>
-                                                    {({ active }) => (
+                                            <Menu.Item>
+                                                {({ active }) => (
+                                                    <motion.div
+                                                        variants={
+                                                            settingsChildrens
+                                                        }
+                                                        key="child11"
+                                                    >
                                                         <Link
                                                             to="/register"
-                                                            className={`${
-                                                                active
-                                                                    ? "text-black"
-                                                                    : ""
-                                                            }   border-black  flex items-center justify-center px-3 py-2 text-gray hover:text-black w-full`}
+                                                            className={`w-full h-full p-3 hover:bg-gray-400 ${
+                                                                active &&
+                                                                "bg-gray-400"
+                                                            }`}
                                                         >
                                                             Register
                                                         </Link>
-                                                    )}
-                                                </Menu.Item>
-                                            </motion.div>
-                                            <motion.div
-                                                variants={childVariants}
-                                            >
-                                                <Menu.Item>
-                                                    {({ active }) => (
-                                                        <Link
-                                                            to="/login"
-                                                            className={`${
-                                                                active
-                                                                    ? "text-black"
-                                                                    : ""
-                                                            }   border-black  flex items-center justify-center px-3 py-2 text-gray hover:text-black w-full`}
-                                                        >
-                                                            Login
-                                                        </Link>
-                                                    )}
-                                                </Menu.Item>
-                                            </motion.div>
+                                                    </motion.div>
+                                                )}
+                                            </Menu.Item>
+
+                                            <Menu.Item>
+                                                {({ active }) => (
+                                                    <Link
+                                                        to="/login"
+                                                        className={`w-full h-full p-3 hover:bg-gray-400 ${
+                                                            active &&
+                                                            "bg-gray-400"
+                                                        }`}
+                                                    >
+                                                        Login
+                                                    </Link>
+                                                )}
+                                            </Menu.Item>
                                         </>
                                     ) : (
-                                        <motion.button
-                                            className="flex items-center justify-center w-full px-3 py-2 border-black text-gray hover:text-black"
-                                            variants={childVariants}
-                                            onClick={() => logout()}
-                                        >
-                                            Logout
-                                        </motion.button>
+                                        <Menu.Item>
+                                            {({ active }) => (
+                                                <motion.button
+                                                    className={`w-full h-full p-3 hover:bg-gray-400 ${
+                                                        active && "bg-gray-400"
+                                                    }`}
+                                                    variants={childVariants}
+                                                    onClick={() => logout()}
+                                                >
+                                                    Logout
+                                                </motion.button>
+                                            )}
+                                        </Menu.Item>
                                     )}
                                 </Menu.Items>
                             )}
