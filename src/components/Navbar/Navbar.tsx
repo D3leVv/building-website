@@ -1,4 +1,4 @@
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useLocation } from "react-router-dom";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { auth } from "../../firebase/firebase-config";
 import { useContext } from "react";
@@ -114,6 +114,7 @@ function Navbar({
     handleDarktheme: (theme: "light" | "dark") => void;
 }) {
     const { user, setUser } = useContext<any>(UserContext);
+    const { pathname } = useLocation();
     onAuthStateChanged(auth, (currUser) => {
         setUser(currUser);
     });
@@ -127,11 +128,12 @@ function Navbar({
                 {links.map((link, i) => (
                     <li key={i} className="w-full h-full">
                         <NavLink
-                            className={({ isActive }) =>
-                                isActive
+                            className={({ isActive }) => {
+                                console.log(link.href, pathname);
+                                return link.href.endsWith(pathname)
                                     ? "flex flex-col items-center justify-center w-full h-full text-center border-b border-yellow-300"
-                                    : "flex flex-col items-center justify-center w-full h-full text-center border-b border-transparent"
-                            }
+                                    : "flex flex-col items-center justify-center w-full h-full text-center border-b border-transparent";
+                            }}
                             to={link.href}
                         >
                             {link.name}
