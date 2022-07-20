@@ -113,16 +113,15 @@ function Navbar({
 }: {
     handleDarktheme: (theme: "light" | "dark") => void;
 }) {
-    const { user, setUser } = useContext<any>(UserContext);
+    const { user, setUser} = useContext<any>(UserContext);
     onAuthStateChanged(auth, (currUser) => {
+        console.log("hello");
         setUser(currUser);
     });
 
     const logout = async () => {
         await signOut(auth);
-        setUser(null);
     };
-    // console.log(user);
     return (
         <nav className="w-full border-b border-gray-300">
             <ul className="container hidden w-full h-16 mx-auto text-center md:flex md:justify-around md:items-center">
@@ -264,7 +263,6 @@ function Navbar({
 }
 
 const MobileNav = ({ user, logout }: { user: any; logout: any }) => {
-    console.log(!user);
     return (
         <Menu
             as="div"

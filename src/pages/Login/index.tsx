@@ -19,7 +19,7 @@ function Login() {
         formState: { errors },
     } = useForm<Login>();
 
-    const { user, setUser } = useContext<any>(UserContext);
+    const { setUser, loading, setLoading } = useContext<any>(UserContext);
     const location: any = useLocation();
     const navigate = useNavigate();
 
@@ -27,10 +27,13 @@ function Login() {
         location.state?.from?.pathname + location.state?.from?.search || "/";
 
     onAuthStateChanged(auth, (currUser) => {
+        setLoading(true);
         setUser(currUser);
+        setLoading(false);
     });
 
     const onSubmit = async (data: Login) => {
+        setLoading(true);
         try {
             const user = await signInWithEmailAndPassword(
                 auth,
@@ -38,10 +41,13 @@ function Login() {
                 data.password.toString()
             );
             setUser(user);
+            setLoading(false);
             navigate(from);
         } catch (e: any) {
+            setLoading(false);
             console.log(e.message);
         }
+        setLoading(false);
     };
 
     return (

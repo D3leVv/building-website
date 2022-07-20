@@ -21,7 +21,7 @@ function Register() {
         handleSubmit,
         formState: { errors },
     } = useForm<Register>();
-    const { user, setUser } = useContext<any>(UserContext);
+    const { setUser } = useContext<any>(UserContext);
     const location: any = useLocation();
     const navigate = useNavigate();
 
@@ -41,6 +41,7 @@ function Register() {
                 data.password.toString()
             );
             setUser(user);
+
             navigate(from);
         } catch (e: any) {
             console.log(e.message);

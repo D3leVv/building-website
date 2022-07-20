@@ -13,7 +13,6 @@ import ProtectedRoutes from "./layout/ProtectedRoutes";
 
 function App() {
     const { user } = useContext<any>(UserContext);
-    console.log(user);
 
     return (
         <Routes>
