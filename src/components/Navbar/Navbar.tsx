@@ -113,9 +113,8 @@ function Navbar({
 }: {
     handleDarktheme: (theme: "light" | "dark") => void;
 }) {
-    const { user, setUser} = useContext<any>(UserContext);
+    const { user, setUser } = useContext<any>(UserContext);
     onAuthStateChanged(auth, (currUser) => {
-        console.log("hello");
         setUser(currUser);
     });
 
