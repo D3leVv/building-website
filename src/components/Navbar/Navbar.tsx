@@ -118,19 +118,43 @@ function Navbar({
                         </NavLink>
                     </li>
                 ))}
-
-                <li className="w-full h-full">
-                    <button
-                        className="flex flex-col items-center justify-center w-full h-full text-center border-b border-transparent"
-                        onClick={() =>
-                            localStorage.getItem("theme") === "light"
-                                ? handleDarktheme("dark")
-                                : handleDarktheme("light")
-                        }
-                    >
-                        dark/light
-                    </button>
-                </li>
+                <Menu as="li" className="w-full ">
+                    {({ open }) => {
+                        return (
+                            <>
+                                <button>Settings</button>
+                                <AnimatePresence>
+                                    {open && (
+                                        <Menu.Items
+                                            static
+                                            as={motion.div}
+                                            className="absolute z-10 w-full h-full bg-black top-16 "
+                                        >
+                                            <Menu.Item>
+                                                <button
+                                                    className="flex flex-col items-center justify-center w-full h-full text-center border-b border-transparent"
+                                                    onClick={() =>
+                                                        localStorage.getItem(
+                                                            "theme"
+                                                        ) === "light"
+                                                            ? handleDarktheme(
+                                                                  "dark"
+                                                              )
+                                                            : handleDarktheme(
+                                                                  "light"
+                                                              )
+                                                    }
+                                                >
+                                                    dark/light
+                                                </button>
+                                            </Menu.Item>
+                                        </Menu.Items>
+                                    )}
+                                </AnimatePresence>
+                            </>
+                        );
+                    }}
+                </Menu>
                 {!user && (
                     <>
                         <li className="w-full h-full">
