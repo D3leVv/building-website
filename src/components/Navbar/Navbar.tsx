@@ -86,6 +86,28 @@ const links = [
     },
 ];
 
+const settingsVariant = {
+    hidden: {
+        opacity: 0,
+        transition: {
+            duration: 0.2,
+        },
+    },
+    visible: {
+        opacity: 1,
+        transition: { staggerChildren: 0.1, duration: 0.1 },
+    },
+};
+
+const settingsChildrens = {
+    hidden: {
+        opacity: 0,
+    },
+    visible: {
+        opacity: 1,
+    },
+};
+
 function Navbar({
     handleDarktheme,
 }: {
@@ -118,36 +140,116 @@ function Navbar({
                         </NavLink>
                     </li>
                 ))}
-                <Menu as="li" className="w-full ">
+                <Menu
+                    as="li"
+                    className="relative flex items-center justify-center w-full h-full"
+                >
                     {({ open }) => {
                         return (
                             <>
-                                <button>Settings</button>
-                                <AnimatePresence>
+                                <Menu.Button className="outline-none">
+                                    Settings
+                                </Menu.Button>
+                                <AnimatePresence exitBeforeEnter>
                                     {open && (
                                         <Menu.Items
                                             static
                                             as={motion.div}
-                                            className="absolute z-10 w-full h-full bg-black top-16 "
+                                            variants={settingsVariant}
+                                            animate="visible"
+                                            initial="hidden"
+                                            exit="hidden"
+                                            key="settings"
+                                            className="absolute z-20 flex flex-col items-center justify-center bg-white border border-gray-400 rounded outline-none dark:bg-black dark:text-white flex-cols top-14"
                                         >
                                             <Menu.Item>
-                                                <button
-                                                    className="flex flex-col items-center justify-center w-full h-full text-center border-b border-transparent"
-                                                    onClick={() =>
-                                                        localStorage.getItem(
-                                                            "theme"
-                                                        ) === "light"
-                                                            ? handleDarktheme(
-                                                                  "dark"
-                                                              )
-                                                            : handleDarktheme(
-                                                                  "light"
-                                                              )
-                                                    }
-                                                >
-                                                    dark/light
-                                                </button>
+                                                {({ active }) => (
+                                                    <motion.button
+                                                        variants={
+                                                            settingsChildrens
+                                                        }
+                                                        key="child1"
+                                                        className={`w-full h-full p-3 hover:bg-gray-400 ${
+                                                            active &&
+                                                            "bg-gray-400"
+                                                        }`}
+                                                        onClick={() =>
+                                                            localStorage.getItem(
+                                                                "theme"
+                                                            ) === "light"
+                                                                ? handleDarktheme(
+                                                                      "dark"
+                                                                  )
+                                                                : handleDarktheme(
+                                                                      "light"
+                                                                  )
+                                                        }
+                                                    >
+                                                        dark/light
+                                                    </motion.button>
+                                                )}
                                             </Menu.Item>
+                                            {!user && (
+                                                <>
+                                                    <Menu.Item>
+                                                        {({ active }) => (
+                                                            <motion.div
+                                                                variants={
+                                                                    settingsChildrens
+                                                                }
+                                                                className={`w-full h-full p-3 hover:bg-gray-400 ${
+                                                                    active &&
+                                                                    "bg-gray-400"
+                                                                }`}
+                                                                key="child3"
+                                                            >
+                                                                <NavLink to="/register">
+                                                                    Register
+                                                                </NavLink>
+                                                            </motion.div>
+                                                        )}
+                                                    </Menu.Item>
+                                                    <Menu.Item>
+                                                        {({ active }) => (
+                                                            <motion.div
+                                                                className={`w-full h-full p-3 hover:bg-gray-400 ${
+                                                                    active &&
+                                                                    "bg-gray-400"
+                                                                }`}
+                                                                variants={
+                                                                    settingsChildrens
+                                                                }
+                                                                key="child4"
+                                                            >
+                                                                <NavLink to="/login">
+                                                                    Login
+                                                                </NavLink>
+                                                            </motion.div>
+                                                        )}
+                                                    </Menu.Item>
+                                                </>
+                                            )}
+                                            {user && (
+                                                <Menu.Item>
+                                                    {({ active }) => (
+                                                        <motion.button
+                                                            className={`w-full h-full p-3 hover:bg-gray-400 ${
+                                                                active &&
+                                                                "bg-gray-400"
+                                                            }`}
+                                                            variants={
+                                                                settingsChildrens
+                                                            }
+                                                            key="child5"
+                                                            onClick={() =>
+                                                                logout()
+                                                            }
+                                                        >
+                                                            logout
+                                                        </motion.button>
+                                                    )}
+                                                </Menu.Item>
+                                            )}
                                         </Menu.Items>
                                     )}
                                 </AnimatePresence>
@@ -155,44 +257,6 @@ function Navbar({
                         );
                     }}
                 </Menu>
-                {!user && (
-                    <>
-                        <li className="w-full h-full">
-                            <NavLink
-                                className={({ isActive }) =>
-                                    isActive
-                                        ? "flex flex-col items-center justify-center w-full h-full text-center border-b border-yellow-300"
-                                        : "flex flex-col items-center justify-center w-full h-full text-center border-b border-transparent"
-                                }
-                                to="register"
-                            >
-                                Register
-                            </NavLink>
-                        </li>
-                        <li className="w-full h-full">
-                            <NavLink
-                                className={({ isActive }) =>
-                                    isActive
-                                        ? "flex flex-col items-center justify-center w-full h-full text-center border-b border-yellow-300"
-                                        : "flex flex-col items-center justify-center w-full h-full text-center border-b border-transparent"
-                                }
-                                to="login"
-                            >
-                                Login
-                            </NavLink>
-                        </li>
-                    </>
-                )}
-                {user && (
-                    <li className="w-full h-full">
-                        <button
-                            className="flex flex-col items-center justify-center w-full h-full text-center border-b border-transparent"
-                            onClick={() => logout()}
-                        >
-                            logout
-                        </button>
-                    </li>
-                )}
             </ul>
             <MobileNav user={user} logout={logout} />
         </nav>

@@ -7,6 +7,7 @@ import {
 } from "firebase/auth";
 import { auth } from "../../firebase/firebase-config";
 import { UserContext } from "../../components/context/UserContext/UserProvider";
+import { useLocation, useNavigate } from "react-router-dom";
 
 type Register = {
     email: string;
@@ -21,6 +22,11 @@ function Register() {
         formState: { errors },
     } = useForm<Register>();
     const { user, setUser } = useContext<any>(UserContext);
+    const location: any = useLocation();
+    const navigate = useNavigate();
+
+    const from =
+        location.state?.from?.pathname + location.state?.from?.search || "/";
 
     onAuthStateChanged(auth, (currUser) => {
         setUser(currUser);
@@ -35,6 +41,7 @@ function Register() {
                 data.password.toString()
             );
             setUser(user);
+            navigate(from);
         } catch (e: any) {
             console.log(e.message);
         }

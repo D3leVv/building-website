@@ -4,27 +4,33 @@ import { onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../firebase/firebase-config";
 import { useContext } from "react";
 import { UserContext } from "../../components/context/UserContext/UserProvider";
+import { useLocation, useNavigate } from "react-router-dom";
 
-type Register = {
+type Login = {
     email: string;
     password: string | number;
     rePassword: string | number;
 };
 
-function Register() {
+function Login() {
     const {
         register,
         handleSubmit,
         formState: { errors },
-    } = useForm<Register>();
+    } = useForm<Login>();
 
     const { user, setUser } = useContext<any>(UserContext);
+    const location: any = useLocation();
+    const navigate = useNavigate();
+
+    const from =
+        location.state?.from?.pathname + location.state?.from?.search || "/";
 
     onAuthStateChanged(auth, (currUser) => {
         setUser(currUser);
     });
 
-    const onSubmit = async (data: Register) => {
+    const onSubmit = async (data: Login) => {
         try {
             const user = await signInWithEmailAndPassword(
                 auth,
@@ -32,6 +38,7 @@ function Register() {
                 data.password.toString()
             );
             setUser(user);
+            navigate(from);
         } catch (e: any) {
             console.log(e.message);
         }
@@ -108,4 +115,4 @@ function Register() {
     );
 }
 
-export default Register;
+export default Login;
