@@ -10,6 +10,7 @@ import Login from "./pages/Login";
 import CreateNews from "./pages/CreateNews";
 import { UserContext } from "./components/context/UserContext/UserProvider";
 import ProtectedRoutes from "./layout/ProtectedRoutes";
+import Profile from "./pages/Profile";
 
 function App() {
     const { user } = useContext<any>(UserContext);
@@ -34,6 +35,7 @@ function App() {
                 />
                 <Route element={<ProtectedRoutes user={user} />}>
                     <Route path="/news/create" element={<CreateNews />} />
+                    <Route path="/profile" element={<Profile />} />
                 </Route>
             </Route>
         </Routes>

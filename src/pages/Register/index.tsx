@@ -6,10 +6,12 @@ import {
     createUserWithEmailAndPassword,
     onAuthStateChanged,
 } from "firebase/auth";
-import { auth } from "../../firebase/firebase-config";
+import { auth, writeSingleDocument } from "../../firebase/firebase-config";
 import { UserContext } from "../../components/context/UserContext/UserProvider";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
+YupPassword(yup);
 
 type Register = {
     firstName: string;
@@ -34,10 +36,6 @@ const schema = yup.object({
         .oneOf([yup.ref("password"), null], "Passwords must match"),
     firstName: yup.string().required().min(3).max(20),
     lastName: yup.string().required().min(3).max(20),
-    image: yup.object({
-        url: yup.string().required('Image URL is Required').min(3).max(3),
-        alt: yup.string().required('Image ALT is Required').min(3).max(3),
-    })
 });
 
 function Register() {
@@ -45,8 +43,9 @@ function Register() {
         register,
         handleSubmit,
         formState: { errors },
-    } = useForm<Register>();
+    } = useForm<Register>({ resolver: yupResolver(schema) });
     const { setUser } = useContext<any>(UserContext);
+    const [formSubmitError, setFormSubmitError] = useState<string>();
     const location: any = useLocation();
     const navigate = useNavigate();
 
@@ -58,18 +57,32 @@ function Register() {
     });
 
     const onSubmit = async (data: Register) => {
+        const { email, firstName, lastName } = data;
         try {
-            if (data.password !== data.rePassword) return;
             const user = await createUserWithEmailAndPassword(
                 auth,
                 data.email,
                 data.password.toString()
             );
             setUser(user);
-
-            navigate(from);
+            const userPayload = {
+                email,
+                firstName,
+                lastName,
+                image: {
+                    url: "",
+                    alt: "",
+                },
+            };
+            const userData = await writeSingleDocument("Users", userPayload);
+            if (userData === "success") navigate(from);
+            else
+                setFormSubmitError(
+                    "Something went wrong! Please refresh the page and try again!"
+                );
         } catch (e: any) {
             console.log(e.message);
+            setFormSubmitError(e.message);
         }
     };
 
@@ -77,11 +90,6 @@ function Register() {
         <div className="container flex items-center justify-center px-4 py-12 mx-auto sm:px-6 lg:px-8">
             <div className="w-full max-w-md space-y-8">
                 <div>
-                    {/* <img
-                        className="w-auto h-12 mx-auto"
-                        src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
-                        alt="Workflow"
-                    /> */}
                     <h2 className="mt-6 text-3xl font-extrabold text-center text-gray-900">
                         Register your account
                     </h2>
@@ -91,53 +99,118 @@ function Register() {
                     className="mt-8 space-y-6"
                 >
                     <input type="hidden" name="remember" defaultValue="true" />
-                    <div className="-space-y-px rounded-md shadow-sm">
-                        <div>
-                            <label htmlFor="email-address" className="sr-only">
-                                Email address
-                            </label>
-                            <input
-                                {...register("email")}
-                                id="email-address"
-                                name="email"
-                                type="email"
-                                autoComplete="email"
-                                required
-                                className="relative block w-full px-3 py-2 text-gray-900 placeholder-gray-500 border border-gray-300 rounded-none appearance-none rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                                placeholder="Email address"
-                            />
+                    {formSubmitError ? (
+                        <h1 className="text-3xl text-red">{formSubmitError}</h1>
+                    ) : (
+                        <div className="flex flex-col gap-3 -space-y-px rounded-md shadow-sm">
+                            <div>
+                                <label htmlFor="email-address">
+                                    <p className="text-gray-500">First name</p>
+                                    {errors.firstName && (
+                                        <p className="text-red-500">
+                                            {errors.firstName.message}
+                                        </p>
+                                    )}
+                                </label>
+                                <input
+                                    {...register("firstName")}
+                                    id="firstName"
+                                    type="string"
+                                    className={`${
+                                        errors.firstName &&
+                                        "border-red-500 placeholder-red-500 focus:ring-red-500 focus:border-red-500 ring-red-500"
+                                    }relative block w-full px-3 py-2 text-gray-900 placeholder-gray-500 border border-gray-300 appearance-none rounded-xl focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm`}
+                                    placeholder="First name"
+                                />
+                            </div>
+                            <div>
+                                <label htmlFor="email-address">
+                                    <p className="text-gray-500">Last name</p>
+                                    {errors.lastName && (
+                                        <p className="text-red-500">
+                                            {errors.lastName.message}
+                                        </p>
+                                    )}
+                                </label>
+                                <input
+                                    {...register("lastName")}
+                                    id="last-name"
+                                    type="string"
+                                    className={`${
+                                        errors.lastName &&
+                                        "border-red-500 placeholder-red-500 focus:ring-red-500 focus:border-red-500"
+                                    }relative block w-full px-3 py-2 text-gray-900 placeholder-gray-500 border border-gray-300 appearance-none rounded-xl focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm`}
+                                    placeholder="Last name"
+                                />
+                            </div>
+                            <div>
+                                <label htmlFor="email-address">
+                                    <p className="text-gray-500">
+                                        Email address
+                                    </p>
+                                    {errors.email && (
+                                        <p className="text-red-500">
+                                            {errors.email.message}
+                                        </p>
+                                    )}
+                                </label>
+                                <input
+                                    {...register("email")}
+                                    id="email-address"
+                                    type="email"
+                                    autoComplete="email"
+                                    className={`${
+                                        errors.email &&
+                                        "border-red-500 placeholder-red-500 focus:ring-red-500 focus:border-red-500"
+                                    }relative block w-full px-3 py-2 text-gray-900 placeholder-gray-500 border border-gray-300 appearance-none rounded-xl focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm`}
+                                    placeholder="Email address"
+                                />
+                            </div>
+                            <div>
+                                <label htmlFor="password">
+                                    <p className="text-gray-500">Password</p>
+                                    {errors.password && (
+                                        <p className="text-red-500">
+                                            {errors.password.message}
+                                        </p>
+                                    )}
+                                </label>
+                                <input
+                                    {...register("password")}
+                                    id="password"
+                                    type="password"
+                                    autoComplete="current-password"
+                                    className={`${
+                                        errors.password &&
+                                        "border-red-500 placeholder-red-500 focus:ring-red-500 focus:border-red-500"
+                                    }relative block w-full px-3 py-2 text-gray-900 placeholder-gray-500 border border-gray-300 appearance-none rounded-xl focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm`}
+                                    placeholder="Password"
+                                />
+                            </div>
+                            <div>
+                                <label htmlFor="rePassword">
+                                    <p className="text-gray-500">
+                                        Repeat-password
+                                    </p>
+                                    {errors.rePassword && (
+                                        <p className="text-red-500">
+                                            {errors.rePassword.message}
+                                        </p>
+                                    )}
+                                </label>
+                                <input
+                                    {...register("rePassword")}
+                                    id="rePassword"
+                                    type="password"
+                                    className={`${
+                                        errors.rePassword &&
+                                        "border-red-500 placeholder-red-500 focus:ring-red-500 focus:border-red-500"
+                                    }relative block w-full px-3 py-2 text-gray-900 placeholder-gray-500 border border-gray-300 appearance-none rounded-xl focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm`}
+                                    placeholder="repeat-password"
+                                />
+                            </div>
                         </div>
-                        <div>
-                            <label htmlFor="password" className="sr-only">
-                                Password
-                            </label>
-                            <input
-                                {...register("password")}
-                                id="password"
-                                name="password"
-                                type="password"
-                                autoComplete="current-password"
-                                required
-                                className="relative block w-full px-3 py-2 text-gray-900 placeholder-gray-500 border border-gray-300 rounded-none appearance-none rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                                placeholder="Password"
-                            />
-                        </div>
-                        <div>
-                            <label htmlFor="rePassword" className="sr-only">
-                                repeat-password
-                            </label>
-                            <input
-                                {...register("rePassword")}
-                                id="rePassword"
-                                name="rePassword"
-                                type="rePassword"
-                                autoComplete="current-rePassword"
-                                required
-                                className="relative block w-full px-3 py-2 text-gray-900 placeholder-gray-500 border border-gray-300 rounded-none appearance-none rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                                placeholder="repeat-password"
-                            />
-                        </div>
-                    </div>
+                    )}
 
                     <div>
                         <button
@@ -150,7 +223,7 @@ function Register() {
                                     aria-hidden="true"
                                 />
                             </span>
-                            Sign in
+                            Register
                         </button>
                     </div>
                     <Link

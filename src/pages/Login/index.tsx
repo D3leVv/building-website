@@ -5,6 +5,20 @@ import { auth } from "../../firebase/firebase-config";
 import { useContext } from "react";
 import { UserContext } from "../../components/context/UserContext/UserProvider";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
+
+const schema = yup.object({
+    email: yup.string().required("Email is Required").email(),
+    password: yup
+        .string()
+        .required("Password is required")
+        .min(8)
+        .max(20)
+        .minLowercase(1, "password must contain at least 1 lower case letter")
+        .minUppercase(1, "password must contain at least 1 upper case letter")
+        .minSymbols(1, "password must contain at least 1 special character"),
+});
 
 type Login = {
     email: string;
@@ -17,7 +31,7 @@ function Login() {
         register,
         handleSubmit,
         formState: { errors },
-    } = useForm<Login>();
+    } = useForm<Login>({ resolver: yupResolver(schema) });
 
     const { setUser } = useContext<any>(UserContext);
     const location: any = useLocation();
@@ -48,11 +62,6 @@ function Login() {
         <div className="container flex items-center justify-center px-4 py-12 mx-auto sm:px-6 lg:px-8">
             <div className="w-full max-w-md space-y-8">
                 <div>
-                    {/* <img
-                        className="w-auto h-12 mx-auto"
-                        src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
-                        alt="Workflow"
-                    /> */}
                     <h2 className="mt-6 text-3xl font-extrabold text-center text-gray-900 dark:text-white">
                         Login to your account
                     </h2>
@@ -64,32 +73,44 @@ function Login() {
                     <input type="hidden" name="remember" defaultValue="true" />
                     <div className="-space-y-px rounded-md shadow-sm">
                         <div>
-                            <label htmlFor="email-address" className="sr-only">
-                                Email address
+                            <label htmlFor="email-address">
+                                <p className="text-gray-500">Email address</p>
+                                {errors.email && (
+                                    <p className="text-red-500">
+                                        {errors.email.message}
+                                    </p>
+                                )}
                             </label>
                             <input
                                 {...register("email")}
                                 id="email-address"
-                                name="email"
                                 type="email"
                                 autoComplete="email"
-                                required
-                                className="relative block w-full px-3 py-2 text-gray-900 placeholder-gray-500 border border-gray-300 rounded-none appearance-none dark:bg-black dark:text-white rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                                className={`${
+                                    errors.email &&
+                                    "border-red-500 placeholder-red-500 focus:ring-red-500 focus:border-red-500"
+                                }relative block w-full px-3 py-2 text-gray-900 placeholder-gray-500 border border-gray-300 appearance-none rounded-xl focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm`}
                                 placeholder="Email address"
                             />
                         </div>
                         <div>
-                            <label htmlFor="password" className="sr-only">
-                                Password
+                            <label htmlFor="password">
+                                <p className="text-gray-500">Password</p>
+                                {errors.password && (
+                                    <p className="text-red-500">
+                                        {errors.password.message}
+                                    </p>
+                                )}
                             </label>
                             <input
                                 {...register("password")}
                                 id="password"
-                                name="password"
                                 type="password"
                                 autoComplete="current-password"
-                                required
-                                className="relative block w-full px-3 py-2 text-gray-900 placeholder-gray-500 border border-gray-300 rounded-none appearance-none dark:bg-black dark:text-white rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                                className={`${
+                                    errors.password &&
+                                    "border-red-500 placeholder-red-500 focus:ring-red-500 focus:border-red-500"
+                                }relative block w-full px-3 py-2 text-gray-900 placeholder-gray-500 border border-gray-300 appearance-none rounded-xl focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm`}
                                 placeholder="Password"
                             />
                         </div>
