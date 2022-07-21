@@ -11,21 +11,8 @@ import {
 } from "../../../firebase/firebase-config";
 import MDEditor from "@uiw/react-md-editor";
 import NewsContentType from "./NewsContentType";
-
-const pathsVariant = {
-    hidden: {
-        opacity: 1,
-        pathLength: 0,
-    },
-    visible: {
-        opacity: 1,
-        pathLength: 1,
-        transition: {
-            duration: 2,
-            ease: "easeInOut",
-        },
-    },
-};
+import ProgressBar from "../../Helper/ProgressBar/ProgressBar";
+import DeleteImageButton from "../../Helper/Buttons/DeleteImageButton";
 
 type Data = {
     title: string;
@@ -172,38 +159,14 @@ function NewsForm({ data }: { data: Data }) {
                     </label>
                     {/* show progress of image uploading */}
                     {progress > 0 && progress < 100 && (
-                        <motion.div
-                            initial={{ width: 0 }}
-                            animate={{ width: progress + "%" }}
-                            transition={{ duration: 0.5 }}
-                            className="bg-yellow-200 animate-pulse h-[5px]"
-                        />
+                        <ProgressBar progress={progress} />
                     )}
                     {/* show image and delete button */}
                     {url && (
                         <div className="flex flex-col items-center justify-between w-full p-6 border border-gray-500 rounded-xl md:flex-row">
                             <img src={url.url} width={200} />
                             <p>{url.alt}</p>
-                            <div className="p-1 border-2 border-red-500 rounded-full cursor-pointer">
-                                <motion.svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    className="w-6 h-6 text-red-500 "
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke="currentColor"
-                                    strokeWidth={2}
-                                    onClick={handlePictureDelete}
-                                >
-                                    <motion.path
-                                        variants={pathsVariant}
-                                        initial="hidden"
-                                        animate="visible"
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                                    />
-                                </motion.svg>
-                            </div>
+                            <DeleteImageButton onClick={handlePictureDelete} />
                         </div>
                     )}
                     {error && <p className="text-red-500">{error.message}</p>}

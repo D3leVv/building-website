@@ -6,7 +6,11 @@ import {
     createUserWithEmailAndPassword,
     onAuthStateChanged,
 } from "firebase/auth";
-import { auth, writeSingleDocument } from "../../firebase/firebase-config";
+import {
+    auth,
+    writeSingleDocument,
+    writeSingleUserDocument,
+} from "../../firebase/firebase-config";
 import { UserContext } from "../../components/context/UserContext/UserProvider";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import * as yup from "yup";
@@ -74,7 +78,11 @@ function Register() {
                     alt: "",
                 },
             };
-            const userData = await writeSingleDocument("Users", userPayload);
+            const userData = await writeSingleUserDocument(
+                "Users",
+                userPayload,
+                user.user.uid
+            );
             if (userData === "success") navigate(from);
             else
                 setFormSubmitError(
