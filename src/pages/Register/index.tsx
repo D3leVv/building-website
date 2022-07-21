@@ -104,7 +104,7 @@ function Register() {
                     ) : (
                         <div className="flex flex-col gap-3 -space-y-px rounded-md shadow-sm">
                             <div>
-                                <label htmlFor="email-address">
+                                <label htmlFor="first-name">
                                     <p className="text-gray-500">First name</p>
                                     {errors.firstName && (
                                         <p className="text-red-500">
@@ -124,7 +124,7 @@ function Register() {
                                 />
                             </div>
                             <div>
-                                <label htmlFor="email-address">
+                                <label htmlFor="last-name">
                                     <p className="text-gray-500">Last name</p>
                                     {errors.lastName && (
                                         <p className="text-red-500">
