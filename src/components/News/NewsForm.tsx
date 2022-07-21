@@ -2,22 +2,24 @@ import { useState, useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import useFileUpload from "../hooks/useImageUpload";
 
 type Data = {
     title: string;
     description: string;
-    image: File | null;
+    image: FileList | null;
 };
 
 const schema = yup.object({
     title: yup.string().required().min(3).max(20),
     description: yup.string().required().min(10).max(3000),
-    file: yup.mixed().required("File is required"),
+    file: yup.mixed(),
 });
 
 function NewsForm({ data }: { data: Data }) {
     const [image, setImage] = useState<File | null>(null);
     const [imageView, setImageView] = useState<string | null>();
+    const { url, progress } = useFileUpload(image, "news-images");
     // const []
     const {
         register,
@@ -27,8 +29,11 @@ function NewsForm({ data }: { data: Data }) {
         defaultValues: data,
         resolver: yupResolver(schema),
     });
-    const onSubmit = async (data: Data) => {
-        console.log(data);
+    const onSubmit = (data: Data) => {
+        if (data.image && data.image[0]) setImage(data.image[0]);
+
+        while (progress < 100) console.log(progress);
+        console.log("fileUpload finish");
     };
 
     const handleImage = useCallback(

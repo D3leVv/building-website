@@ -129,7 +129,6 @@ function Navbar({
                     <li key={i} className="w-full h-full">
                         <NavLink
                             className={({ isActive }) => {
-                                console.log(link.href, pathname);
                                 return link.href.endsWith(pathname)
                                     ? "flex flex-col items-center justify-center w-full h-full text-center border-b border-yellow-300"
                                     : "flex flex-col items-center justify-center w-full h-full text-center border-b border-transparent";

@@ -27,8 +27,8 @@ const resizeFile = (file: File) =>
     });
 function useFileUpload<T>(
     file: File | null,
-    parentFolder = "news-images",
-    childFolder: string
+    parentFolder = "news-images"
+    // childFolder: string
 ) {
     const [progress, setProgress] = useState(0);
     const [error, setError] = useState<StorageError | null>(null);
@@ -40,10 +40,7 @@ function useFileUpload<T>(
 
             const image: any = await resizeFile(file);
 
-            const storageRef = ref(
-                storage,
-                `${parentFolder}/${childFolder}/${image.name}`
-            );
+            const storageRef = ref(storage, `${parentFolder}/${image.name}`);
 
             const uploadTask = uploadBytesResumable(storageRef, image);
             uploadTask.on(
@@ -73,7 +70,7 @@ function useFileUpload<T>(
             );
         }
         runImage();
-    }, [file, parentFolder, childFolder]);
+    }, [file, parentFolder]);
 
     return { progress, error, url };
 }
