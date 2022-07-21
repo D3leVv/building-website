@@ -1,9 +1,6 @@
 import NewsForm from "../../components/News/Create/NewsForm";
 
-
 function CreateNews() {
-  
-
     return (
         <div>
             <NewsForm
@@ -15,6 +12,7 @@ function CreateNews() {
                         alt: "",
                     },
                     type: "news",
+                    author: "",
                 }}
             />
         </div>

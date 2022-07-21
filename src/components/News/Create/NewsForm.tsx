@@ -35,12 +35,13 @@ type Data = {
         alt: string;
     };
     type: string;
+    author: string;
 };
 
 const schema = yup.object({
     title: yup.string().required().min(3).max(20),
     description: yup.string().required().min(10).max(3000),
-
+    author: yup.string().required().min(3).max(20),
     type: yup.string().required().min(3).max(20),
 });
 
@@ -107,6 +108,21 @@ function NewsForm({ data }: { data: Data }) {
                         />
                         <p className="w-full text-red-600 mt-1.5">
                             {errors.title?.message}
+                        </p>
+                    </label>
+                    <label className="w-full">
+                        <p className="w-full  mb-1.5">News Author</p>
+
+                        <input
+                            className={`w-full rounded-xl dark:bg-black dark:text-white focus:ring-yellow-200 s focus:border-yellow-200 ${
+                                errors.author &&
+                                "border-red-600 focus:border-red-600 focus:ring-red-600"
+                            }`}
+                            type="text"
+                            {...register("author")}
+                        />
+                        <p className="w-full text-red-600 mt-1.5">
+                            {errors.author?.message}
                         </p>
                     </label>
                     {/* MDEditor descpription */}

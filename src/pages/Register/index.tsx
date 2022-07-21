@@ -1,6 +1,7 @@
 import { useState, useContext } from "react";
 import { LockClosedIcon } from "@heroicons/react/solid";
 import { useForm } from "react-hook-form";
+import YupPassword from "yup-password";
 import {
     createUserWithEmailAndPassword,
     onAuthStateChanged,
@@ -8,12 +9,36 @@ import {
 import { auth } from "../../firebase/firebase-config";
 import { UserContext } from "../../components/context/UserContext/UserProvider";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import * as yup from "yup";
 
 type Register = {
+    firstName: string;
+    lastName: string;
     email: string;
     password: string | number;
     rePassword: string | number;
 };
+
+const schema = yup.object({
+    email: yup.string().required("Email is Required").email(),
+    password: yup
+        .string()
+        .required("Password is required")
+        .min(8)
+        .max(20)
+        .minLowercase(1, "password must contain at least 1 lower case letter")
+        .minUppercase(1, "password must contain at least 1 upper case letter")
+        .minSymbols(1, "password must contain at least 1 special character"),
+    rePassword: yup
+        .string()
+        .oneOf([yup.ref("password"), null], "Passwords must match"),
+    firstName: yup.string().required().min(3).max(20),
+    lastName: yup.string().required().min(3).max(20),
+    image: yup.object({
+        url: yup.string().required('Image URL is Required').min(3).max(3),
+        alt: yup.string().required('Image ALT is Required').min(3).max(3),
+    })
+});
 
 function Register() {
     const {
