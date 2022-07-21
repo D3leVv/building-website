@@ -2,11 +2,7 @@ import { useState, useEffect } from "react";
 import { ref, getDownloadURL, StorageError } from "firebase/storage";
 import { storage } from "../../firebase/firebase-config";
 
-function useImageFromStorage(
-    parentFolder: string,
-    fileName: string
-    // childFolder: string
-) {
+function useImageFromStorage(parentFolder: string, fileName: string) {
     const [progress, setProgress] = useState(0);
     const [error, setError] = useState<StorageError | null>(null);
     const [currUrl, setCurrUrl] = useState<{ url: string; alt: string } | null>(

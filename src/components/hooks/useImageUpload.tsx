@@ -40,11 +40,8 @@ function useFileUpload<T>(
             if (!file) return;
 
             const image: any = await resizeFile(file);
-
-            const storageRef = ref(
-                storage,
-                `${parentFolder}/${image.name + v4()}`
-            );
+            const imageName = image.name + v4();
+            const storageRef = ref(storage, `${parentFolder}/${imageName}`);
 
             const uploadTask = uploadBytesResumable(storageRef, image);
             uploadTask.on(
@@ -63,7 +60,7 @@ function useFileUpload<T>(
                         .then((url) => {
                             setUrl({
                                 url: url,
-                                alt: image.name + v4(),
+                                alt: imageName,
                             });
                         })
                         .catch((e) => {

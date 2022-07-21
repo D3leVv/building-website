@@ -49,7 +49,6 @@ const ProfileForm = ({
         "users-profile-pictures",
         userData.image.alt
     );
-        console.log(userData.image.alt === 'person1.JPEGbb116086-f5e7-417b-b001-51bb368cdbbc')
     const onSubmit = async (data: User) => {
         let payload = data;
         if (url) payload.image = url;
@@ -60,11 +59,18 @@ const ProfileForm = ({
         }
     };
 
-    const handlePictureDelete = () => {
-        if (url) deletePicture(url.url, url.alt);
-        if (currUrl) deletePicture(currUrl.url, currUrl.alt);
-        setCurrUrl(null);
-        setUrl(null);
+    const handlePictureDelete = async () => {
+        if (url) {
+            deletePicture(url.url, url.alt);
+            return setUrl(null);
+        }
+        if (currUrl) {
+            deletePicture(currUrl.url, currUrl.alt);
+            setCurrUrl(null);
+            const payload = userData;
+            payload.image = { url: "", alt: "" };
+            return await updateSingleDocumentWithDocID("Users", payload, docID);
+        }
     };
 
     return (
@@ -73,7 +79,7 @@ const ProfileForm = ({
             {formSubmitError ? (
                 <h1 className="text-3xl text-red">{formSubmitError}</h1>
             ) : (
-                <div className="flex flex-col gap-3 -space-y-px rounded-md shadow-sm">
+                <div className="flex flex-col gap-3 p-3 -space-y-px rounded-md shadow-lg">
                     <div>
                         <label htmlFor="first-name">
                             <p className="text-gray-500">First name</p>
@@ -90,7 +96,7 @@ const ProfileForm = ({
                             className={`${
                                 errors.firstName &&
                                 "border-red-500 placeholder-red-500 focus:ring-red-500 focus:border-red-500 ring-red-500"
-                            }relative block w-full px-3 py-2 text-gray-900 placeholder-gray-500 border border-gray-300 appearance-none rounded-xl focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm`}
+                            }relative dark:bg-black dark:text-white block w-full px-3 py-2 text-gray-900 placeholder-gray-500 border border-gray-300 appearance-none rounded-xl focus:outline-none focus:ring-yellow-300 focus:border-yellow-300 focus:z-10 sm:text-sm`}
                             placeholder="First name"
                         />
                     </div>
@@ -110,7 +116,7 @@ const ProfileForm = ({
                             className={`${
                                 errors.lastName &&
                                 "border-red-500 placeholder-red-500 focus:ring-red-500 focus:border-red-500"
-                            }relative block w-full px-3 py-2 text-gray-900 placeholder-gray-500 border border-gray-300 appearance-none rounded-xl focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm`}
+                            }relative dark:bg-black dark:text-white block w-full px-3 py-2 text-gray-900 placeholder-gray-500 border border-gray-300 appearance-none rounded-xl focus:outline-none focus:ring-yellow-300 focus:border-yellow-300 focus:z-10 sm:text-sm`}
                             placeholder="Last name"
                         />
                     </div>
@@ -131,7 +137,7 @@ const ProfileForm = ({
                             className={`${
                                 errors.email &&
                                 "border-red-500 placeholder-red-500 focus:ring-red-500 focus:border-red-500"
-                            }relative block w-full px-3 py-2 text-gray-900 placeholder-gray-500 border border-gray-300 appearance-none rounded-xl focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm`}
+                            }relative dark:bg-black dark:text-white block w-full px-3 py-2 text-gray-900 placeholder-gray-500 border border-gray-300 appearance-none rounded-xl focus:outline-none focus:ring-yellow-300 focus:border-yellow-300 focus:z-10 sm:text-sm`}
                             placeholder="Email address"
                         />
                     </div>
@@ -158,7 +164,7 @@ const ProfileForm = ({
                                         className={`${
                                             errors.image &&
                                             "border-red-500 placeholder-red-500 focus:ring-red-500 focus:border-red-500"
-                                        }relative block w-full px-3 py-2 text-gray-900 placeholder-gray-500 border border-gray-300 appearance-none rounded-xl focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm`}
+                                        }relative dark:bg-black dark:text-white block w-full px-3 py-2 text-gray-900 placeholder-gray-500 border border-gray-300 appearance-none rounded-xl focus:outline-none focus:ring-yellow-300 focus:border-yellow-300 focus:z-10 sm:text-sm`}
                                         placeholder="Profile image"
                                     />
                                 </div>
@@ -209,11 +215,11 @@ const ProfileForm = ({
             <div>
                 <button
                     type="submit"
-                    className="relative flex justify-center w-full px-4 py-2 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-md group hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                    className="relative flex justify-center w-full px-4 py-2 text-sm font-medium bg-yellow-300 border border-transparent rounded-md shadow-lg dark:text-white dark:bg-yellow-500 hover:bg-yellow-400 group dark:hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-300"
                 >
                     <span className="absolute inset-y-0 left-0 flex items-center pl-3">
                         <LockClosedIcon
-                            className="w-5 h-5 text-indigo-500 group-hover:text-indigo-400"
+                            className="w-5 h-5 text-yellow-700 dark:text-yellow-300 dark:group-hover:text-yellow-100"
                             aria-hidden="true"
                         />
                     </span>

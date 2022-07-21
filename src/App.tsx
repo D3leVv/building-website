@@ -35,7 +35,7 @@ function App() {
                 />
                 <Route element={<ProtectedRoutes user={user} />}>
                     <Route path="/news/create" element={<CreateNews />} />
-                    <Route path="/profile" element={<Profile />} />
+                    <Route path="/profile/:userID" element={<Profile />} />
                 </Route>
             </Route>
         </Routes>
