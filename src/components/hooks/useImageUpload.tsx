@@ -41,7 +41,10 @@ function useFileUpload<T>(
 
             const image: any = await resizeFile(file);
 
-            const storageRef = ref(storage, `${parentFolder}/${image.name}`);
+            const storageRef = ref(
+                storage,
+                `${parentFolder}/${image.name + v4()}`
+            );
 
             const uploadTask = uploadBytesResumable(storageRef, image);
             uploadTask.on(

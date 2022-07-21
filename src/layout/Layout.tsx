@@ -37,7 +37,7 @@ function Layout() {
     }, [dark]);
 
     return (
-        <div className="w-screen h-screen dark:bg-black dark:text-white">
+        <div className="w-full h-full min-h-screen dark:bg-black dark:text-white">
             <Navbar handleDarktheme={handleDarktheme} />
             <Outlet />
         </div>

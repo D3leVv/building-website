@@ -23,12 +23,12 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+export const store = getFirestore(app);
 export const firebaseServerTimestap = serverTimestamp();
 
 export function createDocumentIDRef(collectionID: string) {
     const collectionRef: CollectionReference<DocumentData> = collection(
-        db,
+        store,
         collectionID
     );
     const documentID = doc(collectionRef);
@@ -53,7 +53,7 @@ export async function writeSingleDocument(
 ) {
     try {
         payload["timestamp"] = firebaseServerTimestap;
-        await addDoc(collection(db, collectionReference), payload);
+        await addDoc(collection(store, collectionReference), payload);
         return "success";
     } catch (error: any) {
         console.log(error.message);

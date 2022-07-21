@@ -1,10 +1,11 @@
 import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import useFileUpload from "../hooks/useImageUpload";
 import { motion } from "framer-motion";
 import { deletePicture } from "../../firebase/firebase-config";
+import MDEditor from "@uiw/react-md-editor";
 
 const pathsVariant = {
     hidden: {
@@ -25,6 +26,7 @@ type Data = {
     title: string;
     description: string;
     image: FileList | null;
+    type: string;
 };
 
 const schema = yup.object({
@@ -36,6 +38,7 @@ const schema = yup.object({
 function NewsForm({ data }: { data: Data }) {
     const [image, setImage] = useState<File | null>(null);
     // const [pictureView, setPictureView] = useState<string>();
+    const [sotrageImages, setStorageImages] = useState<any>();
     const { url, progress, setUrl, error } = useFileUpload(
         image,
         "news-images"
@@ -44,16 +47,14 @@ function NewsForm({ data }: { data: Data }) {
     const {
         register,
         handleSubmit,
+        control,
         formState: { errors },
     } = useForm<Data>({
         defaultValues: data,
         resolver: yupResolver(schema),
     });
     const onSubmit = (data: Data) => {
-        if (data.image && data.image[0]) setImage(data.image[0]);
-
-        while (progress < 100) console.log(progress);
-        console.log("fileUpload finish");
+        console.log(data);
     };
 
     const handlePictureDelete = () => {
@@ -66,6 +67,7 @@ function NewsForm({ data }: { data: Data }) {
             className="container flex flex-col w-full h-full gap-6 p-6 mx-auto"
             onSubmit={handleSubmit(onSubmit)}
         >
+            {/* title */}
             <label className="w-full">
                 <p className="w-full  mb-1.5">News Title</p>
 
@@ -81,25 +83,35 @@ function NewsForm({ data }: { data: Data }) {
                     {errors.title?.message}
                 </p>
             </label>
-            <label
-                // ref={labelRef}
-                className="w-full rounded-md border-[3px] relative border-borderColor border-dashed hover:border-gray"
-            >
+            {/* MDEditor descpription */}
+            <label className=" md:col-span-2 text-gray">
+                <p className="block mb-3 text-gray">Description</p>
+                <Controller
+                    name="description"
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+                        <MDEditor
+                            value={value}
+                            onChange={onChange}
+                            height={500}
+                        />
+                    )}
+                />
+            </label>
+            <label className="w-full rounded-md border-[3px] relative border-borderColor border-dashed hover:border-gray">
                 <input
-                    // {...register("image")}
                     type="file"
                     onChange={(e: any) => {
                         setImage(e.target.files[0]);
                     }}
                     accept="image/x-png,image/gif,image/jpeg,image/jpg"
-                    // hidden
                     className="w-full h-[200px] cursor-pointer opacity-0 dark:bg-black dark:text-white "
                 />
                 <p className="z-10 dark:text-white cursor-pointer absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] font-bold text-center  text-3xl ">
                     Upload image
                 </p>
             </label>
-
+            {/* show progress of image uploading */}
             {progress > 0 && progress < 100 && (
                 <motion.div
                     initial={{ width: 0 }}
@@ -108,13 +120,14 @@ function NewsForm({ data }: { data: Data }) {
                     className="bg-yellow-200 animate-pulse h-[5px]"
                 />
             )}
+            
             {url && (
-                <div className="flex flex-col items-center justify-between w-full md:flex-row">
+                <div className="flex flex-col items-center justify-between w-full md:flex-row ">
                     <img src={url.url} width={200} />
                     <p>{url.alt}</p>
                     <motion.svg
                         xmlns="http://www.w3.org/2000/svg"
-                        className="w-6 h-6 cursor-pointer"
+                        className="w-6 h-6 text-red-500 border border-gray-500 cursor-pointer"
                         fill="none"
                         viewBox="0 0 24 24"
                         stroke="currentColor"
