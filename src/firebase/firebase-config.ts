@@ -49,7 +49,7 @@ export async function deletePicture(path: string, fileName: string) {
 
 export async function writeSingleDocument(
     collectionReference: "news",
-    payload: { timestamp: FieldValue }
+    payload: any
 ) {
     try {
         payload["timestamp"] = firebaseServerTimestap;

@@ -20,7 +20,7 @@ function NewsContentType({
             <RadioGroup.Option value="news">
                 {({ active, checked }) =>
                     checked ? (
-                        <div className="grid grid-cols-2 ">
+                        <div className="flex items-center gap-3">
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 className="w-6 h-6 text-blue-800"
@@ -38,7 +38,7 @@ function NewsContentType({
                             <p>News</p>
                         </div>
                     ) : (
-                        <div className="grid grid-cols-2 ">
+                        <div className="flex items-center gap-3">
                             <div className="w-5 h-5 m-0.5 border-2 border-blue-800 rounded-full" />
                             <p>News</p>
                         </div>
@@ -48,7 +48,7 @@ function NewsContentType({
             <RadioGroup.Option value="events">
                 {({ active, checked }) =>
                     checked ? (
-                        <div className="grid grid-cols-2 ">
+                        <div className="flex items-center gap-3">
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 className="w-6 h-6 text-blue-800"
@@ -66,7 +66,7 @@ function NewsContentType({
                             <p>Events</p>
                         </div>
                     ) : (
-                        <div className="grid grid-cols-2 ">
+                        <div className="flex items-center gap-3">
                             <div className="w-5 h-5 m-0.5 border-2 border-blue-800 rounded-full" />
                             <p>Events</p>
                         </div>
@@ -76,7 +76,7 @@ function NewsContentType({
             <RadioGroup.Option value="blog">
                 {({ active, checked }) =>
                     checked ? (
-                        <div className="grid grid-cols-2 ">
+                        <div className="flex items-center gap-3">
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 className="w-6 h-6 text-blue-800"
@@ -94,7 +94,7 @@ function NewsContentType({
                             <p>Blog</p>
                         </div>
                     ) : (
-                        <div className="grid grid-cols-2 ">
+                        <div className="flex items-center gap-3">
                             <div className="w-5 h-5 m-0.5 border-2 border-blue-800 rounded-full" />
                             <p>Blog</p>
                         </div>
