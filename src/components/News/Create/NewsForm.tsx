@@ -71,7 +71,7 @@ function NewsForm({ data }: { data: Data }) {
     };
     return (
         <form
-            className="container flex flex-col w-full h-full gap-6 p-6 mx-auto"
+            className="flex flex-col w-full h-full gap-6 "
             onSubmit={handleSubmit(onSubmit)}
         >
             {" "}
