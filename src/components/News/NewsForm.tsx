@@ -6,6 +6,7 @@ import useFileUpload from "../hooks/useImageUpload";
 import { motion } from "framer-motion";
 import { deletePicture } from "../../firebase/firebase-config";
 import MDEditor from "@uiw/react-md-editor";
+import NewsContentType from "./NewsContentType";
 
 const pathsVariant = {
     hidden: {
@@ -98,6 +99,20 @@ function NewsForm({ data }: { data: Data }) {
                     )}
                 />
             </label>
+            <div className="flex w-full">
+                <Controller
+                    name="type"
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+                        <NewsContentType
+                            value={value}
+                            onChange={onChange}
+                            label="News type"
+                        />
+                    )}
+                />
+            </div>
+            {/* input for adding image */}
             <label className="w-full rounded-md border-[3px] relative border-borderColor border-dashed hover:border-gray">
                 <input
                     type="file"
@@ -120,7 +135,7 @@ function NewsForm({ data }: { data: Data }) {
                     className="bg-yellow-200 animate-pulse h-[5px]"
                 />
             )}
-            
+            {/* show image and delete button */}
             {url && (
                 <div className="flex flex-col items-center justify-between w-full md:flex-row ">
                     <img src={url.url} width={200} />
