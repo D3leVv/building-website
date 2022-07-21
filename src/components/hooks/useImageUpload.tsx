@@ -7,6 +7,7 @@ import {
 } from "firebase/storage";
 import { storage } from "../../firebase/firebase-config";
 import Resizer from "react-image-file-resizer";
+import { v4 } from "uuid";
 
 // function that resizes a file
 // https://github.com/onurzorluer/react-image-file-resizer#readme
@@ -32,7 +33,7 @@ function useFileUpload<T>(
 ) {
     const [progress, setProgress] = useState(0);
     const [error, setError] = useState<StorageError | null>(null);
-    const [url, setUrl] = useState<{ url: string; alt: string }>();
+    const [url, setUrl] = useState<{ url: string; alt: string } | null>(null);
 
     useEffect(() => {
         async function runImage() {
@@ -59,7 +60,7 @@ function useFileUpload<T>(
                         .then((url) => {
                             setUrl({
                                 url: url,
-                                alt: image.name,
+                                alt: image.name + v4(),
                             });
                         })
                         .catch((e) => {
@@ -72,7 +73,7 @@ function useFileUpload<T>(
         runImage();
     }, [file, parentFolder]);
 
-    return { progress, error, url };
+    return { progress, error, url, setUrl };
 }
 
 export default useFileUpload;

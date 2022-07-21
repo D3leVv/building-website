@@ -168,7 +168,7 @@ function Navbar({
                                                             settingsChildrens
                                                         }
                                                         key="child1"
-                                                        className={`w-full h-full p-3 hover:bg-gray-400 ${
+                                                        className={`w-full h-full p-3 rounded-xl hover:bg-gray-400 ${
                                                             active &&
                                                             "bg-gray-400"
                                                         }`}
@@ -196,7 +196,7 @@ function Navbar({
                                                                 variants={
                                                                     settingsChildrens
                                                                 }
-                                                                className={`w-full h-full p-3 hover:bg-gray-400 ${
+                                                                className={`w-full h-full p-3 rounded-xl hover:bg-gray-400 ${
                                                                     active &&
                                                                     "bg-gray-400"
                                                                 }`}
@@ -211,7 +211,7 @@ function Navbar({
                                                     <Menu.Item>
                                                         {({ active }) => (
                                                             <motion.div
-                                                                className={`w-full h-full p-3 hover:bg-gray-400 ${
+                                                                className={`w-full h-full p-3 rounded-xl hover:bg-gray-400 ${
                                                                     active &&
                                                                     "bg-gray-400"
                                                                 }`}
@@ -232,7 +232,7 @@ function Navbar({
                                                 <Menu.Item>
                                                     {({ active }) => (
                                                         <motion.button
-                                                            className={`w-full h-full p-3 hover:bg-gray-400 ${
+                                                            className={`w-full h-full p-3 rounded-xl hover:bg-gray-400 ${
                                                                 active &&
                                                                 "bg-gray-400"
                                                             }`}
@@ -322,7 +322,7 @@ const MobileNav = ({
                                                 <motion.div
                                                     variants={settingsChildrens}
                                                     key="child112"
-                                                    className={`w-full h-full p-3 hover:bg-gray-400 ${
+                                                    className={`w-full h-full p-3 rounded-xl hover:bg-gray-400 ${
                                                         active && "bg-gray-400"
                                                     }`}
                                                 >
@@ -338,7 +338,7 @@ const MobileNav = ({
                                             <motion.button
                                                 variants={settingsChildrens}
                                                 key="child10"
-                                                className={`w-full h-full p-3 hover:bg-gray-400 ${
+                                                className={`w-full h-full p-3 rounded-xl hover:bg-gray-400 ${
                                                     active && "bg-gray-400"
                                                 }`}
                                                 onClick={() =>
@@ -370,7 +370,7 @@ const MobileNav = ({
                                                     >
                                                         <Link
                                                             to="/register"
-                                                            className={`w-full h-full p-3 hover:bg-gray-400 ${
+                                                            className={`w-full h-full p-3 rounded-xl hover:bg-gray-400 ${
                                                                 active &&
                                                                 "bg-gray-400"
                                                             }`}
@@ -385,7 +385,7 @@ const MobileNav = ({
                                                 {({ active }) => (
                                                     <Link
                                                         to="/login"
-                                                        className={`w-full h-full p-3 hover:bg-gray-400 ${
+                                                        className={`w-full h-full p-3 rounded-xl hover:bg-gray-400 ${
                                                             active &&
                                                             "bg-gray-400"
                                                         }`}
@@ -399,7 +399,7 @@ const MobileNav = ({
                                         <Menu.Item>
                                             {({ active }) => (
                                                 <motion.button
-                                                    className={`w-full h-full p-3 hover:bg-gray-400 ${
+                                                    className={`w-full h-full p-3 rounded-xl hover:bg-gray-400 ${
                                                         active && "bg-gray-400"
                                                     }`}
                                                     variants={childVariants}
