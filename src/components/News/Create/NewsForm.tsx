@@ -2,13 +2,13 @@ import { useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import useFileUpload from "../hooks/useImageUpload";
+import useFileUpload from "../../hooks/useImageUpload";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
     deletePicture,
     writeSingleDocument,
-} from "../../firebase/firebase-config";
+} from "../../../firebase/firebase-config";
 import MDEditor from "@uiw/react-md-editor";
 import NewsContentType from "./NewsContentType";
 
@@ -62,6 +62,7 @@ function NewsForm({ data }: { data: Data }) {
         defaultValues: data,
         resolver: yupResolver(schema),
     });
+
     const onSubmit = async (data: Data) => {
         let payload = data;
         if (url) payload["image"] = url;
@@ -164,7 +165,7 @@ function NewsForm({ data }: { data: Data }) {
                     )}
                     {/* show image and delete button */}
                     {url && (
-                        <div className="flex flex-col items-center justify-between w-full md:flex-row ">
+                        <div className="flex flex-col items-center justify-between w-full p-6 border border-gray-500 rounded-xl md:flex-row">
                             <img src={url.url} width={200} />
                             <p>{url.alt}</p>
                             <div className="p-1 border-2 border-red-500 rounded-full cursor-pointer">

@@ -1,4 +1,4 @@
-import NewsForm from "../../components/News/NewsForm";
+import NewsForm from "../../components/News/Create/NewsForm";
 
 
 function CreateNews() {
