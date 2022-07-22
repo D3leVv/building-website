@@ -1,6 +1,7 @@
 import { useState, createContext, ReactNode, useEffect } from "react";
 import {
     auth,
+    getSingleDocWithDocId,
     writeSingleUserDocument,
 } from "../../../firebase/firebase-config";
 import {
@@ -11,6 +12,8 @@ import {
 } from "firebase/auth";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { useLocation, useNavigate } from "react-router-dom";
+import { User } from "../../../Types/User";
+import { DocumentData } from "firebase/firestore";
 
 export const UserContext = createContext<UserCredential | any>(null);
 
@@ -20,6 +23,7 @@ function UserProvider({ children }: { children: ReactNode }) {
     const from =
         location.state?.from?.pathname + location.state?.from?.search || "/";
     const [user, setUser] = useState<UserCredential | null | any>(null);
+    const [userData, setUserData] = useState<DocumentData | User>();
 
     const logout = async () => {
         try {
@@ -86,9 +90,25 @@ function UserProvider({ children }: { children: ReactNode }) {
         };
     }, [signIn, createAccount, logout]);
 
+    useEffect(() => {
+        console.log(user);
+        if (!user) return;
+        (async () => {
+            const currUser = await getSingleDocWithDocId("Users", user.uid);
+            if (currUser) setUserData(currUser);
+        })();
+    }, [user]);
+
     return (
         <UserContext.Provider
-            value={{ user, setUser, logout, createAccount, signIn }}
+            value={{
+                user,
+                setUser,
+                logout,
+                createAccount,
+                signIn,
+                userData,
+            }}
         >
             {children}
         </UserContext.Provider>

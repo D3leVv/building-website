@@ -1,10 +1,10 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import useFileUpload from "../../hooks/useImageUpload";
 import { useNavigate } from "react-router-dom";
-import { motion } from "framer-motion";
+
 import {
     deletePicture,
     writeSingleDocument,
@@ -13,6 +13,7 @@ import MDEditor from "@uiw/react-md-editor";
 import NewsContentType from "./NewsContentType";
 import ProgressBar from "../../Helper/ProgressBar/ProgressBar";
 import DeleteImageButton from "../../Helper/Buttons/DeleteImageButton";
+import { UserContext } from "../../context/UserContext/UserProvider";
 
 type Data = {
     title: string;
@@ -28,12 +29,12 @@ type Data = {
 const schema = yup.object({
     title: yup.string().required().min(3).max(20),
     description: yup.string().required().min(10).max(3000),
-    author: yup.string().required().min(3).max(20),
     type: yup.string().required().min(3).max(20),
 });
 
 function NewsForm({ data }: { data: Data }) {
     const [image, setImage] = useState<File | null>(null);
+    const { userData } = useContext(UserContext);
     const [submitError, setSubmitError] = useState<Error | null>(null);
     const navigate = useNavigate();
     const { url, progress, setUrl, error } = useFileUpload(
@@ -54,6 +55,7 @@ function NewsForm({ data }: { data: Data }) {
     const onSubmit = async (data: Data) => {
         let payload = data;
         if (url) payload["image"] = url;
+        if (userData) payload["author"] = userData.firstName;
         try {
             const response = await writeSingleDocument("news", payload);
             if (response === "success") {

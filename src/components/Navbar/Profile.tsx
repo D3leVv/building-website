@@ -1,20 +1,8 @@
-import { DocumentData } from "firebase/firestore";
-import { useContext, useEffect, useState } from "react";
-import { getSingleDocWithDocId } from "../../firebase/firebase-config";
-import { User } from "../../Types/User";
+import { useContext } from "react";
 import { UserContext } from "../context/UserContext/UserProvider";
 
 function Profile() {
-    const [userData, setUserData] = useState<User | DocumentData>();
-    const { user } = useContext(UserContext);
-
-    useEffect(() => {
-        if (!user.uid) return;
-        (async () => {
-            const currUser = await getSingleDocWithDocId("Users", user.uid);
-            if (currUser) setUserData(currUser);
-        })();
-    }, [user]);
+    const { userData } = useContext(UserContext);
 
     return (
         <div className="flex items-center justify-center gap-3">
