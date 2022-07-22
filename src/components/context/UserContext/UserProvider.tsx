@@ -54,7 +54,7 @@ function UserProvider({ children }: { children: ReactNode }) {
             const userData = await writeSingleUserDocument(
                 "Users",
                 userPayload,
-                user.uid
+                data.user.uid
             );
             if (userData === "success") navigate(from);
             else return userData;

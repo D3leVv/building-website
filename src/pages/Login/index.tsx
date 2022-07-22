@@ -1,10 +1,11 @@
 import { LockClosedIcon } from "@heroicons/react/solid";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import { useContext } from "react";
 import { UserContext } from "../../components/context/UserContext/UserProvider";
 import { Link } from "react-router-dom";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
+import TextInputField from "../../components/Helper/ImputFields/TextInputField";
 
 const schema = yup.object({
     email: yup.string().required("Email is Required").email(),
@@ -18,6 +19,23 @@ const schema = yup.object({
         .minSymbols(1, "password must contain at least 1 special character"),
 });
 
+const inputFields: any[] = [
+    {
+        name: "email",
+        id: "email",
+        placeholder: "Email address",
+        type: "email",
+        autoComplete: "email",
+    },
+    {
+        name: "password",
+        id: "password",
+        placeholder: "Password",
+        type: "password",
+        // autoComplete: 'email'
+    },
+];
+
 type Login = {
     email: string;
     password: string | number;
@@ -26,7 +44,7 @@ type Login = {
 
 function Login() {
     const {
-        register,
+        control,
         handleSubmit,
         formState: { errors },
     } = useForm<Login>({ resolver: yupResolver(schema) });
@@ -43,7 +61,7 @@ function Login() {
 
     return (
         <div className="container flex items-center justify-center px-4 py-12 mx-auto sm:px-6 lg:px-8">
-            <div className="w-full max-w-md space-y-8">
+            <div className="w-full max-w-lg space-y-8">
                 <div>
                     <h2 className="mt-6 text-3xl font-extrabold text-center text-gray-900 dark:text-white">
                         Login to your account
@@ -54,49 +72,28 @@ function Login() {
                     className="mt-8 space-y-6"
                 >
                     <input type="hidden" name="remember" defaultValue="true" />
-                    <div className="-space-y-px rounded-md shadow-sm">
-                        <div>
-                            <label htmlFor="email-address">
-                                <p className="text-gray-500">Email address</p>
-                                {errors.email && (
-                                    <p className="text-red-500">
-                                        {errors.email.message}
-                                    </p>
+                    <div className="flex flex-col gap-3 -space-y-px rounded-md shadow-sm">
+                        {inputFields.map((field, i) => (
+                            <Controller
+                                key={i}
+                                control={control}
+                                name={field.name}
+                                render={({
+                                    field: { onChange, onBlur, value },
+                                    fieldState: { error },
+                                }) => (
+                                    <TextInputField
+                                        autoComplete={field.autoComplete}
+                                        id={field.id}
+                                        label={field.placeholder}
+                                        placeholder={field.placeholder}
+                                        type={field.type}
+                                        error={error}
+                                        onChange={onChange}
+                                    />
                                 )}
-                            </label>
-                            <input
-                                {...register("email")}
-                                id="email-address"
-                                type="email"
-                                autoComplete="email"
-                                className={`${
-                                    errors.email &&
-                                    "border-red-500 placeholder-red-500 focus:ring-red-500 focus:border-red-500"
-                                }relative block dark:bg-black dark:text-white w-full px-3 py-2 text-gray-900 placeholder-gray-500 border border-gray-300 appearance-none rounded-xl focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm`}
-                                placeholder="Email address"
                             />
-                        </div>
-                        <div>
-                            <label htmlFor="password">
-                                <p className="text-gray-500">Password</p>
-                                {errors.password && (
-                                    <p className="text-red-500">
-                                        {errors.password.message}
-                                    </p>
-                                )}
-                            </label>
-                            <input
-                                {...register("password")}
-                                id="password"
-                                type="password"
-                                autoComplete="current-password"
-                                className={`${
-                                    errors.password &&
-                                    "border-red-500 placeholder-red-500 focus:ring-red-500 focus:border-red-500"
-                                }relative block w-full dark:bg-black dark:text-white px-3 py-2 text-gray-900 placeholder-gray-500 border border-gray-300 appearance-none rounded-xl focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm`}
-                                placeholder="Password"
-                            />
-                        </div>
+                        ))}
                     </div>
 
                     <div>

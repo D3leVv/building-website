@@ -11,7 +11,6 @@ function Profile() {
     useEffect(() => {
         if (!user.uid) return;
         (async () => {
-            console.log(user.uid);
             const currUser = await getSingleDocWithDocId("Users", user.uid);
             if (currUser) setUserData(currUser);
         })();
