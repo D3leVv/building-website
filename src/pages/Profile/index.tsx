@@ -9,8 +9,8 @@ function Profile() {
     const [userData, setUserData] = useState<DocumentData | User>();
     const { userID } = useParams();
     useEffect(() => {
+        if (!userID) return;
         (async () => {
-            if (!userID) return;
             const getUserData = await getSingleDocWithDocId("Users", userID);
             setUserData(getUserData);
         })();

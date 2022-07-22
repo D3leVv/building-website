@@ -2,10 +2,8 @@ import { useState, useContext } from "react";
 import { LockClosedIcon } from "@heroicons/react/solid";
 import { useForm } from "react-hook-form";
 import YupPassword from "yup-password";
-
-import { writeSingleUserDocument } from "../../firebase/firebase-config";
 import { UserContext } from "../../components/context/UserContext/UserProvider";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 YupPassword(yup);
@@ -43,35 +41,17 @@ function Register() {
     } = useForm<Register>({ resolver: yupResolver(schema) });
     const { createAccount } = useContext<any>(UserContext);
     const [formSubmitError, setFormSubmitError] = useState<string>();
-    const location: any = useLocation();
-    const navigate = useNavigate();
-
-    const from =
-        location.state?.from?.pathname + location.state?.from?.search || "/";
 
     const onSubmit = async (data: Register) => {
         const { email, firstName, lastName } = data;
         try {
             const user = await createAccount(
-                data.email,
-                data.password.toString()
-            );
-            const userPayload = {
                 email,
+                data.password.toString(),
                 firstName,
-                lastName,
-                image: {
-                    url: "",
-                    alt: "",
-                },
-            };
-            const userData = await writeSingleUserDocument(
-                "Users",
-                userPayload,
-                user.user.uid
+                lastName
             );
-            if (userData === "success") navigate(from);
-            else
+            if (user !== "success")
                 setFormSubmitError(
                     "Something went wrong! Please refresh the page and try again!"
                 );

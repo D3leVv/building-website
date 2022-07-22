@@ -1,9 +1,8 @@
 import { LockClosedIcon } from "@heroicons/react/solid";
 import { useForm } from "react-hook-form";
-
 import { useContext } from "react";
 import { UserContext } from "../../components/context/UserContext/UserProvider";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 
@@ -33,16 +32,10 @@ function Login() {
     } = useForm<Login>({ resolver: yupResolver(schema) });
 
     const { signIn } = useContext<any>(UserContext);
-    const location: any = useLocation();
-    const navigate = useNavigate();
-
-    const from =
-        location.state?.from?.pathname + location.state?.from?.search || "/";
 
     const onSubmit = async (data: Login) => {
         try {
             const user = await signIn(data.email, data.password.toString());
-            navigate(from);
         } catch (e: any) {
             console.log(e.message);
         }
@@ -79,7 +72,7 @@ function Login() {
                                 className={`${
                                     errors.email &&
                                     "border-red-500 placeholder-red-500 focus:ring-red-500 focus:border-red-500"
-                                }relative block w-full px-3 py-2 text-gray-900 placeholder-gray-500 border border-gray-300 appearance-none rounded-xl focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm`}
+                                }relative block dark:bg-black dark:text-white w-full px-3 py-2 text-gray-900 placeholder-gray-500 border border-gray-300 appearance-none rounded-xl focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm`}
                                 placeholder="Email address"
                             />
                         </div>
@@ -100,7 +93,7 @@ function Login() {
                                 className={`${
                                     errors.password &&
                                     "border-red-500 placeholder-red-500 focus:ring-red-500 focus:border-red-500"
-                                }relative block w-full px-3 py-2 text-gray-900 placeholder-gray-500 border border-gray-300 appearance-none rounded-xl focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm`}
+                                }relative block w-full dark:bg-black dark:text-white px-3 py-2 text-gray-900 placeholder-gray-500 border border-gray-300 appearance-none rounded-xl focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm`}
                                 placeholder="Password"
                             />
                         </div>

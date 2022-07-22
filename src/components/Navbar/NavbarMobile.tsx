@@ -12,15 +12,26 @@ const menuAnimation = {
 const menuOpenAnimation = {
     hidden: {
         height: 0,
+        // opacity: 0,
     },
     visible: {
         height: "auto",
+        // opacity: 1,
 
         transition: {
             ease: "linear",
             duration: 0.2,
-            staggerChildren: 0.03,
+            staggerChildren: 0.1,
         },
+    },
+    exit: {
+        height: 0,
+        opacity: 0,
+        transition: {
+            duration: 0.2,
+            staggerChildren: 0.2,
+        },
+        // opacity: 0,
     },
 };
 
@@ -30,26 +41,6 @@ const settingsChildrens = {
     },
     visible: {
         opacity: 1,
-    },
-};
-
-const childVariants = {
-    hidden: {
-        height: 0,
-        opacity: 0,
-        transition: {
-            ease: "linear",
-            duration: 0.2,
-            staggerChildren: 0.03,
-        },
-    },
-    visible: {
-        height: "auto",
-        opacity: 1,
-        transition: {
-            ease: "linear",
-            duration: 0.03,
-        },
     },
 };
 
@@ -104,27 +95,37 @@ const NavbarMobile = ({
                                     key="items"
                                     initial="hidden"
                                     animate="visible"
-                                    exit="hidden"
+                                    exit="exit"
                                     variants={menuOpenAnimation}
                                     className="absolute z-10 flex flex-col items-center justify-center w-full text-center bg-white border-black dark:border-white dark:bg-black top-16 focus:outline-none"
                                 >
-                                    {links.map((link, i) => (
-                                        <Menu.Item>
-                                            {({ active }) => (
-                                                <motion.div
-                                                    variants={settingsChildrens}
-                                                    key="child112"
-                                                    className={`w-full h-full p-3 rounded-xl hover:bg-gray-400 ${
-                                                        active && "bg-gray-400"
-                                                    }`}
-                                                >
-                                                    <Link to={link.href}>
-                                                        {link.name}
-                                                    </Link>
-                                                </motion.div>
-                                            )}
-                                        </Menu.Item>
-                                    ))}
+                                    {links.map((link, i) => {
+                                        if (
+                                            !user &&
+                                            link.name === "Create News"
+                                        )
+                                            return "";
+                                        return (
+                                            <Menu.Item>
+                                                {({ active }) => (
+                                                    <motion.div
+                                                        variants={
+                                                            settingsChildrens
+                                                        }
+                                                        key="child112"
+                                                        className={`w-full h-full p-3 rounded-xl hover:bg-gray-400 ${
+                                                            active &&
+                                                            "bg-gray-400"
+                                                        }`}
+                                                    >
+                                                        <Link to={link.href}>
+                                                            {link.name}
+                                                        </Link>
+                                                    </motion.div>
+                                                )}
+                                            </Menu.Item>
+                                        );
+                                    })}
                                     <Menu.Item>
                                         {({ active }) => (
                                             <motion.button
@@ -159,14 +160,12 @@ const NavbarMobile = ({
                                                             settingsChildrens
                                                         }
                                                         key="child11"
+                                                        className={`w-full h-full p-3 rounded-xl hover:bg-gray-400 ${
+                                                            active &&
+                                                            "bg-gray-400"
+                                                        }`}
                                                     >
-                                                        <Link
-                                                            to="/register"
-                                                            className={`w-full h-full p-3 rounded-xl hover:bg-gray-400 ${
-                                                                active &&
-                                                                "bg-gray-400"
-                                                            }`}
-                                                        >
+                                                        <Link to="/register">
                                                             Register
                                                         </Link>
                                                     </motion.div>
@@ -175,15 +174,20 @@ const NavbarMobile = ({
 
                                             <Menu.Item>
                                                 {({ active }) => (
-                                                    <Link
-                                                        to="/login"
+                                                    <motion.div
+                                                        variants={
+                                                            settingsChildrens
+                                                        }
+                                                        key="child12"
                                                         className={`w-full h-full p-3 rounded-xl hover:bg-gray-400 ${
                                                             active &&
                                                             "bg-gray-400"
                                                         }`}
                                                     >
-                                                        Login
-                                                    </Link>
+                                                        <Link to="/login">
+                                                            Login
+                                                        </Link>
+                                                    </motion.div>
                                                 )}
                                             </Menu.Item>
                                         </>
@@ -191,15 +195,20 @@ const NavbarMobile = ({
                                         <>
                                             <Menu.Item>
                                                 {({ active }) => (
-                                                    <Link
-                                                        to="/profile"
+                                                    <motion.div
+                                                        variants={
+                                                            settingsChildrens
+                                                        }
                                                         className={`w-full h-full p-3 rounded-xl hover:bg-gray-400 ${
                                                             active &&
                                                             "bg-gray-400"
                                                         }`}
+                                                        key="child13"
                                                     >
-                                                        Profile
-                                                    </Link>
+                                                        <Link to="/profile">
+                                                            Profile
+                                                        </Link>
+                                                    </motion.div>
                                                 )}
                                             </Menu.Item>
                                             <Menu.Item>
@@ -209,7 +218,9 @@ const NavbarMobile = ({
                                                             active &&
                                                             "bg-gray-400"
                                                         }`}
-                                                        variants={childVariants}
+                                                        variants={
+                                                            settingsChildrens
+                                                        }
                                                         onClick={() => logout()}
                                                     >
                                                         Logout
