@@ -3,28 +3,15 @@ import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import useFileUpload from "../../hooks/useImageUpload";
-import { useNavigate } from "react-router-dom";
 
-import {
-    deletePicture,
-    writeSingleDocument,
-} from "../../../firebase/firebase-config";
+import { deletePicture } from "../../../firebase/firebase-config";
 import MDEditor from "@uiw/react-md-editor";
 import NewsContentType from "./NewsContentType";
 import ProgressBar from "../../Helper/ProgressBar/ProgressBar";
 import DeleteImageButton from "../../Helper/Buttons/DeleteImageButton";
 import { UserContext } from "../../context/UserContext/UserProvider";
-
-type Data = {
-    title: string;
-    description: string;
-    image: {
-        url: string;
-        alt: string;
-    };
-    type: string;
-    author: string;
-};
+import { News } from "../../../Types/News";
+import { NewsContext } from "../../context/NewsContext/NewsProvider";
 
 const schema = yup.object({
     title: yup.string().required().min(3).max(20),
@@ -32,11 +19,11 @@ const schema = yup.object({
     type: yup.string().required().min(3).max(20),
 });
 
-function NewsForm({ data }: { data: Data }) {
+function NewsForm({ data }: { data: News }) {
     const [image, setImage] = useState<File | null>(null);
     const { userData } = useContext(UserContext);
+    const { createNews } = useContext<any>(NewsContext);
     const [submitError, setSubmitError] = useState<Error | null>(null);
-    const navigate = useNavigate();
     const { url, progress, setUrl, error } = useFileUpload(
         image,
         "news-images"
@@ -47,20 +34,17 @@ function NewsForm({ data }: { data: Data }) {
         handleSubmit,
         control,
         formState: { errors },
-    } = useForm<Data>({
+    } = useForm<News>({
         defaultValues: data,
         resolver: yupResolver(schema),
     });
 
-    const onSubmit = async (data: Data) => {
+    const onSubmit = async (data: News) => {
         let payload = data;
         if (url) payload["image"] = url;
         if (userData) payload["author"] = userData.firstName;
         try {
-            const response = await writeSingleDocument("news", payload);
-            if (response === "success") {
-                navigate("/news");
-            }
+            await createNews(payload);
         } catch (e: any) {
             console.log(e);
             setSubmitError(e);
