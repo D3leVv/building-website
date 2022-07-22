@@ -1,7 +1,6 @@
 import { LockClosedIcon } from "@heroicons/react/solid";
 import { useForm } from "react-hook-form";
-import { onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../../firebase/firebase-config";
+
 import { useContext } from "react";
 import { UserContext } from "../../components/context/UserContext/UserProvider";
 import { Link, useLocation, useNavigate } from "react-router-dom";
@@ -33,25 +32,16 @@ function Login() {
         formState: { errors },
     } = useForm<Login>({ resolver: yupResolver(schema) });
 
-    const { setUser } = useContext<any>(UserContext);
+    const { signIn } = useContext<any>(UserContext);
     const location: any = useLocation();
     const navigate = useNavigate();
 
     const from =
         location.state?.from?.pathname + location.state?.from?.search || "/";
 
-    onAuthStateChanged(auth, (currUser) => {
-        setUser(currUser);
-    });
-
     const onSubmit = async (data: Login) => {
         try {
-            const user = await signInWithEmailAndPassword(
-                auth,
-                data.email,
-                data.password.toString()
-            );
-            setUser(user);
+            const user = await signIn(data.email, data.password.toString());
             navigate(from);
         } catch (e: any) {
             console.log(e.message);

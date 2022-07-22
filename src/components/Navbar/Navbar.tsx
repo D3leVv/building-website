@@ -1,10 +1,6 @@
 import { NavLink, useLocation } from "react-router-dom";
-import { onAuthStateChanged, signOut } from "firebase/auth";
-import { auth } from "../../firebase/firebase-config";
 import { useContext } from "react";
 import { UserContext } from "../context/UserContext/UserProvider";
-import { motion, AnimatePresence } from "framer-motion";
-import { Menu } from "@headlessui/react";
 import NavbarMobile from "./NavbarMobile";
 import NavbarSettings from "./NavbarSettings";
 import Profile from "./Profile";
@@ -52,32 +48,29 @@ function Navbar({
 }: {
     handleDarktheme: (theme: "light" | "dark") => void;
 }) {
-    const { user, setUser } = useContext<any>(UserContext);
+    const { user, logout } = useContext<any>(UserContext);
     const { pathname } = useLocation();
-    onAuthStateChanged(auth, (currUser) => {
-        setUser(currUser);
-    });
 
-    const logout = async () => {
-        return await signOut(auth);
-    };
     return (
         <nav className="w-full border-b border-gray-300">
             <ul className="container hidden w-full h-16 px-6 mx-auto text-center md:flex md:items-center md:justify-between">
-                {links.map((link, i) => (
-                    <li key={i} className="w-full h-full">
-                        <NavLink
-                            className={({ isActive }) => {
-                                return link.href.endsWith(pathname)
-                                    ? "flex flex-col items-center justify-center w-full h-full text-center border-b border-yellow-300"
-                                    : "flex flex-col items-center justify-center w-full h-full text-center border-b border-transparent";
-                            }}
-                            to={link.href}
-                        >
-                            {link.name}
-                        </NavLink>
-                    </li>
-                ))}
+                {links.map((link, i) => {
+                    if (!user && link.name === "Create News") return "";
+                    return (
+                        <li key={i} className="w-full h-full">
+                            <NavLink
+                                className={({ isActive }) => {
+                                    return link.href.endsWith(pathname)
+                                        ? "flex flex-col items-center justify-center w-full h-full text-center border-b border-yellow-300"
+                                        : "flex flex-col items-center justify-center w-full h-full text-center border-b border-transparent";
+                                }}
+                                to={link.href}
+                            >
+                                {link.name}
+                            </NavLink>
+                        </li>
+                    );
+                })}
                 <NavbarSettings
                     handleDarktheme={handleDarktheme}
                     logout={logout}

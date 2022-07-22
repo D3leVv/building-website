@@ -1,4 +1,4 @@
-import { Suspense, lazy, useContext } from "react";
+import { useContext } from "react";
 import Layout from "./layout/Layout";
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import Home from "./pages/Home";

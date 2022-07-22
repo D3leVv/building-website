@@ -2,15 +2,8 @@ import { useState, useContext } from "react";
 import { LockClosedIcon } from "@heroicons/react/solid";
 import { useForm } from "react-hook-form";
 import YupPassword from "yup-password";
-import {
-    createUserWithEmailAndPassword,
-    onAuthStateChanged,
-} from "firebase/auth";
-import {
-    auth,
-    writeSingleDocument,
-    writeSingleUserDocument,
-} from "../../firebase/firebase-config";
+
+import { writeSingleUserDocument } from "../../firebase/firebase-config";
 import { UserContext } from "../../components/context/UserContext/UserProvider";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import * as yup from "yup";
@@ -48,7 +41,7 @@ function Register() {
         handleSubmit,
         formState: { errors },
     } = useForm<Register>({ resolver: yupResolver(schema) });
-    const { setUser } = useContext<any>(UserContext);
+    const { createAccount } = useContext<any>(UserContext);
     const [formSubmitError, setFormSubmitError] = useState<string>();
     const location: any = useLocation();
     const navigate = useNavigate();
@@ -56,19 +49,13 @@ function Register() {
     const from =
         location.state?.from?.pathname + location.state?.from?.search || "/";
 
-    onAuthStateChanged(auth, (currUser) => {
-        setUser(currUser);
-    });
-
     const onSubmit = async (data: Register) => {
         const { email, firstName, lastName } = data;
         try {
-            const user = await createUserWithEmailAndPassword(
-                auth,
+            const user = await createAccount(
                 data.email,
                 data.password.toString()
             );
-            setUser(user);
             const userPayload = {
                 email,
                 firstName,
