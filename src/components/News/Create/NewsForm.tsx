@@ -76,7 +76,6 @@ function NewsForm({ data }: { data: Data }) {
             className="flex flex-col w-full h-full gap-6 "
             onSubmit={handleSubmit(onSubmit)}
         >
-            {" "}
             {submitError ? (
                 <p className="text-3xl">
                     Something went wrong! Please refresh the page and try again!
@@ -99,21 +98,7 @@ function NewsForm({ data }: { data: Data }) {
                             {errors.title?.message}
                         </p>
                     </label>
-                    <label className="w-full">
-                        <p className="w-full  mb-1.5">News Author</p>
 
-                        <input
-                            className={`w-full rounded-xl dark:bg-black dark:text-white focus:ring-yellow-200 s focus:border-yellow-200 ${
-                                errors.author &&
-                                "border-red-600 focus:border-red-600 focus:ring-red-600"
-                            }`}
-                            type="text"
-                            {...register("author")}
-                        />
-                        <p className="w-full text-red-600 mt-1.5">
-                            {errors.author?.message}
-                        </p>
-                    </label>
                     {/* MDEditor descpription */}
                     <label className=" md:col-span-2 text-gray">
                         <p className="block mb-3 text-gray">Description</p>
