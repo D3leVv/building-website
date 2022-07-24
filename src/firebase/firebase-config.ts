@@ -68,6 +68,23 @@ export async function writeSingleDocument(
     }
 }
 
+//get multiple documents
+export async function getMultipleDocsWithLimit(
+    collectionReference: string,
+    limit: number
+) {
+    const docReference = collection(db, collectionReference);
+    try {
+        let data: { [x: string]: any }[] = [];
+        const docs = await getDocs(docReference);
+        docs.forEach((doc) => data.push({ ...doc.data() }));
+        return data;
+    } catch (error: any) {
+        console.log(error.message);
+        return error.message;
+    }
+}
+
 export async function writeSingleUserDocument(
     collectionReference: "Users",
     payload: any,

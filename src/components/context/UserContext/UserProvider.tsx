@@ -91,7 +91,6 @@ function UserProvider({ children }: { children: ReactNode }) {
     }, [signIn, createAccount, logout]);
 
     useEffect(() => {
-        console.log(user);
         if (!user) return;
         (async () => {
             const currUser = await getSingleDocWithDocId("Users", user.uid);
