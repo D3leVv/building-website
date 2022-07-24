@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useContext } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu } from "@headlessui/react";
 import { NavLink } from "react-router-dom";
+import { DarkThemeContext } from "../context/DarkTheme/DarkTheme";
 
 const settingsVariant = {
     hidden: {
@@ -26,14 +27,13 @@ const settingsChildrens = {
 };
 
 function NavbarSettings({
-    handleDarktheme,
     user,
     logout,
 }: {
-    handleDarktheme: (theme: "light" | "dark") => void;
     user: any;
     logout: () => Promise<void>;
 }) {
+    const { handleDarktheme } = useContext<any>(DarkThemeContext);
     return (
         <Menu
             as="li"

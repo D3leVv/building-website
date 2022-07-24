@@ -2,6 +2,8 @@ import { Link } from "react-router-dom";
 import { Menu } from "@headlessui/react";
 import { MenuIcon, XIcon } from "@heroicons/react/outline";
 import { motion, AnimatePresence } from "framer-motion";
+import { useContext } from "react";
+import { DarkThemeContext } from "../context/DarkTheme/DarkTheme";
 
 const menuAnimation = {
     whileTap: {
@@ -47,17 +49,16 @@ const settingsChildrens = {
 const NavbarMobile = ({
     user,
     logout,
-    handleDarktheme,
     links,
 }: {
     user: any;
     logout: any;
-    handleDarktheme: (theme: "light" | "dark") => void;
     links: {
         name: string;
         href: string;
     }[];
 }) => {
+    const { handleDarktheme } = useContext<any>(DarkThemeContext);
     return (
         <Menu
             as="div"

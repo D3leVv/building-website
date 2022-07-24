@@ -12,6 +12,7 @@ import DeleteImageButton from "../../Helper/Buttons/DeleteImageButton";
 import { UserContext } from "../../context/UserContext/UserProvider";
 import { News } from "../../../Types/News";
 import { NewsContext } from "../../context/NewsContext/NewsProvider";
+import { DarkThemeContext } from "../../context/DarkTheme/DarkTheme";
 
 const schema = yup.object({
     title: yup.string().required().min(3).max(20),
@@ -38,6 +39,8 @@ function NewsForm({ data }: { data: News }) {
         defaultValues: data,
         resolver: yupResolver(schema),
     });
+
+    const { dark } = useContext<any>(DarkThemeContext);
 
     const onSubmit = async (data: News) => {
         let payload = data;
@@ -84,17 +87,19 @@ function NewsForm({ data }: { data: News }) {
                     </label>
 
                     {/* MDEditor descpription */}
-                    <label className=" md:col-span-2 text-gray">
-                        <p className="block mb-3 text-gray">Description</p>
+                    <label className="dark:text-white dark:bg-black md:col-span-2">
+                        <p className="block mb-3 ">Description</p>
                         <Controller
                             name="description"
                             control={control}
                             render={({ field: { onChange, value } }) => (
-                                <MDEditor
-                                    value={value}
-                                    onChange={onChange}
-                                    height={500}
-                                />
+                                <div data-color-mode={dark}>
+                                    <MDEditor
+                                        value={value}
+                                        onChange={onChange}
+                                        height={500}
+                                    />
+                                </div>
                             )}
                         />
                         <p className="w-full text-red-600 mt-1.5">

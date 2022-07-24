@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import {
     ref,
     uploadBytesResumable,
@@ -36,7 +36,7 @@ function useFileUpload<T>(
     const [url, setUrl] = useState<{ url: string; alt: string } | null>(null);
 
     useEffect(() => {
-        async function runImage() {
+        (async () => {
             if (!file) return;
 
             const image: any = await resizeFile(file);
@@ -69,8 +69,7 @@ function useFileUpload<T>(
                         });
                 }
             );
-        }
-        runImage();
+        })();
     }, [file, parentFolder]);
 
     return { progress, error, url, setUrl };

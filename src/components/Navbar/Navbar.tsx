@@ -43,11 +43,7 @@ const links = [
     },
 ];
 
-function Navbar({
-    handleDarktheme,
-}: {
-    handleDarktheme: (theme: "light" | "dark") => void;
-}) {
+function Navbar({}: {}) {
     const { user, logout } = useContext<any>(UserContext);
     const { pathname } = useLocation();
 
@@ -71,23 +67,14 @@ function Navbar({
                         </li>
                     );
                 })}
-                <NavbarSettings
-                    handleDarktheme={handleDarktheme}
-                    logout={logout}
-                    user={user}
-                />
+                <NavbarSettings logout={logout} user={user} />
                 {user && (
                     <li>
                         <Profile />
                     </li>
                 )}
             </ul>
-            <NavbarMobile
-                user={user}
-                logout={logout}
-                handleDarktheme={handleDarktheme}
-                links={links}
-            />
+            <NavbarMobile user={user} logout={logout} links={links} />
         </nav>
     );
 }

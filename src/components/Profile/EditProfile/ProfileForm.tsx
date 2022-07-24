@@ -1,7 +1,7 @@
 import YupPassword from "yup-password";
 import { useState } from "react";
 import { LockClosedIcon } from "@heroicons/react/solid";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { motion } from "framer-motion";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -15,6 +15,7 @@ import {
     updateSingleDocumentWithDocID,
 } from "../../../firebase/firebase-config";
 import useImageFromStorage from "../../hooks/useImageFromStorage";
+import TextInputField from "../../Helper/ImputFields/TextInputField";
 YupPassword(yup);
 
 const schema = yup.object({
@@ -22,6 +23,30 @@ const schema = yup.object({
     firstName: yup.string().required().min(3).max(20),
     lastName: yup.string().required().min(3).max(20),
 });
+
+const inputFields: any[] = [
+    {
+        name: "firstName",
+        id: "firstName",
+        placeholder: "First name",
+        type: "string",
+        // autoComplete: "email",
+    },
+    {
+        name: "lastName",
+        id: "lastName",
+        placeholder: "Last name",
+        type: "string",
+        // autoComplete: "email",
+    },
+    {
+        name: "email",
+        id: "email",
+        placeholder: "Email address",
+        type: "email",
+        autoComplete: "email",
+    },
+];
 
 const ProfileForm = ({
     userData,
@@ -31,7 +56,7 @@ const ProfileForm = ({
     docID: string;
 }) => {
     const {
-        register,
+        control,
         handleSubmit,
         formState: { errors },
     } = useForm<User>({
@@ -80,67 +105,27 @@ const ProfileForm = ({
                 <h1 className="text-3xl text-red">{formSubmitError}</h1>
             ) : (
                 <div className="flex flex-col gap-3 p-3 -space-y-px rounded-md shadow-lg">
-                    <div>
-                        <label htmlFor="first-name">
-                            <p className="text-gray-500">First name</p>
-                            {errors.firstName && (
-                                <p className="text-red-500">
-                                    {errors.firstName.message}
-                                </p>
+                    {inputFields.map((field, i) => (
+                        <Controller
+                            key={i}
+                            control={control}
+                            name={field.name}
+                            render={({
+                                field: { onChange },
+                                fieldState: { error },
+                            }) => (
+                                <TextInputField
+                                    autoComplete={field.autoComplete}
+                                    id={field.id}
+                                    label={field.placeholder}
+                                    placeholder={field.placeholder}
+                                    type={field.type}
+                                    error={error}
+                                    onChange={onChange}
+                                />
                             )}
-                        </label>
-                        <input
-                            {...register("firstName")}
-                            id="firstName"
-                            type="string"
-                            className={`${
-                                errors.firstName &&
-                                "border-red-500 placeholder-red-500 focus:ring-red-500 focus:border-red-500 ring-red-500"
-                            }relative dark:bg-black dark:text-white block w-full px-3 py-2 text-gray-900 placeholder-gray-500 border border-gray-300 appearance-none rounded-xl focus:outline-none focus:ring-yellow-300 focus:border-yellow-300 focus:z-10 sm:text-sm`}
-                            placeholder="First name"
                         />
-                    </div>
-                    <div>
-                        <label htmlFor="last-name">
-                            <p className="text-gray-500">Last name</p>
-                            {errors.lastName && (
-                                <p className="text-red-500">
-                                    {errors.lastName.message}
-                                </p>
-                            )}
-                        </label>
-                        <input
-                            {...register("lastName")}
-                            id="last-name"
-                            type="string"
-                            className={`${
-                                errors.lastName &&
-                                "border-red-500 placeholder-red-500 focus:ring-red-500 focus:border-red-500"
-                            }relative dark:bg-black dark:text-white block w-full px-3 py-2 text-gray-900 placeholder-gray-500 border border-gray-300 appearance-none rounded-xl focus:outline-none focus:ring-yellow-300 focus:border-yellow-300 focus:z-10 sm:text-sm`}
-                            placeholder="Last name"
-                        />
-                    </div>
-                    <div>
-                        <label htmlFor="email-address">
-                            <p className="text-gray-500">Email address</p>
-                            {errors.email && (
-                                <p className="text-red-500">
-                                    {errors.email.message}
-                                </p>
-                            )}
-                        </label>
-                        <input
-                            {...register("email")}
-                            id="email-address"
-                            type="email"
-                            autoComplete="email"
-                            className={`${
-                                errors.email &&
-                                "border-red-500 placeholder-red-500 focus:ring-red-500 focus:border-red-500"
-                            }relative dark:bg-black dark:text-white block w-full px-3 py-2 text-gray-900 placeholder-gray-500 border border-gray-300 appearance-none rounded-xl focus:outline-none focus:ring-yellow-300 focus:border-yellow-300 focus:z-10 sm:text-sm`}
-                            placeholder="Email address"
-                        />
-                    </div>
+                    ))}{" "}
                     {!userData.image.url ? (
                         <>
                             {!url && (
@@ -161,6 +146,7 @@ const ProfileForm = ({
                                         onChange={(e: any) =>
                                             setImg(e.target.files[0])
                                         }
+                                        accept="image/x-png,image/gif,image/jpeg,image/jpg"
                                         className={`${
                                             errors.image &&
                                             "border-red-500 placeholder-red-500 focus:ring-red-500 focus:border-red-500"
