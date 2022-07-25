@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { Suspense, useContext } from "react";
 import Layout from "./layout/Layout";
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import Home from "./pages/Home";
@@ -11,14 +11,17 @@ import CreateNews from "./pages/CreateNews";
 import { UserContext } from "./components/context/UserContext/UserProvider";
 import ProtectedRoutes from "./layout/ProtectedRoutes";
 import Profile from "./pages/Profile";
+import MyNews from "./pages/MyNews";
 
 function App() {
-    const { user } = useContext<any>(UserContext);
+    const { user, loading } = useContext<any>(UserContext);
     const location: any = useLocation();
     const from =
         location.state?.from?.pathname + location.state?.from?.search || "/";
 
-    return (
+    return loading ? (
+        <div>...Loading</div>
+    ) : (
         <Routes>
             <Route path="/" element={<Layout />}>
                 <Route index element={<Home />} />
@@ -35,6 +38,7 @@ function App() {
                 />
                 <Route element={<ProtectedRoutes user={user} />}>
                     <Route path="/news/create" element={<CreateNews />} />
+                    <Route path="/news/my-news" element={<MyNews />} />
                     <Route path="/profile/:userID" element={<Profile />} />
                 </Route>
             </Route>

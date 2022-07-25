@@ -17,7 +17,6 @@ function TextInputField({
     placeholder: string;
     onChange: (...event: any[]) => void;
 }) {
-    console.log(error);
     return (
         <div>
             <label htmlFor="email-address">

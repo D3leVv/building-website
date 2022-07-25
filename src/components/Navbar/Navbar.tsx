@@ -33,9 +33,10 @@ const links = [
         name: "News",
         href: "/news",
     },
+
     {
-        name: "Create News",
-        href: "/news/create",
+        name: "My news",
+        href: "/news/my-news",
     },
     {
         name: "Buildings",
@@ -51,7 +52,7 @@ function Navbar({}: {}) {
         <nav className="w-full border-b border-gray-300">
             <ul className="container hidden w-full h-16 px-6 mx-auto text-center md:flex md:items-center md:justify-between">
                 {links.map((link, i) => {
-                    if (!user && link.name === "Create News") return "";
+                    if (!user && link.name === "My news") return "";
                     return (
                         <li key={i} className="w-full h-full">
                             <NavLink

@@ -15,7 +15,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { User } from "../../../Types/User";
 import { DocumentData } from "firebase/firestore";
 
-export const UserContext = createContext<UserCredential | any>(null);
+export const UserContext = createContext<UserCredential | User | any>(null);
 
 function UserProvider({ children }: { children: ReactNode }) {
     const navigate = useNavigate();
@@ -23,7 +23,8 @@ function UserProvider({ children }: { children: ReactNode }) {
     const from =
         location.state?.from?.pathname + location.state?.from?.search || "/";
     const [user, setUser] = useState<UserCredential | null | any>(null);
-    const [userData, setUserData] = useState<DocumentData | User>();
+    const [userData, setUserData] = useState<User | DocumentData>();
+    const [loading, setLoading] = useState(true);
 
     const logout = async () => {
         try {
@@ -82,21 +83,21 @@ function UserProvider({ children }: { children: ReactNode }) {
     };
 
     useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, (currUser) => {
-            return setUser(currUser);
+        const unsubscribe = onAuthStateChanged(auth, async (currUser) => {
+            setUser(currUser);
+            if (currUser) {
+                const data = await getSingleDocWithDocId("Users", currUser.uid);
+                if (data) {
+                    setUserData(data);
+                }
+            }
+            return setLoading(false);
         });
+
         return () => {
             unsubscribe();
         };
-    }, [signIn, createAccount, logout]);
-
-    useEffect(() => {
-        if (!user) return;
-        (async () => {
-            const currUser = await getSingleDocWithDocId("Users", user.uid);
-            if (currUser) setUserData(currUser);
-        })();
-    }, [user]);
+    }, []);
 
     return (
         <UserContext.Provider
@@ -106,6 +107,7 @@ function UserProvider({ children }: { children: ReactNode }) {
                 logout,
                 createAccount,
                 signIn,
+                loading,
                 userData,
             }}
         >

@@ -5,7 +5,7 @@ function NewsCard(props: News) {
     return (
         <div
             key={props.title}
-            className="flex flex-col max-w-sm overflow-hidden rounded-lg shadow-lg"
+            className="flex flex-col w-full max-w-sm overflow-hidden rounded-lg shadow-lg"
         >
             <div className="flex-shrink-0">
                 <img
