@@ -10,15 +10,15 @@ function NewsCard(props: News) {
             <div className="flex-shrink-0">
                 <img
                     className="object-cover w-full h-48"
-                    src={props.image.url}
-                    alt={props.image.alt}
+                    src={props.image}
+                    alt={props.category}
                 />
             </div>
             <div className="flex flex-col justify-between flex-1 p-6 bg-white">
                 <div className="flex-1">
                     <p className="text-sm font-medium text-indigo-600">
-                        <a href={props.type} className="hover:underline">
-                            {props.type}
+                        <a href={props.category} className="hover:underline">
+                            {props.category}
                         </a>
                     </p>
                     <div className="block mt-2">

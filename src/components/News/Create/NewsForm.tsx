@@ -17,7 +17,13 @@ import { DarkThemeContext } from "../../context/DarkTheme/DarkTheme";
 const schema = yup.object({
     title: yup.string().required().min(3).max(20),
     description: yup.string().required().min(10).max(3000),
-    type: yup.string().required().min(3).max(20),
+    category: yup.string().required().min(3).max(20),
+    id: yup.number(),
+    rating: yup.object({
+        count: yup.number(),
+        rate: yup.number(),
+    }),
+    price: yup.number().required().min(1),
 });
 
 function NewsForm({ data }: { data: News }) {
@@ -44,7 +50,7 @@ function NewsForm({ data }: { data: News }) {
 
     const onSubmit = async (data: News) => {
         let payload = data;
-        if (url) payload["image"] = url;
+        if (url) payload["image"] = url.url;
         if (userData) payload["author"] = userData.firstName;
         try {
             await createNews(payload);
@@ -85,6 +91,24 @@ function NewsForm({ data }: { data: News }) {
                             {errors.title?.message}
                         </p>
                     </label>
+                    <label className="w-full">
+                        <p className="w-full  mb-1.5">Price</p>
+
+                        <input
+                            className={`w-full rounded-xl dark:bg-black dark:text-white focus:ring-yellow-200 s focus:border-yellow-200 ${
+                                errors.price &&
+                                "border-red-600 focus:border-red-600 focus:ring-red-600"
+                            }`}
+                            type="number"
+                            // min={1}
+                            {...register("price", {
+                                valueAsNumber: true,
+                            })}
+                        />
+                        <p className="w-full text-red-600 mt-1.5">
+                            {errors.price?.message}
+                        </p>
+                    </label>
 
                     {/* MDEditor descpription */}
                     <label className="dark:text-white dark:bg-black md:col-span-2">
@@ -108,13 +132,13 @@ function NewsForm({ data }: { data: News }) {
                     </label>
                     <div className="flex w-full ">
                         <Controller
-                            name="type"
+                            name="category"
                             control={control}
                             render={({ field: { onChange, value } }) => (
                                 <NewsContentType
                                     value={value}
                                     onChange={onChange}
-                                    label="News type"
+                                    label="Product category"
                                 />
                             )}
                         />
@@ -146,6 +170,7 @@ function NewsForm({ data }: { data: News }) {
                         </div>
                     )}
                     {error && <p className="text-red-500">{error.message}</p>}
+
                     <div className="flex items-center justify-center w-full">
                         <button
                             className="w-32 p-3 border border-gray-500 rounded-xl dark:hover:bg-gray-800 hover:bg-gray-200"

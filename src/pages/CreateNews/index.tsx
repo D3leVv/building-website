@@ -8,12 +8,15 @@ function CreateNews() {
                 data={{
                     description: "",
                     title: "",
-                    image: {
-                        url: "",
-                        alt: "",
-                    },
-                    type: "news",
+                    image: "",
+                    category: "",
                     author: "",
+                    id: 0,
+                    price: 0,
+                    rating: {
+                        count: 0,
+                        rate: 0,
+                    },
                 }}
             />
         </div>

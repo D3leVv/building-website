@@ -1,4 +1,4 @@
-import { Suspense, useContext } from "react";
+import { useEffect, useContext } from "react";
 import Layout from "./layout/Layout";
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import Home from "./pages/Home";
@@ -12,6 +12,7 @@ import { UserContext } from "./components/context/UserContext/UserProvider";
 import ProtectedRoutes from "./layout/ProtectedRoutes";
 import Profile from "./pages/Profile";
 import MyNews from "./pages/MyNews";
+import { writeSingleDocument } from "./firebase/firebase-config";
 
 function App() {
     const { user, loading } = useContext<any>(UserContext);
