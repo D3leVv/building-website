@@ -1,4 +1,4 @@
-import {  useContext } from "react";
+import { useContext } from "react";
 import Layout from "./layout/Layout";
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import Home from "./pages/Home";
@@ -12,6 +12,7 @@ import { UserContext } from "./components/context/UserContext/UserProvider";
 import ProtectedRoutes from "./layout/ProtectedRoutes";
 import Profile from "./pages/Profile";
 import MyNews from "./pages/MyNews";
+import Game from "./components/Game/Game";
 
 function App() {
     const { user, loading } = useContext<any>(UserContext);
@@ -24,7 +25,7 @@ function App() {
     ) : (
         <Routes>
             <Route path="/" element={<Layout />}>
-                <Route index element={<Home />} />
+                <Route index element={<Game />} />
                 <Route path="about" element={<About />} />
                 <Route path="news" element={<News />} />
                 <Route path="buildings" element={<Buildings />} />
