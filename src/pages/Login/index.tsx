@@ -90,6 +90,7 @@ function Login() {
                                         type={field.type}
                                         error={error}
                                         onChange={onChange}
+                                        value={value}
                                     />
                                 )}
                             />

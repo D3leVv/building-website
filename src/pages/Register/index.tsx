@@ -121,7 +121,7 @@ function Register() {
                                     control={control}
                                     name={field.name}
                                     render={({
-                                        field: { onChange },
+                                        field: { onChange, value },
                                         fieldState: { error },
                                     }) => (
                                         <TextInputField
@@ -132,6 +132,7 @@ function Register() {
                                             type={field.type}
                                             error={error}
                                             onChange={onChange}
+                                            value={value}
                                         />
                                     )}
                                 />

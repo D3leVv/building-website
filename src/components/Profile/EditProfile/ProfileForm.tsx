@@ -111,7 +111,7 @@ const ProfileForm = ({
                             control={control}
                             name={field.name}
                             render={({
-                                field: { onChange },
+                                field: { onChange, value },
                                 fieldState: { error },
                             }) => (
                                 <TextInputField
@@ -122,6 +122,7 @@ const ProfileForm = ({
                                     type={field.type}
                                     error={error}
                                     onChange={onChange}
+                                    value={value}
                                 />
                             )}
                         />

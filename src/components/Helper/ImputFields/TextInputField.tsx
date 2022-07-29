@@ -8,6 +8,7 @@ function TextInputField({
     autoComplete,
     placeholder,
     onChange,
+    value,
 }: {
     label: string;
     error: FieldError | undefined;
@@ -15,6 +16,7 @@ function TextInputField({
     type: string;
     autoComplete?: string;
     placeholder: string;
+    value: string | number;
     onChange: (...event: any[]) => void;
 }) {
     return (
@@ -28,6 +30,7 @@ function TextInputField({
                 id={id}
                 type={type}
                 autoComplete={autoComplete}
+                value={value}
                 className={`${
                     error &&
                     "border-red-500 placeholder-red-500 focus:ring-red-500 focus:border-red-500"
