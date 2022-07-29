@@ -7,7 +7,7 @@ import {
     handleCollision,
     handleParticle,
 } from "../../utils/gamesFuncs";
-import Spaceship from "../Spaceship/Spaceship";
+import Spaceship from "./Spaceship/Spaceship";
 import Particle from "./Particle/Particle";
 import Wait from "./Wait/Wait";
 import useAudio from "../hooks/useAudio";
@@ -21,10 +21,9 @@ function Game() {
     const [ship, setShip] = useState(
         "https://www.svgrepo.com/show/217223/spacecraft.svg"
     );
+    const [currScore, setCurrScore] = useState(0);
     const { mCoords } = useMouseCoords();
-    const { toggle } = useAudio(
-        "https://vgmsite.com/soundtracks/taito-1500-box-scitron-5th-anniversary/bwiuqsbe/102-bgm%201%20halley.mp3"
-    );
+
     const mouseCoords = useRef({
         x: 0,
         y: 0,
@@ -40,6 +39,11 @@ function Game() {
         mouseCoords.current.x = e.x;
         mouseCoords.current.y = e.y;
     }
+
+    const handleGameOver = (val: boolean) => {
+        setCurrScore(score.current);
+        setGameOver(val);
+    };
 
     useEffect(() => {
         let renderId: any;
@@ -115,7 +119,7 @@ function Game() {
                     handleCollision(
                         particleArray.current,
                         mouseCoords.current,
-                        setGameOver
+                        handleGameOver
                     );
                 }
 
@@ -129,9 +133,9 @@ function Game() {
             currRef.removeEventListener("mousemove", updateMouseCoords);
         };
     }, [gameOver]);
-
+    console.log(currScore);
     return (
-        <div>
+        <div className="flex items-center justify-center w-full h-full overflow-hidden">
             <canvas
                 onClick={() => {
                     gunsArray.current.push(
@@ -141,35 +145,29 @@ function Game() {
                         )
                     );
                 }}
-                className={`${!gameOver ? `cursor-none` : "cursor-auto"}`}
+                className={`${
+                    !gameOver ? `cursor-none` : "cursor-auto"
+                } overflow-hidden `}
                 ref={canvasRef}
                 width={width}
-                height={height}
+                height={height - 75}
             />
             {gameOver && (
                 <Wait
                     delay={3}
                     ui={
-                        <div className="absolute flex items-center justify-center w-screen h-screen p-10 text-3xl font-bold transform -translate-x-1/2 -translate-y-1/2 bg-black/40 top-1/2 left-1/2 rounded-2xl">
+                        <div className="absolute flex items-center justify-center p-10 text-3xl font-bold transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 rounded-2xl">
                             <motion.button
-                                className="p-10 text-4xl font-bold text-green-600 capitalize border-8 border-green-600 shadow-2xl hover:border-green-500 hover:text-green-500 bg-white/20 top-1/2 left-1/2 rounded-2xl"
+                                className="p-10 text-4xl font-bold text-yellow-300 capitalize border-8 border-yellow-300 shadow-2xl hover:border-yellow-200 hover:text-yellow-200 bg-white/20 top-1/2 left-1/2 rounded-2xl"
                                 onClick={() => {
                                     gunsArray.current = [];
                                     particleArray.current = [];
                                     mouseCoords.current = mCoords;
                                     score.current = 0;
-                                    setGameOver(false);
+                                    handleGameOver(false);
                                 }}
                             >
                                 start game
-                            </motion.button>
-                            <motion.button
-                                className="p-10 text-4xl font-bold text-green-600 capitalize border-8 border-green-600 shadow-2xl hover:border-green-500 hover:text-green-500 bg-white/20 top-1/2 left-1/2 rounded-2xl"
-                                onClick={() => {
-                                    toggle();
-                                }}
-                            >
-                                toggle music
                             </motion.button>
                         </div>
                     }

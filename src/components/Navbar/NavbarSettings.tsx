@@ -1,8 +1,9 @@
-import React, { useContext } from "react";
+import { useContext } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu } from "@headlessui/react";
 import { NavLink } from "react-router-dom";
 import { DarkThemeContext } from "../context/DarkTheme/DarkTheme";
+import useAudio from "../hooks/useAudio";
 
 const settingsVariant = {
     hidden: {
@@ -34,6 +35,9 @@ function NavbarSettings({
     logout: () => Promise<void>;
 }) {
     const { handleDarktheme } = useContext<any>(DarkThemeContext);
+    const { toggle } = useAudio(
+        "https://vgmsite.com/soundtracks/taito-1500-box-scitron-5th-anniversary/bwiuqsbe/102-bgm%201%20halley.mp3"
+    );
     return (
         <Menu
             as="li"
@@ -78,6 +82,22 @@ function NavbarSettings({
                                                 }
                                             >
                                                 dark/light
+                                            </motion.button>
+                                        )}
+                                    </Menu.Item>
+                                    <Menu.Item>
+                                        {({ active }) => (
+                                            <motion.button
+                                                variants={settingsChildrens}
+                                                key="child1"
+                                                className={`w-full h-full p-3 rounded-xl hover:bg-gray-400 ${
+                                                    active && "bg-gray-400"
+                                                }`}
+                                                onClick={() => {
+                                                    toggle();
+                                                }}
+                                            >
+                                                toggle music
                                             </motion.button>
                                         )}
                                     </Menu.Item>

@@ -18,14 +18,14 @@ export const handleParticle = (arr1: any[], arr2: any[]) => {
 export const handleCollision = (
     arr1: any[],
     mouseCoords: { x: number; y: number },
-    setGameOver: Dispatch<SetStateAction<boolean>>
+    setGameOverHandler: (val: boolean) => void
 ) => {
     for (let i = 0; i < arr1.length; i++) {
         const dx = arr1[i].x - mouseCoords.x;
         const dy = arr1[i].y - mouseCoords.y;
         const distance = Math.sqrt(dx * dx + dy * dy);
         if (distance < 50) {
-            return setGameOver(true);
+            return setGameOverHandler(true);
         }
     }
 };
