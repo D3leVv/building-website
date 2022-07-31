@@ -10,20 +10,18 @@ import {
 import Spaceship from "./Spaceship/Spaceship";
 import Particle from "./Particle/Particle";
 import Wait from "./Wait/Wait";
-import useAudio from "../hooks/useAudio";
 import { DarkThemeContext } from "../context/DarkTheme/DarkTheme";
 
 function Game() {
-    const { width, height } = useWindowResize();
+    const { width, height, escKey } = useWindowResize();
     const canvasRef = useRef<HTMLCanvasElement>(null);
-    const [gameOver, setGameOver] = useState(true);
+    const [gameOver, setGameOver] = useState(false);
     const { dark } = useContext<any>(DarkThemeContext);
     const [ship, setShip] = useState(
         "https://www.svgrepo.com/show/217223/spacecraft.svg"
     );
     const [currScore, setCurrScore] = useState(0);
     const { mCoords } = useMouseCoords();
-
     const mouseCoords = useRef({
         x: 0,
         y: 0,
@@ -54,12 +52,12 @@ function Game() {
             currRef.addEventListener("mousemove", updateMouseCoords);
             const render = (timeStamp: number) => {
                 if (!cnv || !currRef) return;
-
+                if (escKey) return;
                 cnv.clearRect(0, 0, currRef.width, currRef.height);
                 cnv.fillStyle = "#fff";
                 cnv.font = "50px serif";
                 cnv.fillText(`Score: ${score.current}`, 20, 50);
-                let deltaTime = timeStamp - lastTime.current;
+                let deltaTime = timeStamp - lastTime.current - 10;
                 lastTime.current = timeStamp;
                 timeToNextRect.current += deltaTime;
 
@@ -123,6 +121,7 @@ function Game() {
                     );
                 }
 
+                // console.log(keyPress);
                 renderId = requestAnimationFrame(render);
             };
             render(0);
@@ -132,8 +131,7 @@ function Game() {
             if (!currRef) return;
             currRef.removeEventListener("mousemove", updateMouseCoords);
         };
-    }, [gameOver]);
-    console.log(currScore);
+    }, [escKey, gameOver, canvasRef]);
     return (
         <div className="flex items-center justify-center w-full h-full overflow-hidden">
             <canvas

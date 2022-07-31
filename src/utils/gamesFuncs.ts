@@ -36,3 +36,31 @@ export function addToGunsArray(
 ) {
     return new Gun(mouseCoords, color);
 }
+
+export const handleSpaceshipMove = (kurrKey: string[]) => {
+    window.addEventListener("keydown", (e) => {
+        if (
+            e.key === "ArrowUp" ||
+            e.key === "ArrowDown" ||
+            e.key === "ArrowLeft" ||
+            e.key === "ArrowRight"
+        ) {
+            if (!kurrKey.includes(e.key)) {
+                kurrKey.push(e.key);
+            }
+        }
+    });
+    window.addEventListener("keyup", (e) => {
+        if (
+            e.key === "ArrowUp" ||
+            e.key === "ArrowDown" ||
+            e.key === "ArrowLeft" ||
+            e.key === "ArrowRight"
+        ) {
+            if (kurrKey.includes(e.key)) {
+                kurrKey.splice(kurrKey.indexOf(e.key), 1);
+            }
+        }
+    });
+    return kurrKey;
+};
