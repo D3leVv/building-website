@@ -51,7 +51,7 @@ function ShipForm({ data }: { data: News }) {
     const onSubmit = async (data: News) => {
         let payload = data;
         if (url) payload["image"] = url.url;
-        if (userData) payload["author"] = userData.firstName;
+        if (userData) payload["owner"] = userData.firstName;
         try {
             await createShip(payload);
         } catch (e: any) {

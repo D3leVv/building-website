@@ -1,6 +1,5 @@
 import { useEffect, useContext } from "react";
 import { motion } from "framer-motion";
-import useWindowResize from "../hooks/useWidnowsResize";
 import {
     addToGunsArray,
     handleCollision,
@@ -10,10 +9,12 @@ import Spaceship from "./Spaceship/Spaceship";
 import Particle from "./Particle/Particle";
 import { DarkThemeContext } from "../context/DarkTheme/DarkTheme";
 import { GameContext } from "../context/GameContext";
+import Modal from "./GameMenue";
 
 function Game() {
     const { dark } = useContext(DarkThemeContext);
     const game = useContext(GameContext);
+
     useEffect(() => {
         let renderId: any;
         let currRef = game.canvasRef.current;
@@ -129,24 +130,7 @@ function Game() {
                 width={game.width}
                 height={game.height - 75}
             />
-            {(game.gameOver || game.escKey) && (
-                <div className="absolute flex items-center justify-center w-full h-full p-10 text-3xl font-bold transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 rounded-2xl">
-                    <motion.button
-                        className="p-10 text-4xl font-bold text-yellow-300 capitalize border-8 border-yellow-300 shadow-2xl hover:border-yellow-200 hover:text-yellow-200 bg-white/20 top-1/2 left-1/2 rounded-2xl"
-                        onClick={() => {
-                            game.gunsArray.current = [];
-                            game.particleArray.current = [];
-                            game.mouseCoords.current = game.mCoords;
-                            game.score.current = 0;
-                            game.setGameOver(false);
-                            game.setCurrScore(game.score.current);
-                            game.setEscKey(false);
-                        }}
-                    >
-                        start game
-                    </motion.button>
-                </div>
-            )}
+            {(game.gameOver || game.escKey) && <Modal />}
         </div>
     );
 }

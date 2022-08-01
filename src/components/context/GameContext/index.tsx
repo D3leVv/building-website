@@ -5,9 +5,15 @@ import {
     ReactNode,
     Dispatch,
     SetStateAction,
+    useCallback,
+    useContext,
+    useEffect,
 } from "react";
+import { updateSingleDocumentWithDocID } from "../../../firebase/firebase-config";
+import { User } from "../../../Types/User";
 import useMouseCoords from "../../hooks/useMouseCoords";
 import useWindowResize from "../../hooks/useWidnowsResize";
+import { UserContext } from "../UserContext/UserProvider";
 
 type Context = {
     canvasRef: React.RefObject<HTMLCanvasElement>;
@@ -36,14 +42,16 @@ type Context = {
     height: number;
     escKey: boolean;
     setEscKey: Dispatch<SetStateAction<boolean>>;
+    handleGameStart: () => void;
 };
 
 export const GameContext = createContext({} as Context);
 
 const GameProvider = ({ children }: { children: ReactNode }) => {
+    const { userData, user } = useContext(UserContext);
     const { width, height, escKey, setEscKey } = useWindowResize();
     const canvasRef = useRef<HTMLCanvasElement>(null);
-    const [gameOver, setGameOver] = useState(false);
+    const [gameOver, setGameOver] = useState(true);
     const [ship, setShip] = useState(
         "https://www.svgrepo.com/show/217223/spacecraft.svg"
     );
@@ -65,12 +73,39 @@ const GameProvider = ({ children }: { children: ReactNode }) => {
         mouseCoords.current.y = e.y;
     };
 
-    const handleGameOver = (val: boolean) => {
+    const handleGameOver = useCallback((val: boolean) => {
         setCurrScore(score.current);
         setEscKey(false);
         setGameOver(val);
-    };
+    }, []);
 
+    const handleGameStart = useCallback(async () => {
+        gunsArray.current = [];
+        particleArray.current = [];
+        mouseCoords.current = mCoords;
+        score.current = 0;
+        setGameOver(false);
+        setCurrScore(score.current);
+        setEscKey(false);
+    }, []);
+
+    const handleScoreUpdateOnUser = useCallback(async () => {
+        if (score.current > 0) {
+            if (user) {
+                let payload = userData as User;
+                payload.score += score.current;
+                await updateSingleDocumentWithDocID("Users", payload, user.uid);
+            }
+        }
+    }, []);
+
+
+    
+
+
+    useEffect(() => {
+        handleScoreUpdateOnUser();
+    }, [gameOver]);
     return (
         <GameContext.Provider
             value={{
@@ -94,6 +129,7 @@ const GameProvider = ({ children }: { children: ReactNode }) => {
                 height,
                 escKey,
                 setEscKey,
+                handleGameStart,
             }}
         >
             {children}

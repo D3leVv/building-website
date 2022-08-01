@@ -17,7 +17,7 @@ function MyNews() {
                 "ships",
                 [
                     {
-                        field: "author",
+                        field: "owner",
                         operator: "==",
                         searchValue: userData.firstName,
                     },

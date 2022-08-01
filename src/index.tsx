@@ -5,7 +5,7 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
 import UserProvider from "./components/context/UserContext/UserProvider";
-import NewsProvider from "./components/context/ShipContext/ShipProvider";
+import ShipProvider from "./components/context/ShipContext/ShipProvider";
 import DarkThemeProvider from "./components/context/DarkTheme/DarkTheme";
 import GameProvider from "./components/context/GameContext";
 
@@ -16,13 +16,13 @@ root.render(
     <React.StrictMode>
         <BrowserRouter>
             <UserProvider>
-                <NewsProvider>
+                <ShipProvider>
                     <DarkThemeProvider>
                         <GameProvider>
                             <App />
                         </GameProvider>
                     </DarkThemeProvider>
-                </NewsProvider>
+                </ShipProvider>
             </UserProvider>
         </BrowserRouter>
     </React.StrictMode>

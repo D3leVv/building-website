@@ -1,4 +1,11 @@
-import { useState, createContext, ReactNode, useEffect } from "react";
+import {
+    useState,
+    createContext,
+    ReactNode,
+    useEffect,
+    Dispatch,
+    SetStateAction,
+} from "react";
 import {
     auth,
     getSingleDocWithDocId,
@@ -15,14 +22,31 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { User } from "../../../Types/User";
 import { DocumentData } from "firebase/firestore";
 
-export const UserContext = createContext<UserCredential | User | any>(null);
+type Context = {
+    user: UserCredential["user"] | null;
+    setUser: Dispatch<SetStateAction<UserCredential["user"] | null>>;
+    logout: () => Promise<void>;
+    createAccount: (
+        email: string,
+        password: string,
+        firstName: string,
+        lastName: string
+    ) => Promise<string | undefined>;
+    signIn: (email: string, password: string) => Promise<void>;
+
+    loading: boolean;
+    userData: User | DocumentData | undefined;
+    error: any;
+};
+
+export const UserContext = createContext({} as Context);
 
 function UserProvider({ children }: { children: ReactNode }) {
     const navigate = useNavigate();
     const location: any = useLocation();
     const from =
         location.state?.from?.pathname + location.state?.from?.search || "/";
-    const [user, setUser] = useState<UserCredential | null | any>(null);
+    const [user, setUser] = useState<UserCredential["user"] | null>(null);
     const [userData, setUserData] = useState<User | DocumentData>();
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState();
@@ -47,7 +71,7 @@ function UserProvider({ children }: { children: ReactNode }) {
                 email,
                 password
             );
-            setUser(data);
+            setUser(data.user);
             const userPayload = {
                 email,
                 firstName,
@@ -77,7 +101,7 @@ function UserProvider({ children }: { children: ReactNode }) {
                 email,
                 password
             );
-            setUser(data);
+            setUser(data.user);
             navigate(from);
         } catch (error: any) {
             return setError(error.message);

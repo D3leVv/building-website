@@ -147,7 +147,7 @@ export async function getDocumentsWithWhere(
 
 // Update Single Document
 export async function updateSingleDocumentWithDocID<T>(
-    collection: "Users" | "news",
+    collection: "Users" | "ships",
     payload: T & { timestamp?: FieldValue },
     docID: string
 ) {

@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction } from "react";
+
 import Gun from "../components/Game/Gun/Gun";
 
 export const handleParticle = (arr1: any[], arr2: any[]) => {

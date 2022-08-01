@@ -10,7 +10,7 @@ function CreateShip() {
                     title: "",
                     image: "",
                     category: "",
-                    author: "",
+                    owner: "",
                     id: 0,
                     price: 0,
                     rating: {

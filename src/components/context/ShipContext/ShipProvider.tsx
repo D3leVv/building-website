@@ -9,7 +9,7 @@ type ContextType = {
 
 export const ShipContext = createContext({} as ContextType);
 
-function NewsProvider({ children }: { children: ReactNode }) {
+function ShipProvider({ children }: { children: ReactNode }) {
     const navigate = useNavigate();
     const [ship, setShip] = useState("");
 
@@ -27,4 +27,4 @@ function NewsProvider({ children }: { children: ReactNode }) {
     );
 }
 
-export default NewsProvider;
+export default ShipProvider;
