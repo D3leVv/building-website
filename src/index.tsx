@@ -7,6 +7,7 @@ import { BrowserRouter } from "react-router-dom";
 import UserProvider from "./components/context/UserContext/UserProvider";
 import NewsProvider from "./components/context/NewsContext/NewsProvider";
 import DarkThemeProvider from "./components/context/DarkTheme/DarkTheme";
+import GameProvider from "./components/context/GameContext";
 
 const root = ReactDOM.createRoot(
     document.getElementById("root") as HTMLElement
@@ -17,7 +18,9 @@ root.render(
             <UserProvider>
                 <NewsProvider>
                     <DarkThemeProvider>
-                        <App />
+                        <GameProvider>
+                            <App />
+                        </GameProvider>
                     </DarkThemeProvider>
                 </NewsProvider>
             </UserProvider>

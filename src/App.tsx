@@ -25,15 +25,14 @@ function App() {
             <Route path="/" element={<Layout />}>
                 <Route index element={<Game />} />
                 <Route path="about" element={<About />} />
-                <Route path="news" element={<News />} />
-                <Route path="buildings" element={<Buildings />} />
+                <Route path="store" element={<News />} />
                 <Route element={<LoginRegisterProtectedRoute />}>
                     <Route path="/register" element={<Register />} />
                     <Route path="/login" element={<Login />} />
                 </Route>
                 <Route element={<ProtectedRoutes />}>
-                    <Route path="/news/create" element={<CreateNews />} />
-                    <Route path="/news/my-news" element={<MyNews />} />
+                    <Route path="/ship/create" element={<CreateNews />} />
+                    <Route path="/ship/my-ship" element={<MyNews />} />
                     <Route path="/profile/:userID" element={<Profile />} />
                 </Route>
             </Route>
