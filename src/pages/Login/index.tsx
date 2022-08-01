@@ -1,6 +1,6 @@
 import { LockClosedIcon } from "@heroicons/react/solid";
 import { useForm, Controller } from "react-hook-form";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { UserContext } from "../../components/context/UserContext/UserProvider";
 import { Link } from "react-router-dom";
 import * as yup from "yup";
@@ -46,16 +46,18 @@ function Login() {
     const {
         control,
         handleSubmit,
+        reset,
         formState: { errors },
     } = useForm<Login>({ resolver: yupResolver(schema) });
 
-    const { signIn } = useContext<any>(UserContext);
+    const { signIn, error } = useContext<any>(UserContext);
 
     const onSubmit = async (data: Login) => {
         try {
             const user = await signIn(data.email, data.password.toString());
+            if (error) reset(user);
         } catch (e: any) {
-            console.log(e.message);
+            reset(data);
         }
     };
 
@@ -71,6 +73,11 @@ function Login() {
                     onSubmit={handleSubmit(onSubmit)}
                     className="mt-8 space-y-6"
                 >
+                    {error && (
+                        <div className="text-red-500">
+                            Wrong email or password
+                        </div>
+                    )}
                     <input type="hidden" name="remember" defaultValue="true" />
                     <div className="flex flex-col gap-3 -space-y-px rounded-md shadow-sm">
                         {inputFields.map((field, i) => (

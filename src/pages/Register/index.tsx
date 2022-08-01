@@ -76,7 +76,7 @@ function Register() {
     const { control, handleSubmit } = useForm<Register>({
         resolver: yupResolver(schema),
     });
-    const { createAccount } = useContext<any>(UserContext);
+    const { createAccount, error } = useContext<any>(UserContext);
     const [formSubmitError, setFormSubmitError] = useState<string>();
 
     const onSubmit = async (data: Register) => {

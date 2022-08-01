@@ -5,7 +5,6 @@ import { UserContext } from "../components/context/UserContext/UserProvider";
 function LoginRegisterProtectedRoute() {
     const { user } = useContext(UserContext);
     const location = useLocation();
-    console.log(user);
     return !user ? <Outlet /> : <Navigate to="/" state={{ from: location }} />;
 }
 

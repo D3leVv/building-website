@@ -25,6 +25,7 @@ function UserProvider({ children }: { children: ReactNode }) {
     const [user, setUser] = useState<UserCredential | null | any>(null);
     const [userData, setUserData] = useState<User | DocumentData>();
     const [loading, setLoading] = useState(true);
+    const [error, setError] = useState();
 
     const logout = async () => {
         try {
@@ -63,8 +64,9 @@ function UserProvider({ children }: { children: ReactNode }) {
             );
             if (userData === "success") navigate(from);
             else return userData;
-        } catch (error) {
-            console.log(error);
+        } catch (error: any) {
+            setError(error);
+            console.log(error.message);
         }
     };
 
@@ -77,8 +79,8 @@ function UserProvider({ children }: { children: ReactNode }) {
             );
             setUser(data);
             navigate(from);
-        } catch (error) {
-            console.log(error);
+        } catch (error: any) {
+            return setError(error.message);
         }
     };
 
@@ -109,6 +111,7 @@ function UserProvider({ children }: { children: ReactNode }) {
                 signIn,
                 loading,
                 userData,
+                error,
             }}
         >
             {children}

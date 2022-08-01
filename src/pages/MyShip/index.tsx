@@ -14,7 +14,7 @@ function MyNews() {
         (async () => {
             let allShips: News[] = [];
             const ships = await getDocumentsWithWhere(
-                "news",
+                "ships",
                 [
                     {
                         field: "author",
