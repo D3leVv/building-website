@@ -11,9 +11,10 @@ import Spaceship from "./Spaceship/Spaceship";
 import Particle from "./Particle/Particle";
 import Wait from "./Wait/Wait";
 import { DarkThemeContext } from "../context/DarkTheme/DarkTheme";
+import Modal from "./GameMenue";
 
 function Game() {
-    const { width, height, escKey } = useWindowResize();
+    const { width, height, escKey, setEscKey } = useWindowResize();
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const [gameOver, setGameOver] = useState(false);
     const { dark } = useContext<any>(DarkThemeContext);
@@ -40,6 +41,7 @@ function Game() {
 
     const handleGameOver = (val: boolean) => {
         setCurrScore(score.current);
+        setEscKey(false);
         setGameOver(val);
     };
 
@@ -132,6 +134,7 @@ function Game() {
             currRef.removeEventListener("mousemove", updateMouseCoords);
         };
     }, [escKey, gameOver, canvasRef]);
+    console.log(gameOver);
     return (
         <div className="flex items-center justify-center w-full h-full overflow-hidden">
             <canvas
@@ -150,24 +153,18 @@ function Game() {
                 width={width}
                 height={height - 75}
             />
-            {gameOver && (
+            {(gameOver || escKey) && (
                 <Wait
-                    delay={3}
+                    delay={0}
                     ui={
-                        <div className="absolute flex items-center justify-center p-10 text-3xl font-bold transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 rounded-2xl">
-                            <motion.button
-                                className="p-10 text-4xl font-bold text-yellow-300 capitalize border-8 border-yellow-300 shadow-2xl hover:border-yellow-200 hover:text-yellow-200 bg-white/20 top-1/2 left-1/2 rounded-2xl"
-                                onClick={() => {
-                                    gunsArray.current = [];
-                                    particleArray.current = [];
-                                    mouseCoords.current = mCoords;
-                                    score.current = 0;
-                                    handleGameOver(false);
-                                }}
-                            >
-                                start game
-                            </motion.button>
-                        </div>
+                        <Modal
+                            gunsArray={gunsArray}
+                            mouseCoords={mouseCoords}
+                            particleArray={particleArray}
+                            score={score}
+                            setCurrScore={setCurrScore}
+                            setGameOver={setGameOver}
+                        />
                     }
                 />
             )}

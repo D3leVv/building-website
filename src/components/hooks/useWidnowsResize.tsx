@@ -34,6 +34,7 @@ function useWindowResize() {
         height,
         width,
         escKey,
+        setEscKey,
     };
 }
 
