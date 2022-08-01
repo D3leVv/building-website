@@ -1,19 +1,19 @@
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../components/context/UserContext/UserProvider";
-import NewsCard from "../../components/Ship/ShipCard";
 import { getDocumentsWithWhere } from "../../firebase/firebase-config";
 import { News } from "../../Types/News";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
+import ShipCard from "../../components/Ship/ShipCard";
 
 function MyNews() {
-    const [myNews, setMyNews] = useState<News[]>([]);
+    const [myShip, setMyShip] = useState<News[]>([]);
     const { userData } = useContext<any>(UserContext);
     useEffect(() => {
         if (!userData) return;
         (async () => {
-            let allNews: News[] = [];
-            const news = await getDocumentsWithWhere(
+            let allShips: News[] = [];
+            const ships = await getDocumentsWithWhere(
                 "news",
                 [
                     {
@@ -24,8 +24,8 @@ function MyNews() {
                 ],
                 10
             );
-            news?.forEach((item) => allNews.push(item.data() as News));
-            setMyNews(allNews);
+            ships?.forEach((item) => allShips.push(item.data() as News));
+            setMyShip(allShips);
         })();
     }, []);
 
@@ -36,7 +36,7 @@ function MyNews() {
                 className="flex flex-col w-full h-full items-center justify-center max-w-sm overflow-hidden rounded-lg shadow-lg cursor-pointer min-h-[400px]"
             >
                 <Link
-                    to="/news/create"
+                    to="/ship/create"
                     className="flex items-center justify-center w-full h-full"
                 >
                     <svg
@@ -55,7 +55,7 @@ function MyNews() {
                     </svg>
                 </Link>
             </motion.div>
-            {myNews && myNews.map((item, i) => <NewsCard key={i} {...item} />)}
+            {myShip && myShip.map((item, i) => <ShipCard key={i} {...item} />)}
         </div>
     );
 }

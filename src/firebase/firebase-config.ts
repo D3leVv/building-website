@@ -55,7 +55,7 @@ export async function deletePicture(path: string, fileName: string) {
 }
 
 export async function writeSingleDocument(
-    collectionReference: "news" | "Users" | "items",
+    collectionReference: "ships" | "Users",
     payload: any
 ) {
     try {

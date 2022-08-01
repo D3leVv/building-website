@@ -6,13 +6,13 @@ import useFileUpload from "../../hooks/useImageUpload";
 
 import { deletePicture } from "../../../firebase/firebase-config";
 import MDEditor from "@uiw/react-md-editor";
-import NewsContentType from "./ShipContentType";
 import ProgressBar from "../../Helper/ProgressBar/ProgressBar";
 import DeleteImageButton from "../../Helper/Buttons/DeleteImageButton";
 import { UserContext } from "../../context/UserContext/UserProvider";
 import { News } from "../../../Types/News";
-import { NewsContext } from "../../context/ShipContext/ShipProvider";
+import { ShipContext } from "../../context/ShipContext/ShipProvider";
 import { DarkThemeContext } from "../../context/DarkTheme/DarkTheme";
+import ShipsContentType from "./ShipContentType";
 
 const schema = yup.object({
     title: yup.string().required().min(3).max(20),
@@ -29,11 +29,11 @@ const schema = yup.object({
 function ShipForm({ data }: { data: News }) {
     const [image, setImage] = useState<File | null>(null);
     const { userData } = useContext(UserContext);
-    const { createNews } = useContext<any>(NewsContext);
+    const { createShip } = useContext<any>(ShipContext);
     const [submitError, setSubmitError] = useState<Error | null>(null);
     const { url, progress, setUrl, error } = useFileUpload(
         image,
-        "news-images"
+        "ships-images"
     );
 
     const {
@@ -53,7 +53,7 @@ function ShipForm({ data }: { data: News }) {
         if (url) payload["image"] = url.url;
         if (userData) payload["author"] = userData.firstName;
         try {
-            await createNews(payload);
+            await createShip(payload);
         } catch (e: any) {
             console.log(e);
             setSubmitError(e);
@@ -135,7 +135,7 @@ function ShipForm({ data }: { data: News }) {
                             name="category"
                             control={control}
                             render={({ field: { onChange, value } }) => (
-                                <NewsContentType
+                                <ShipsContentType
                                     value={value}
                                     onChange={onChange}
                                     label="Product category"

@@ -1,35 +1,29 @@
-import {
-    useContext,
-    createContext,
-    useEffect,
-    useState,
-    ReactNode,
-} from "react";
+import { createContext, useState, ReactNode } from "react";
 import { useNavigate } from "react-router-dom";
 import { writeSingleDocument } from "../../../firebase/firebase-config";
 import { News } from "../../../Types/News";
 
 type ContextType = {
-    createNews: (payload: News) => Promise<void>;
+    createShip: (payload: News) => Promise<void>;
 };
 
-export const NewsContext = createContext<ContextType | null>(null);
+export const ShipContext = createContext<ContextType | null>(null);
 
 function NewsProvider({ children }: { children: ReactNode }) {
     const navigate = useNavigate();
-    const [news, setNews] = useState("");
+    const [ship, setShip] = useState("");
 
-    const createNews = async (payload: News) => {
-        const response = await writeSingleDocument("news", payload);
+    const createShip = async (payload: News) => {
+        const response = await writeSingleDocument("ships", payload);
         if (response === "success") {
-            return navigate("/news");
+            return navigate("/store");
         }
     };
 
     return (
-        <NewsContext.Provider value={{ createNews }}>
+        <ShipContext.Provider value={{ createShip }}>
             {children}
-        </NewsContext.Provider>
+        </ShipContext.Provider>
     );
 }
 

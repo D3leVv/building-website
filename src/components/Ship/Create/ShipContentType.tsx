@@ -7,7 +7,7 @@ const options = [
     "men's clothing",
 ];
 
-function NewsContentType({
+function ShipsContentType({
     value,
     onChange,
     label,
@@ -58,4 +58,4 @@ function NewsContentType({
     );
 }
 
-export default NewsContentType;
+export default ShipsContentType;

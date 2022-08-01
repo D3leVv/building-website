@@ -45,7 +45,6 @@ function Navbar({}: {}) {
     const { user, logout } = useContext<any>(UserContext);
     const { pathname } = useLocation();
     const { gameOver, escKey } = useContext<any>(GameContext);
-    console.log(pathname.length < 2);
     return gameOver ||
         escKey ||
         (pathname.startsWith("/") && pathname.length > 2) ? (

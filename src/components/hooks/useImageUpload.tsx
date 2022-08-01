@@ -28,7 +28,7 @@ const resizeFile = (file: File) =>
     });
 function useFileUpload<T>(
     file: File | null,
-    parentFolder = "news-images"
+    parentFolder = "ship-images"
     // childFolder: string
 ) {
     const [progress, setProgress] = useState(0);
