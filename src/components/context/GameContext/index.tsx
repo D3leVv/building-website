@@ -22,10 +22,6 @@ type Context = {
     setCurrScore: Dispatch<SetStateAction<number>>;
     ship: string;
     currScore: number;
-    mCoords: {
-        x: number;
-        y: number;
-    };
     mouseCoords: React.MutableRefObject<{
         x: number;
         y: number;
@@ -56,7 +52,7 @@ const GameProvider = ({ children }: { children: ReactNode }) => {
         "https://www.svgrepo.com/show/217223/spacecraft.svg"
     );
     const [currScore, setCurrScore] = useState(0);
-    const { mCoords } = useMouseCoords();
+    // const { mCoords } = useMouseCoords();
     const mouseCoords = useRef({
         x: 0,
         y: 0,
@@ -71,7 +67,7 @@ const GameProvider = ({ children }: { children: ReactNode }) => {
     const updateMouseCoords = useCallback((e: MouseEvent) => {
         mouseCoords.current.x = e.x;
         mouseCoords.current.y = e.y;
-    },[]);
+    }, []);
 
     const handleGameOver = useCallback(
         (val: boolean) => {
@@ -85,12 +81,11 @@ const GameProvider = ({ children }: { children: ReactNode }) => {
     const handleGameStart = useCallback(async () => {
         gunsArray.current = [];
         particleArray.current = [];
-        mouseCoords.current = mCoords;
         score.current = 0;
         setGameOver(false);
         setCurrScore(score.current);
         setEscKey(false);
-    }, [setEscKey, mCoords]);
+    }, [setEscKey]);
 
     const handleScoreUpdateOnUser = useCallback(async () => {
         if (score.current > 0) {
@@ -114,7 +109,6 @@ const GameProvider = ({ children }: { children: ReactNode }) => {
                 setCurrScore,
                 ship,
                 currScore,
-                mCoords,
                 mouseCoords,
                 score,
                 particleArray,
