@@ -29,7 +29,7 @@ const schema = yup.object({
 function ShipForm({ data }: { data: News }) {
     const [image, setImage] = useState<File | null>(null);
     const { userData } = useContext(UserContext);
-    const { createShip } = useContext<any>(ShipContext);
+    const { createShip } = useContext(ShipContext);
     const [submitError, setSubmitError] = useState<Error | null>(null);
     const { url, progress, setUrl, error } = useFileUpload(
         image,

@@ -7,7 +7,7 @@ type ContextType = {
     createShip: (payload: News) => Promise<void>;
 };
 
-export const ShipContext = createContext<ContextType | null>(null);
+export const ShipContext = createContext({} as ContextType);
 
 function NewsProvider({ children }: { children: ReactNode }) {
     const navigate = useNavigate();

@@ -1,6 +1,11 @@
 import React, { createContext, ReactNode, useEffect, useState } from "react";
 
-export const DarkThemeContext = createContext({});
+type Context = {
+    handleDarktheme: (theme: "light" | "dark") => void;
+    dark: string | null;
+};
+
+export const DarkThemeContext = createContext({} as Context);
 
 function DarkThemeProvider({ children }: { children: ReactNode }) {
     const [dark, setDark] = useState<string | null>(
@@ -34,7 +39,9 @@ function DarkThemeProvider({ children }: { children: ReactNode }) {
         };
     }, [dark]);
     return (
-        <DarkThemeContext.Provider value={{ handleDarktheme, dark }}>
+        <DarkThemeContext.Provider
+            value={{ handleDarktheme: handleDarktheme, dark: dark }}
+        >
             {children}
         </DarkThemeContext.Provider>
     );

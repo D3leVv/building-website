@@ -12,9 +12,8 @@ import { DarkThemeContext } from "../context/DarkTheme/DarkTheme";
 import { GameContext } from "../context/GameContext";
 
 function Game() {
-    const { dark } = useContext<any>(DarkThemeContext);
-    const game = useContext<any>(GameContext);
-
+    const { dark } = useContext(DarkThemeContext);
+    const game = useContext(GameContext);
     useEffect(() => {
         let renderId: any;
         let currRef = game.canvasRef.current;

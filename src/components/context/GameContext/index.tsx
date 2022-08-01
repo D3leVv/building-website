@@ -1,8 +1,44 @@
-import { createContext, useRef, useState, ReactNode } from "react";
+import {
+    createContext,
+    useRef,
+    useState,
+    ReactNode,
+    Dispatch,
+    SetStateAction,
+} from "react";
 import useMouseCoords from "../../hooks/useMouseCoords";
 import useWindowResize from "../../hooks/useWidnowsResize";
 
-export const GameContext = createContext({});
+type Context = {
+    canvasRef: React.RefObject<HTMLCanvasElement>;
+    gameOver: boolean;
+    setGameOver: Dispatch<SetStateAction<boolean>>;
+    setCurrScore: Dispatch<SetStateAction<number>>;
+    ship: string;
+    currScore: number;
+    mCoords: {
+        x: number;
+        y: number;
+    };
+    mouseCoords: React.MutableRefObject<{
+        x: number;
+        y: number;
+    }>;
+    score: React.MutableRefObject<number>;
+    particleArray: React.MutableRefObject<any[]>;
+    gunsArray: React.MutableRefObject<any[]>;
+    timeToNextRect: React.MutableRefObject<number>;
+    rectInterval: React.MutableRefObject<number>;
+    lastTime: React.MutableRefObject<number>;
+    updateMouseCoords: (e: MouseEvent) => void;
+    handleGameOver: (val: boolean) => void;
+    width: number;
+    height: number;
+    escKey: boolean;
+    setEscKey: Dispatch<SetStateAction<boolean>>;
+};
+
+export const GameContext = createContext({} as Context);
 
 const GameProvider = ({ children }: { children: ReactNode }) => {
     const { width, height, escKey, setEscKey } = useWindowResize();
@@ -24,10 +60,10 @@ const GameProvider = ({ children }: { children: ReactNode }) => {
     const rectInterval = useRef<number>(500);
     const lastTime = useRef<number>(0);
 
-    function updateMouseCoords(e: MouseEvent) {
+    const updateMouseCoords = (e: MouseEvent) => {
         mouseCoords.current.x = e.x;
         mouseCoords.current.y = e.y;
-    }
+    };
 
     const handleGameOver = (val: boolean) => {
         setCurrScore(score.current);
