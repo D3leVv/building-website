@@ -1,17 +1,15 @@
 import { useContext } from "react";
 import Layout from "./layout/Layout";
-import { Routes, Route, Navigate } from "react-router-dom";
-import Home from "./pages/Home";
+import { Routes, Route } from "react-router-dom";
 import About from "./pages/About";
-import Buildings from "./pages/Buildings";
-import News from "./pages/News";
+import News from "./pages/Store";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
-import CreateNews from "./pages/CreateNews";
+import CreateNews from "./pages/CreateShip";
 import { UserContext } from "./components/context/UserContext/UserProvider";
 import ProtectedRoutes from "./layout/ProtectedRoutes";
 import Profile from "./pages/Profile";
-import MyNews from "./pages/MyNews";
+import MyNews from "./pages/MyShip";
 import Game from "./components/Game/Game";
 import LoginRegisterProtectedRoute from "./layout/LoginRegisterProtectedRoute";
 

@@ -22,7 +22,7 @@ function NewsProvider({ children }: { children: ReactNode }) {
     const createNews = async (payload: News) => {
         const response = await writeSingleDocument("news", payload);
         if (response === "success") {
-           return navigate("/news");
+            return navigate("/news");
         }
     };
 

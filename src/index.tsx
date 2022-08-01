@@ -5,7 +5,7 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
 import UserProvider from "./components/context/UserContext/UserProvider";
-import NewsProvider from "./components/context/NewsContext/NewsProvider";
+import NewsProvider from "./components/context/ShipContext/ShipProvider";
 import DarkThemeProvider from "./components/context/DarkTheme/DarkTheme";
 import GameProvider from "./components/context/GameContext";
 

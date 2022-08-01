@@ -45,8 +45,10 @@ function Navbar({}: {}) {
     const { user, logout } = useContext<any>(UserContext);
     const { pathname } = useLocation();
     const { gameOver, escKey } = useContext<any>(GameContext);
-
-    return gameOver || escKey ? (
+    console.log(pathname.length < 2);
+    return gameOver ||
+        escKey ||
+        (pathname.startsWith("/") && pathname.length > 2) ? (
         <nav className="relative z-40 w-full border-b border-gray-300">
             <ul className="container hidden w-full h-16 px-6 mx-auto text-center md:flex md:items-center md:justify-between">
                 {links.map((link, i) => {

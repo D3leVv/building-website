@@ -1,7 +1,6 @@
-import React from "react";
 import { News } from "../../../Types/News";
 
-function NewsCard(props: News) {
+function ShipCard(props: News) {
     return (
         <div
             key={props.title}
@@ -54,4 +53,4 @@ function NewsCard(props: News) {
     );
 }
 
-export default NewsCard;
+export default ShipCard;

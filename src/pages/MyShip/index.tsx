@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../components/context/UserContext/UserProvider";
-import NewsCard from "../../components/News/NewsCard/NewsCard";
+import NewsCard from "../../components/Ship/ShipCard";
 import { getDocumentsWithWhere } from "../../firebase/firebase-config";
 import { News } from "../../Types/News";
 import { motion } from "framer-motion";

@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import NewsCard from "../../components/News/NewsCard/NewsCard";
+import NewsCard from "../../components/Ship/ShipCard";
 import { getMultipleDocsWithLimit } from "../../firebase/firebase-config";
 import { News as NewsType } from "../../Types/News";
 
-function News() {
+function Store() {
     const [news, setNews] = useState<NewsType[]>();
     useEffect(() => {
         (async () => {
@@ -23,4 +23,4 @@ function News() {
     );
 }
 
-export default News;
+export default Store;

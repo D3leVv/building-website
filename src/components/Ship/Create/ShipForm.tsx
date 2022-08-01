@@ -6,12 +6,12 @@ import useFileUpload from "../../hooks/useImageUpload";
 
 import { deletePicture } from "../../../firebase/firebase-config";
 import MDEditor from "@uiw/react-md-editor";
-import NewsContentType from "./NewsContentType";
+import NewsContentType from "./ShipContentType";
 import ProgressBar from "../../Helper/ProgressBar/ProgressBar";
 import DeleteImageButton from "../../Helper/Buttons/DeleteImageButton";
 import { UserContext } from "../../context/UserContext/UserProvider";
 import { News } from "../../../Types/News";
-import { NewsContext } from "../../context/NewsContext/NewsProvider";
+import { NewsContext } from "../../context/ShipContext/ShipProvider";
 import { DarkThemeContext } from "../../context/DarkTheme/DarkTheme";
 
 const schema = yup.object({
@@ -26,7 +26,7 @@ const schema = yup.object({
     price: yup.number().required().min(1),
 });
 
-function NewsForm({ data }: { data: News }) {
+function ShipForm({ data }: { data: News }) {
     const [image, setImage] = useState<File | null>(null);
     const { userData } = useContext(UserContext);
     const { createNews } = useContext<any>(NewsContext);
@@ -185,4 +185,4 @@ function NewsForm({ data }: { data: News }) {
     );
 }
 
-export default NewsForm;
+export default ShipForm;
