@@ -79,7 +79,7 @@ function Login() {
                                 control={control}
                                 name={field.name}
                                 render={({
-                                    field: { onChange, onBlur, value },
+                                    field: { onChange, value },
                                     fieldState: { error },
                                 }) => (
                                     <TextInputField
@@ -90,7 +90,7 @@ function Login() {
                                         type={field.type}
                                         error={error}
                                         onChange={onChange}
-                                        value={value}
+                                        // value={value}
                                     />
                                 )}
                             />

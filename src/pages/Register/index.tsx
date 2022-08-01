@@ -132,7 +132,6 @@ function Register() {
                                             type={field.type}
                                             error={error}
                                             onChange={onChange}
-                                            value={value}
                                         />
                                     )}
                                 />

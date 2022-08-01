@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import Layout from "./layout/Layout";
-import { Routes, Route, Navigate, useLocation } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Buildings from "./pages/Buildings";
@@ -13,12 +13,10 @@ import ProtectedRoutes from "./layout/ProtectedRoutes";
 import Profile from "./pages/Profile";
 import MyNews from "./pages/MyNews";
 import Game from "./components/Game/Game";
+import LoginRegisterProtectedRoute from "./layout/LoginRegisterProtectedRoute";
 
 function App() {
-    const { user, loading } = useContext<any>(UserContext);
-    const location: any = useLocation();
-    const from =
-        location.state?.from?.pathname + location.state?.from?.search || "/";
+    const { loading } = useContext<any>(UserContext);
 
     return loading ? (
         <div>...Loading</div>
@@ -29,15 +27,11 @@ function App() {
                 <Route path="about" element={<About />} />
                 <Route path="news" element={<News />} />
                 <Route path="buildings" element={<Buildings />} />
-                <Route
-                    path="register"
-                    element={user ? <Navigate to={from} /> : <Register />}
-                />
-                <Route
-                    path="login"
-                    element={user ? <Navigate to={from} /> : <Login />}
-                />
-                <Route element={<ProtectedRoutes user={user} />}>
+                <Route element={<LoginRegisterProtectedRoute />}>
+                    <Route path="/register" element={<Register />} />
+                    <Route path="/login" element={<Login />} />
+                </Route>
+                <Route element={<ProtectedRoutes />}>
                     <Route path="/news/create" element={<CreateNews />} />
                     <Route path="/news/my-news" element={<MyNews />} />
                     <Route path="/profile/:userID" element={<Profile />} />
