@@ -110,7 +110,22 @@ function Game() {
             if (!currRef) return;
             currRef.removeEventListener("mousemove", game.updateMouseCoords);
         };
-    }, [game.escKey, game.gameOver, game.canvasRef]);
+    }, [
+        game.gunsArray,
+        game.handleGameOver,
+        game.lastTime,
+        game.mouseCoords,
+        game.particleArray,
+        game.rectInterval,
+        game.score,
+        game.setGameOver,
+        game.ship,
+        game.timeToNextRect,
+        game.updateMouseCoords,
+        game.canvasRef,
+        game.escKey,
+        game.gameOver,
+    ]);
 
     return (
         <div className="flex items-center justify-center w-full h-full overflow-hidden">

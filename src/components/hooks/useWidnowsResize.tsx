@@ -28,7 +28,7 @@ function useWindowResize() {
             window.removeEventListener("resize", handleWidthChange);
             document.removeEventListener("keydown", handleEscapeKeyPress);
         };
-    }, [handleHeightChange, handleWidthChange]);
+    }, [handleHeightChange, handleWidthChange, handleEscapeKeyPress]);
 
     return {
         height,

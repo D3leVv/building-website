@@ -9,7 +9,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import TextInputField from "../../components/Helper/ImputFields/TextInputField";
 YupPassword(yup);
 
-type Register = {
+type RegisterType = {
     firstName: string;
     lastName: string;
     email: string;
@@ -73,13 +73,13 @@ const inputFields: any[] = [
 ];
 
 function Register() {
-    const { control, handleSubmit } = useForm<Register>({
+    const { control, handleSubmit } = useForm<RegisterType>({
         resolver: yupResolver(schema),
     });
     const { createAccount, error } = useContext<any>(UserContext);
     const [formSubmitError, setFormSubmitError] = useState<string>();
 
-    const onSubmit = async (data: Register) => {
+    const onSubmit = async (data: RegisterType) => {
         const { email, firstName, lastName } = data;
         try {
             const user = await createAccount(

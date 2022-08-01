@@ -73,11 +73,14 @@ const GameProvider = ({ children }: { children: ReactNode }) => {
         mouseCoords.current.y = e.y;
     };
 
-    const handleGameOver = useCallback((val: boolean) => {
-        setCurrScore(score.current);
-        setEscKey(false);
-        setGameOver(val);
-    }, []);
+    const handleGameOver = useCallback(
+        (val: boolean) => {
+            setCurrScore(score.current);
+            setEscKey(false);
+            setGameOver(val);
+        },
+        [setEscKey]
+    );
 
     const handleGameStart = useCallback(async () => {
         gunsArray.current = [];
@@ -87,7 +90,7 @@ const GameProvider = ({ children }: { children: ReactNode }) => {
         setGameOver(false);
         setCurrScore(score.current);
         setEscKey(false);
-    }, []);
+    }, [setEscKey, mCoords]);
 
     const handleScoreUpdateOnUser = useCallback(async () => {
         if (score.current > 0) {
@@ -97,15 +100,11 @@ const GameProvider = ({ children }: { children: ReactNode }) => {
                 await updateSingleDocumentWithDocID("Users", payload, user.uid);
             }
         }
-    }, []);
-
-
-    
-
+    }, [user, userData]);
 
     useEffect(() => {
         handleScoreUpdateOnUser();
-    }, [gameOver]);
+    }, [gameOver, handleScoreUpdateOnUser]);
     return (
         <GameContext.Provider
             value={{

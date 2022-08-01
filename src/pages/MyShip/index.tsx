@@ -27,7 +27,7 @@ function MyNews() {
             ships?.forEach((item) => allShips.push(item.data() as News));
             setMyShip(allShips);
         })();
-    }, []);
+    }, [userData]);
 
     return (
         <div className="container flex flex-col items-center gap-6 px-6 mx-auto mt-12 md:grid md:grid-cols-2 lg:grid-cols-3">

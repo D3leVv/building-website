@@ -1,18 +1,8 @@
-import { Dispatch, MutableRefObject, SetStateAction, useContext } from "react";
+import {  useContext } from "react";
 import { motion } from "framer-motion";
-import useMouseCoords from "../../hooks/useMouseCoords";
-import useWindowResize from "../../hooks/useWidnowsResize";
+
 import { GameContext } from "../../context/GameContext";
 import { UserContext } from "../../context/UserContext/UserProvider";
-
-type Props = {
-    gunsArray: MutableRefObject<any[]>;
-    particleArray: MutableRefObject<any[]>;
-    mouseCoords: MutableRefObject<{ x: number; y: number }>;
-    score: MutableRefObject<number>;
-    setGameOver: Dispatch<SetStateAction<boolean>>;
-    setCurrScore: Dispatch<SetStateAction<number>>;
-};
 
 const Modal = () => {
     const { handleGameStart, score } = useContext(GameContext);

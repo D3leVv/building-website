@@ -1,6 +1,6 @@
 import { LockClosedIcon } from "@heroicons/react/solid";
 import { useForm, Controller } from "react-hook-form";
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import { UserContext } from "../../components/context/UserContext/UserProvider";
 import { Link } from "react-router-dom";
 import * as yup from "yup";

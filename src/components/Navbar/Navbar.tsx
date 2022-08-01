@@ -41,7 +41,7 @@ const links = [
     },
 ];
 
-function Navbar({}: {}) {
+function Navbar() {
     const { user, logout } = useContext<any>(UserContext);
     const { pathname } = useLocation();
     const { gameOver, escKey } = useContext<any>(GameContext);

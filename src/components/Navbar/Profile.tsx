@@ -12,6 +12,7 @@ function Profile() {
                     <img
                         src={userData?.image.url}
                         className="object-cover w-full h-full rounded-full"
+                        alt={userData.name}
                     />
                 ) : (
                     <div className="flex items-center justify-center w-full h-full bg-gray-200 border-2 border-yellow-400 rounded-full ">

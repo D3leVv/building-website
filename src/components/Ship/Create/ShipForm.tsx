@@ -164,7 +164,7 @@ function ShipForm({ data }: { data: News }) {
                     {/* show image and delete button */}
                     {url && (
                         <div className="flex flex-col items-center justify-between w-full p-6 border border-gray-500 rounded-xl md:flex-row">
-                            <img src={url.url} width={200} />
+                            <img src={url.url} width={200} alt={url.alt} />
                             <p>{url.alt}</p>
                             <DeleteImageButton onClick={handlePictureDelete} />
                         </div>
