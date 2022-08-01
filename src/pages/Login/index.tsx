@@ -36,7 +36,7 @@ const inputFields: any[] = [
     },
 ];
 
-type Login = {
+type LoginType = {
     email: string;
     password: string | number;
     rePassword: string | number;
@@ -48,11 +48,11 @@ function Login() {
         handleSubmit,
         reset,
         formState: { errors },
-    } = useForm<Login>({ resolver: yupResolver(schema) });
+    } = useForm<LoginType>({ resolver: yupResolver(schema) });
 
     const { signIn, error } = useContext<any>(UserContext);
 
-    const onSubmit = async (data: Login) => {
+    const onSubmit = async (data: LoginType) => {
         try {
             const user = await signIn(data.email, data.password.toString());
             if (error) reset(user);

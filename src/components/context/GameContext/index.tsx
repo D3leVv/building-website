@@ -68,10 +68,10 @@ const GameProvider = ({ children }: { children: ReactNode }) => {
     const rectInterval = useRef<number>(500);
     const lastTime = useRef<number>(0);
 
-    const updateMouseCoords = (e: MouseEvent) => {
+    const updateMouseCoords = useCallback((e: MouseEvent) => {
         mouseCoords.current.x = e.x;
         mouseCoords.current.y = e.y;
-    };
+    },[]);
 
     const handleGameOver = useCallback(
         (val: boolean) => {
