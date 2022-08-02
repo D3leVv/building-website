@@ -104,7 +104,7 @@ const ProfileForm = ({
             {formSubmitError ? (
                 <h1 className="text-3xl text-red">{formSubmitError}</h1>
             ) : (
-                <div className="flex flex-col gap-3 p-3 -space-y-px rounded-md shadow-lg">
+                <div className="flex flex-col gap-3 p-3 -space-y-px rounded-lg shadow-md dark:shadow-white dark:border dark:border-gray-200 ">
                     {inputFields.map((field, i) => (
                         <Controller
                             key={i}
@@ -151,7 +151,7 @@ const ProfileForm = ({
                                         className={`${
                                             errors.image &&
                                             "border-red-500 placeholder-red-500 focus:ring-red-500 focus:border-red-500"
-                                        }relative dark:bg-black dark:text-white block w-full px-3 py-2 text-gray-900 placeholder-gray-500 border border-gray-300 appearance-none rounded-xl focus:outline-none focus:ring-yellow-300 focus:border-yellow-300 focus:z-10 sm:text-sm`}
+                                        }relative mt-1 dark:bg-black dark:text-white block w-full px-3 py-2 text-gray-900 placeholder-gray-500 border border-gray-300 appearance-none rounded-xl focus:outline-none focus:ring-yellow-300 focus:border-yellow-300 focus:z-10 sm:text-sm`}
                                         placeholder="Profile image"
                                     />
                                 </div>

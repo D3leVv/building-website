@@ -1,6 +1,6 @@
 import { useContext } from "react";
-import { ShipContext } from "../../components/context/ShipContext/ShipProvider";
-import ShipCard from "../../components/Ship/ShipCard";
+import { ShipContext } from "../../../components/context/ShipContext/ShipProvider";
+import ShipCard from "../../../components/Ship/ShipCard";
 
 function Store() {
     const { ships } = useContext(ShipContext);

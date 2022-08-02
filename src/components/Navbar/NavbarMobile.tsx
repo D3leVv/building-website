@@ -4,6 +4,7 @@ import { MenuIcon, XIcon } from "@heroicons/react/outline";
 import { motion, AnimatePresence } from "framer-motion";
 import { useContext } from "react";
 import { DarkThemeContext } from "../context/DarkTheme/DarkTheme";
+import { User } from "../../Types/User";
 
 const menuAnimation = {
     whileTap: {
@@ -58,7 +59,7 @@ const NavbarMobile = ({
         href: string;
     }[];
 }) => {
-    const { handleDarktheme } = useContext<any>(DarkThemeContext);
+    const { handleDarktheme } = useContext(DarkThemeContext);
     return (
         <Menu
             as="div"
@@ -107,7 +108,7 @@ const NavbarMobile = ({
                                         )
                                             return "";
                                         return (
-                                            <Menu.Item>
+                                            <Menu.Item key={i}>
                                                 {({ active }) => (
                                                     <motion.div
                                                         variants={
@@ -206,7 +207,9 @@ const NavbarMobile = ({
                                                         }`}
                                                         key="child13"
                                                     >
-                                                        <Link to="/profile">
+                                                        <Link
+                                                            to={`/profile/${user.uid}`}
+                                                        >
                                                             Profile
                                                         </Link>
                                                     </motion.div>

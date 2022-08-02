@@ -2,7 +2,7 @@ import { useContext } from "react";
 import Layout from "./layout/Layout";
 import { Routes, Route } from "react-router-dom";
 import About from "./pages/About";
-import Store from "./pages/Store";
+import Store from "./pages/Register/Store";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
 import CreateShip from "./pages/CreateShip";

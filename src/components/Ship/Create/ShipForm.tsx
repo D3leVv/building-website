@@ -14,7 +14,7 @@ import { ShipContext } from "../../context/ShipContext/ShipProvider";
 import { DarkThemeContext } from "../../context/DarkTheme/DarkTheme";
 
 const schema = yup.object({
-    title: yup.string().required().min(3).max(20),
+    title: yup.string().required().min(3).max(40),
     description: yup.string().required().min(10).max(3000),
     price: yup.number().required().min(1),
 });

@@ -3,8 +3,8 @@ import { useContext } from "react";
 import { UserContext } from "../context/UserContext/UserProvider";
 import NavbarMobile from "./NavbarMobile";
 import NavbarSettings from "./NavbarSettings";
-import Profile from "./Profile";
 import { GameContext } from "../context/GameContext";
+import Profile from "./Profile";
 
 export type svgVariants = {
     hidden: {
@@ -42,9 +42,9 @@ const links = [
 ];
 
 function Navbar() {
-    const { user, logout } = useContext<any>(UserContext);
+    const { user, logout } = useContext(UserContext);
     const { pathname } = useLocation();
-    const { gameOver, escKey } = useContext<any>(GameContext);
+    const { gameOver, escKey } = useContext(GameContext);
     return gameOver ||
         escKey ||
         (pathname.startsWith("/") && pathname.length > 2) ? (
