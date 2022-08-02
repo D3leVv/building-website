@@ -1,7 +1,11 @@
 import React from "react";
 
-function SipsDetailsPage() {
-    return <div>SipsDetailsPage</div>;
+function ShipsDetailsPage() {
+    return (
+        <h1 className="text-3xl text-black dark:text-white">
+            ShipsDetailsPage
+        </h1>
+    );
 }
 
-export default SipsDetailsPage;
+export default ShipsDetailsPage;

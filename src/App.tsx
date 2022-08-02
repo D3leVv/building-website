@@ -13,6 +13,8 @@ import MyShip from "./pages/MyShip";
 import Game from "./components/Game/Game";
 import LoginRegisterProtectedRoute from "./layout/LoginRegisterProtectedRoute";
 import ShipsDetailsPage from "./pages/Details";
+import ErrorPage from "./pages/404";
+import DetailsPageGuard from "./layout/DetailsPageGuard";
 
 function App() {
     const { loading } = useContext<any>(UserContext);
@@ -23,12 +25,16 @@ function App() {
         <Routes>
             <Route path="/" element={<Layout />}>
                 <Route index element={<Game />} />
+                <Route path="*" element={<ErrorPage />} />
                 <Route path="about" element={<About />} />
                 <Route path="store" element={<Store />} />
-                <Route
-                    path="/store/edit/:shipID"
-                    element={<ShipsDetailsPage />}
-                />
+
+                <Route element={<DetailsPageGuard />}>
+                    <Route
+                        path="/store/details/:shipID"
+                        element={<ShipsDetailsPage />}
+                    />
+                </Route>
                 <Route element={<LoginRegisterProtectedRoute />}>
                     <Route path="/register" element={<Register />} />
                     <Route path="/login" element={<Login />} />

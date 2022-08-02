@@ -45,9 +45,11 @@ function ShipCard(props: Ship) {
                 <span aria-hidden="true">&middot;</span>
                 <span>{props.readingTime} read</span> */}
                         </div>
-                        <Link to={`/store/details/${props.docID}`}>
-                            Details
-                        </Link>
+                        <div className="p-3 text-white bg-yellow-300 rounded-md hover:bg-yellow-200">
+                            <Link to={`/store/details/${props.docID}`}>
+                                Details
+                            </Link>
+                        </div>
                     </div>
                 </div>
             </div>
