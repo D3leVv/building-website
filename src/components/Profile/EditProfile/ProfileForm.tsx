@@ -6,14 +6,10 @@ import { motion } from "framer-motion";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { User } from "../../../Types/User";
-import { DocumentData } from "firebase/firestore";
 import useFileUpload from "../../hooks/useImageUpload";
 import ProgressBar from "../../Helper/ProgressBar/ProgressBar";
 import DeleteImageButton from "../../Helper/Buttons/DeleteImageButton";
-import {
-    deletePicture,
-    updateSingleDocumentWithDocID,
-} from "../../../firebase/firebase-config";
+import { deletePicture } from "../../../firebase/firebase-config";
 import useImageFromStorage from "../../hooks/useImageFromStorage";
 import TextInputField from "../../Helper/ImputFields/TextInputField";
 YupPassword(yup);
@@ -51,9 +47,11 @@ const inputFields: any[] = [
 const ProfileForm = ({
     userData,
     docID,
+    updateUserData,
 }: {
-    userData: User | DocumentData;
+    userData: User;
     docID: string;
+    updateUserData: (val: User) => Promise<void>;
 }) => {
     const {
         control,
@@ -77,24 +75,29 @@ const ProfileForm = ({
     const onSubmit = async (data: User) => {
         let payload = data;
         if (url) payload.image = url;
+
         try {
-            await updateSingleDocumentWithDocID("Users", payload, docID);
+            console.log(url);
+            const data = await updateUserData(payload);
+            console.log(data);
         } catch (error: any) {
             setFormSubmitError(error.message);
         }
     };
+    console.log(
+        "person2.JPEG80e12339-9eaf-4ea3-b070-d4bbb5e6e289" ===
+            "person2.JPEG80e12339-9eaf-4ea3-b070-d4bbb5e6e289"
+    );
 
     const handlePictureDelete = async () => {
-        if (url) {
-            deletePicture(url.url, url.alt);
-            return setUrl(null);
-        }
-        if (currUrl) {
+        if (currUrl || currUrl) {
             deletePicture(currUrl.url, currUrl.alt);
+            setUrl(null);
             setCurrUrl(null);
-            const payload = userData;
+            let payload = userData;
             payload.image = { url: "", alt: "" };
-            return await updateSingleDocumentWithDocID("Users", payload, docID);
+            console.log(payload);
+            await updateUserData(payload);
         }
     };
 

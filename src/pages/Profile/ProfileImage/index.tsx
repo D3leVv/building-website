@@ -1,12 +1,8 @@
-import { useContext } from "react";
-import { UserContext } from "../context/UserContext/UserProvider";
+import { User } from "../../../Types/User";
 
-function Profile() {
-    const { userData } = useContext(UserContext);
-
+const ProfileImage = ({ userData }: { userData: User }) => {
     return (
-        <div className="flex items-center justify-center gap-3">
-            <p>{userData?.firstName}</p>
+        <div className="flex flex-col items-center justify-center gap-3">
             <div className="flex items-center justify-center w-12 h-12 bg-gray-200 border-2 border-yellow-400 rounded-full">
                 {userData?.image.url ? (
                     <img
@@ -22,8 +18,9 @@ function Profile() {
                     </div>
                 )}
             </div>
+            <p>{userData?.firstName}</p>
         </div>
     );
-}
+};
 
-export default Profile;
+export default ProfileImage;

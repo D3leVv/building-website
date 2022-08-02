@@ -22,7 +22,6 @@ import {
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { useLocation, useNavigate } from "react-router-dom";
 import { User } from "../../../Types/User";
-import { DocumentData } from "firebase/firestore";
 
 type Context = {
     user: UserCredential["user"] | null;
@@ -35,9 +34,9 @@ type Context = {
         lastName: string
     ) => Promise<string | undefined>;
     signIn: (email: string, password: string) => Promise<void>;
-    chooseHeroShip: (val: string) => Promise<void>;
+    updateUserData: (val: User) => Promise<void>;
     loading: boolean;
-    userData: User | DocumentData | undefined;
+    userData: User | null;
     error: any;
 };
 
@@ -49,7 +48,7 @@ function UserProvider({ children }: { children: ReactNode }) {
     const from =
         location.state?.from?.pathname + location.state?.from?.search || "/";
     const [user, setUser] = useState<UserCredential["user"] | null>(null);
-    const [userData, setUserData] = useState<User | DocumentData>();
+    const [userData, setUserData] = useState<User | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState();
 
@@ -84,8 +83,7 @@ function UserProvider({ children }: { children: ReactNode }) {
                         alt: "",
                     },
                     score: 0,
-                    heroShip: ''
-
+                    heroShip: "",
                 };
                 const userData = await writeSingleUserDocument(
                     "Users",
@@ -116,30 +114,32 @@ function UserProvider({ children }: { children: ReactNode }) {
         }
     }, []);
 
-    const chooseHeroShip = useCallback(async (heroImage: string) => {
-        try {
-            if (user) {
-                let payload = userData;
-                if (payload) {
-                    payload.heroShip = heroImage;
-                    const data = await updateSingleDocumentWithDocID(
+    const updateUserData = useCallback(
+        async (data: User) => {
+            try {
+                if (user) {
+                    await updateSingleDocumentWithDocID(
                         "Users",
-                        payload,
+                        data,
                         user.uid
                     );
                 }
+            } catch (e: any) {
+                console.log(e);
+                setError(e);
             }
-        } catch (e: any) {
-            console.log(e);
-            setError(e);
-        }
-    }, []);
+        },
+        [user]
+    );
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, async (currUser) => {
             setUser(currUser);
             if (currUser) {
-                const data = await getSingleDocWithDocId("Users", currUser.uid);
+                const data = (await getSingleDocWithDocId(
+                    "Users",
+                    currUser.uid
+                )) as User;
                 if (data) {
                     setUserData(data);
                 }
@@ -150,7 +150,7 @@ function UserProvider({ children }: { children: ReactNode }) {
         return () => {
             unsubscribe();
         };
-    }, []);
+    }, [updateUserData, signIn, createAccount]);
 
     return (
         <UserContext.Provider
@@ -163,7 +163,7 @@ function UserProvider({ children }: { children: ReactNode }) {
                 loading,
                 userData,
                 error,
-                chooseHeroShip,
+                updateUserData,
             }}
         >
             {children}

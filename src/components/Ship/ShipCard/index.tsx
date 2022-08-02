@@ -4,7 +4,7 @@ import { Ship } from "../../../Types/Ships";
 import { UserContext } from "../../context/UserContext/UserProvider";
 
 function ShipCard(props: Ship) {
-    const { userData, chooseHeroShip } = useContext(UserContext);
+    const { userData, updateUserData } = useContext(UserContext);
 
     return (
         <div
