@@ -83,6 +83,9 @@ function UserProvider({ children }: { children: ReactNode }) {
                         url: "",
                         alt: "",
                     },
+                    score: 0,
+                    heroShip: ''
+
                 };
                 const userData = await writeSingleUserDocument(
                     "Users",

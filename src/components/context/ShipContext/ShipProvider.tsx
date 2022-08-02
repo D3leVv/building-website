@@ -14,6 +14,7 @@ function ShipProvider({ children }: { children: ReactNode }) {
     const [ship, setShip] = useState("");
 
     const createShip = async (payload: Ship) => {
+        const data = payload
         const response = await writeSingleDocument("ships", payload);
         if (response === "success") {
             return navigate("/store");

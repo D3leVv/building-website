@@ -1,3 +1,5 @@
+import { FieldValue } from "firebase/firestore";
+
 export type User = {
     firstName: string;
     lastName: string;
@@ -8,4 +10,5 @@ export type User = {
         url: string;
         alt: string;
     };
+    timestamp?: FieldValue;
 };

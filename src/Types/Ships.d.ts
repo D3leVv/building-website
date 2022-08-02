@@ -1,3 +1,5 @@
+import { FieldValue } from "firebase/firestore";
+
 export type Ship = {
     owner: string;
     description: string;
@@ -10,6 +12,6 @@ export type Ship = {
         rate: number;
     };
     price: number;
-    timestamp?: Date;
+    timestamp?: FieldValue;
     docID: string;
 };

@@ -17,6 +17,7 @@ function CreateShip() {
                         count: 0,
                         rate: 0,
                     },
+                    docID: "",
                 }}
             />
         </div>
