@@ -56,14 +56,14 @@ export async function deletePicture(path: string, fileName: string) {
     }
 }
 
-export async function writeSingleDocument(
+export async function writeSingleShipDocument(
     collectionReference: string,
     payload: Ship,
     docID: string
 ) {
     try {
         payload["timestamp"] = firebaseServerTimestap;
-        await addDoc(collection(db, collectionReference, docID), payload);
+        await setDoc(doc(db, collectionReference, docID), payload);
         return "success";
     } catch (error: any) {
         console.log(error.message);

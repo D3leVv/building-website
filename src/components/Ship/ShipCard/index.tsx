@@ -12,11 +12,7 @@ function ShipCard(props: Ship) {
             className="flex flex-col w-full h-full max-w-sm overflow-hidden rounded-lg shadow-lg"
         >
             <div className="flex-shrink-0">
-                <img
-                    className="object-cover w-full h-48"
-                    src={props.image}
-                    alt={props.category}
-                />
+                <img className="object-cover w-full h-48" src={props.image} />
             </div>
             <div className="flex flex-col justify-between flex-1 p-6 bg-white">
                 <div className="flex-1">

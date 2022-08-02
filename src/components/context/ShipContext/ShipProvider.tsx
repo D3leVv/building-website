@@ -1,6 +1,7 @@
 import { createContext, useState, ReactNode } from "react";
 import { useNavigate } from "react-router-dom";
-import { writeSingleDocument } from "../../../firebase/firebase-config";
+import { v4 } from "uuid";
+import { writeSingleShipDocument } from "../../../firebase/firebase-config";
 import { Ship } from "../../../Types/Ships";
 
 type ContextType = {
@@ -14,8 +15,8 @@ function ShipProvider({ children }: { children: ReactNode }) {
     const [ship, setShip] = useState("");
 
     const createShip = async (payload: Ship) => {
-        const data = payload
-        const response = await writeSingleDocument("ships", payload);
+        const docID = v4();
+        const response = await writeSingleShipDocument("ships", payload, docID);
         if (response === "success") {
             return navigate("/store");
         }

@@ -9,14 +9,8 @@ function CreateShip() {
                     description: "",
                     title: "",
                     image: "",
-                    category: "",
                     owner: "",
-                    id: 0,
                     price: 0,
-                    rating: {
-                        count: 0,
-                        rate: 0,
-                    },
                     docID: "",
                 }}
             />

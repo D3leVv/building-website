@@ -12,17 +12,10 @@ import { UserContext } from "../../context/UserContext/UserProvider";
 import { Ship } from "../../../Types/Ships";
 import { ShipContext } from "../../context/ShipContext/ShipProvider";
 import { DarkThemeContext } from "../../context/DarkTheme/DarkTheme";
-import ShipsContentType from "./ShipContentType";
 
 const schema = yup.object({
     title: yup.string().required().min(3).max(20),
     description: yup.string().required().min(10).max(3000),
-    category: yup.string().required().min(3).max(20),
-    id: yup.number(),
-    rating: yup.object({
-        count: yup.number(),
-        rate: yup.number(),
-    }),
     price: yup.number().required().min(1),
 });
 
@@ -64,6 +57,7 @@ function ShipForm({ data }: { data: Ship }) {
         if (url) deletePicture(url.url, url.alt);
         return setUrl(null);
     };
+    console.log(errors);
     return (
         <form
             className="flex flex-col w-full h-full gap-6 "
@@ -130,19 +124,7 @@ function ShipForm({ data }: { data: Ship }) {
                             {errors.description?.message}
                         </p>
                     </label>
-                    <div className="flex w-full ">
-                        <Controller
-                            name="category"
-                            control={control}
-                            render={({ field: { onChange, value } }) => (
-                                <ShipsContentType
-                                    value={value}
-                                    onChange={onChange}
-                                    label="Product category"
-                                />
-                            )}
-                        />
-                    </div>
+
                     {/* input for adding image */}
                     <label className="w-full rounded-md border-[3px] relative border-borderColor border-dashed hover:border-gray">
                         <input
@@ -150,7 +132,7 @@ function ShipForm({ data }: { data: Ship }) {
                             onChange={(e: any) => {
                                 setImage(e.target.files[0]);
                             }}
-                            accept="image/x-png,image/gif,image/jpeg,image/jpg"
+                            accept="image/x-png,image/gif,image/jpeg,image/jpg,image/png"
                             className="w-full h-[200px] cursor-pointer opacity-0 dark:bg-black dark:text-white "
                         />
                         <p className="z-10 dark:text-white cursor-pointer absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] font-bold text-center  text-3xl ">
