@@ -1,4 +1,4 @@
-export type News = {
+export type Ship = {
     owner: string;
     description: string;
     image: string;
@@ -11,4 +11,5 @@ export type News = {
     };
     price: number;
     timestamp?: Date;
+    docID: string;
 };

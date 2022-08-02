@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react";
 import ShipCard from "../../components/Ship/ShipCard";
 import { getMultipleDocsWithLimit } from "../../firebase/firebase-config";
-import { News as NewsType } from "../../Types/News";
+import { Ship as ShipType } from "../../Types/Ships";
 
 function Store() {
-    const [ships, setShips] = useState<NewsType[]>();
+    const [ships, setShips] = useState<ShipType[]>();
     useEffect(() => {
         (async () => {
             try {
-                const limitedNews = await getMultipleDocsWithLimit("ships", 5);
-                setShips(limitedNews);
+                const limitedShip = await getMultipleDocsWithLimit("ships", 5);
+                setShips(limitedShip);
             } catch (e: any) {
                 setShips(e.message);
             }

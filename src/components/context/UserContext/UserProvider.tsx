@@ -5,10 +5,12 @@ import {
     useEffect,
     Dispatch,
     SetStateAction,
+    useCallback,
 } from "react";
 import {
     auth,
     getSingleDocWithDocId,
+    updateSingleDocumentWithDocID,
     writeSingleUserDocument,
 } from "../../../firebase/firebase-config";
 import {
@@ -33,7 +35,7 @@ type Context = {
         lastName: string
     ) => Promise<string | undefined>;
     signIn: (email: string, password: string) => Promise<void>;
-
+    chooseHeroShip: (val: string) => Promise<void>;
     loading: boolean;
     userData: User | DocumentData | undefined;
     error: any;
@@ -51,50 +53,53 @@ function UserProvider({ children }: { children: ReactNode }) {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState();
 
-    const logout = async () => {
+    const logout = useCallback(async () => {
         try {
             await signOut(auth);
         } catch (e) {
             console.log(e);
         }
-    };
+    }, []);
 
-    const createAccount = async (
-        email: string,
-        password: string,
-        firstName: string,
-        lastName: string
-    ) => {
-        try {
-            const data = await createUserWithEmailAndPassword(
-                auth,
-                email,
-                password
-            );
-            setUser(data.user);
-            const userPayload = {
-                email,
-                firstName,
-                lastName,
-                image: {
-                    url: "",
-                    alt: "",
-                },
-            };
-            const userData = await writeSingleUserDocument(
-                "Users",
-                userPayload,
-                data.user.uid
-            );
-            if (userData === "success") navigate(from);
-            else return userData;
-        } catch (error: any) {
-            setError(error);
-            console.log(error.message);
-        }
-    };
+    const createAccount = useCallback(
+        async (
+            email: string,
+            password: string,
+            firstName: string,
+            lastName: string
+        ) => {
+            try {
+                const data = await createUserWithEmailAndPassword(
+                    auth,
+                    email,
+                    password
+                );
+                setUser(data.user);
+                const userPayload = {
+                    email,
+                    firstName,
+                    lastName,
+                    image: {
+                        url: "",
+                        alt: "",
+                    },
+                };
+                const userData = await writeSingleUserDocument(
+                    "Users",
+                    userPayload,
+                    data.user.uid
+                );
+                if (userData === "success") navigate(from);
+                else return userData;
+            } catch (error: any) {
+                setError(error);
+                console.log(error.message);
+            }
+        },
+        []
+    );
 
-    const signIn = async (email: string, password: string) => {
+    const signIn = useCallback(async (email: string, password: string) => {
         try {
             const data = await signInWithEmailAndPassword(
                 auth,
@@ -106,7 +111,26 @@ function UserProvider({ children }: { children: ReactNode }) {
         } catch (error: any) {
             return setError(error.message);
         }
-    };
+    }, []);
+
+    const chooseHeroShip = useCallback(async (heroImage: string) => {
+        try {
+            if (user) {
+                let payload = userData;
+                if (payload) {
+                    payload.heroShip = heroImage;
+                    const data = await updateSingleDocumentWithDocID(
+                        "Users",
+                        payload,
+                        user.uid
+                    );
+                }
+            }
+        } catch (e: any) {
+            console.log(e);
+            setError(e);
+        }
+    }, []);
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, async (currUser) => {
@@ -136,6 +160,7 @@ function UserProvider({ children }: { children: ReactNode }) {
                 loading,
                 userData,
                 error,
+                chooseHeroShip,
             }}
         >
             {children}

@@ -11,7 +11,6 @@ import {
 } from "react";
 import { updateSingleDocumentWithDocID } from "../../../firebase/firebase-config";
 import { User } from "../../../Types/User";
-import useMouseCoords from "../../hooks/useMouseCoords";
 import useWindowResize from "../../hooks/useWidnowsResize";
 import { UserContext } from "../UserContext/UserProvider";
 

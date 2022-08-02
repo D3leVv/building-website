@@ -9,7 +9,7 @@ import MDEditor from "@uiw/react-md-editor";
 import ProgressBar from "../../Helper/ProgressBar/ProgressBar";
 import DeleteImageButton from "../../Helper/Buttons/DeleteImageButton";
 import { UserContext } from "../../context/UserContext/UserProvider";
-import { News } from "../../../Types/News";
+import { Ship } from "../../../Types/Ships";
 import { ShipContext } from "../../context/ShipContext/ShipProvider";
 import { DarkThemeContext } from "../../context/DarkTheme/DarkTheme";
 import ShipsContentType from "./ShipContentType";
@@ -26,7 +26,7 @@ const schema = yup.object({
     price: yup.number().required().min(1),
 });
 
-function ShipForm({ data }: { data: News }) {
+function ShipForm({ data }: { data: Ship }) {
     const [image, setImage] = useState<File | null>(null);
     const { userData } = useContext(UserContext);
     const { createShip } = useContext(ShipContext);
@@ -41,14 +41,14 @@ function ShipForm({ data }: { data: News }) {
         handleSubmit,
         control,
         formState: { errors },
-    } = useForm<News>({
+    } = useForm<Ship>({
         defaultValues: data,
         resolver: yupResolver(schema),
     });
 
     const { dark } = useContext<any>(DarkThemeContext);
 
-    const onSubmit = async (data: News) => {
+    const onSubmit = async (data: Ship) => {
         let payload = data;
         if (url) payload["image"] = url.url;
         if (userData) payload["owner"] = userData.firstName;
@@ -77,7 +77,7 @@ function ShipForm({ data }: { data: News }) {
                 <>
                     {/* title */}
                     <label className="w-full">
-                        <p className="w-full  mb-1.5">News Title</p>
+                        <p className="w-full  mb-1.5">Ship Title</p>
 
                         <input
                             className={`w-full rounded-xl dark:bg-black dark:text-white focus:ring-yellow-200 s focus:border-yellow-200 ${

@@ -1,18 +1,18 @@
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../components/context/UserContext/UserProvider";
 import { getDocumentsWithWhere } from "../../firebase/firebase-config";
-import { News } from "../../Types/News";
+import { Ship } from "../../Types/Ships";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import ShipCard from "../../components/Ship/ShipCard";
 
-function MyNews() {
-    const [myShip, setMyShip] = useState<News[]>([]);
+function ShipProvider() {
+    const [myShip, setMyShip] = useState<Ship[]>([]);
     const { userData } = useContext<any>(UserContext);
     useEffect(() => {
         if (!userData) return;
         (async () => {
-            let allShips: News[] = [];
+            let allShips: Ship[] = [];
             const ships = await getDocumentsWithWhere(
                 "ships",
                 [
@@ -24,7 +24,7 @@ function MyNews() {
                 ],
                 10
             );
-            ships?.forEach((item) => allShips.push(item.data() as News));
+            ships?.forEach((item) => allShips.push(item.data() as Ship));
             setMyShip(allShips);
         })();
     }, [userData]);
@@ -33,7 +33,7 @@ function MyNews() {
         <div className="container flex flex-col items-center gap-6 px-6 mx-auto mt-12 md:grid md:grid-cols-2 lg:grid-cols-3">
             <motion.div
                 whileHover={{ y: -5 }}
-                className="flex flex-col w-full h-full items-center justify-center max-w-sm overflow-hidden rounded-lg shadow-lg cursor-pointer min-h-[400px]"
+                className="flex flex-col w-full h-full items-center justify-center max-w-sm dark:shadow-white dark:shadow-md overflow-hidden rounded-lg shadow-lg border border-gray-200 cursor-pointer min-h-[400px]"
             >
                 <Link
                     to="/ship/create"
@@ -60,4 +60,4 @@ function MyNews() {
     );
 }
 
-export default MyNews;
+export default ShipProvider;

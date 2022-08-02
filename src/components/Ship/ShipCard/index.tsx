@@ -1,14 +1,15 @@
 import { useContext } from "react";
-import { News } from "../../../Types/News";
+import { Link } from "react-router-dom";
+import { Ship } from "../../../Types/Ships";
 import { UserContext } from "../../context/UserContext/UserProvider";
 
-function ShipCard(props: News) {
-    const { userData } = useContext(UserContext);
-    console.log(userData);
+function ShipCard(props: Ship) {
+    const { userData, chooseHeroShip } = useContext(UserContext);
+
     return (
         <div
             key={props.title}
-            className="flex flex-col w-full max-w-sm overflow-hidden rounded-lg shadow-lg"
+            className="flex flex-col w-full h-full max-w-sm overflow-hidden rounded-lg shadow-lg"
         >
             <div className="flex-shrink-0">
                 <img
@@ -48,13 +49,9 @@ function ShipCard(props: News) {
                 <span aria-hidden="true">&middot;</span>
                 <span>{props.readingTime} read</span> */}
                         </div>
-                        {userData &&
-                            props.owner !== userData.firstName &&
-                            userData.score > props.price && (
-                                <button className="p-3 font-semibold text-black bg-yellow-300 border border-gray-200 rounded-md hover:bg-yellow-200">
-                                    Buy this ship
-                                </button>
-                            )}
+                        <Link to={`/store/details/${props.docID}`}>
+                            Details
+                        </Link>
                     </div>
                 </div>
             </div>

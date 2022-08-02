@@ -103,7 +103,7 @@ const NavbarMobile = ({
                                     {links.map((link, i) => {
                                         if (
                                             !user &&
-                                            link.name === "Create News"
+                                            link.name === "Create Ship"
                                         )
                                             return "";
                                         return (
